@@ -38,3 +38,14 @@ export function showApplyCta(pathname: string): boolean {
 		(p) => pathname === p || pathname.startsWith(`${p}/`),
 	);
 }
+
+/** English front door (docs/copy/home.en.md): the community is Chinese-only, so no apply CTA. */
+export const enNav: NavItem[] = [
+	{ href: "/ledger", label: "Ledger (中文)", match: ["/ledger"] },
+	{ href: "/tools", label: "Toolbox (中文)", match: ["/tools"] },
+	{ href: "/en/about", label: "About", match: ["/en/about"] },
+	{ href: site.social.x, label: "X", external: true },
+];
+
+export const isEn = (pathname: string) =>
+	pathname === "/en" || pathname.startsWith("/en/");

@@ -1067,7 +1067,7 @@ export const site = {
 - **Verification**：抽查 10 条案例和原推是否一致；检查统计隔离的测试
 - **Dependencies**：M6a
 
-### M7 Community, About & EN
+### M7 Community, About & EN ✅（2026-09-29；缺失信息统一显示「待补充」：主理人代号 / 入行年份、大事记、续费与币种 FAQ——对应 B4–B6、A3；/research 目前为空状态；EN 页头不显示申请 CTA，改为 Follow on X）
 - **Goal**：完成转化前的深度了解页，以及英文门面
 - **Tasks**：`/community`（第 9.1 节）、`/about`（第 9.2 节）、`/research` 列表和详情模板、`/en`、`/en/about`、语言切换
 - **Deliverables**：路由和内容

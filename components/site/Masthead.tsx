@@ -3,7 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
-import { isActive, primaryNav, secondaryNav, showApplyCta } from "@/lib/nav";
+import {
+	enNav,
+	isActive,
+	isEn,
+	primaryNav,
+	secondaryNav,
+	showApplyCta,
+} from "@/lib/nav";
 import { site, TBD } from "@/site.config";
 import { Arrow, ButtonLink } from "./Button";
 import { Wordmark } from "./Wordmark";
@@ -13,23 +20,28 @@ const navLink =
 
 export function Masthead() {
 	const pathname = usePathname();
-	const cta = showApplyCta(pathname);
+	const en = isEn(pathname);
+	const cta = showApplyCta(pathname) && !en;
+	const nav = en ? enNav : primaryNav;
 	return (
 		<header className="sticky top-0 z-50 border-b border-line bg-ink-0/92 backdrop-blur-md">
 			<div className="mx-auto flex h-[58px] max-w-[1280px] items-center gap-3 px-5 md:h-[68px] md:gap-10 md:px-8 xl:px-12">
 				<Link
-					href="/"
+					href={en ? "/en" : "/"}
 					className="flex shrink-0 items-center gap-3.5"
-					aria-label="0xInChain 链上情报局 首页"
+					aria-label={en ? "0xInChain home" : "0xInChain 链上情报局 首页"}
 				>
 					<Wordmark className="h-[17px] w-auto md:h-5" title="0xInChain" />
 					<span className="hidden border-l border-line pl-3.5 font-serif-zh text-[15px] font-bold tracking-[0.12em] lg:inline">
 						{site.nameZh}
 					</span>
 				</Link>
-				<nav aria-label="主导航" className="ml-auto hidden md:block">
+				<nav
+					aria-label={en ? "Primary" : "主导航"}
+					className="ml-auto hidden md:block"
+				>
 					<ul className="flex gap-6 font-serif-zh text-[15px] font-medium tracking-[0.06em] lg:gap-8">
-						{primaryNav.map((item) =>
+						{nav.map((item) =>
 							item.external ? (
 								<li key={item.href}>
 									<a
@@ -55,7 +67,23 @@ export function Masthead() {
 						)}
 					</ul>
 				</nav>
-				{cta ? (
+				<Link
+					href={en ? "/" : "/en"}
+					lang={en ? "zh-CN" : "en"}
+					className="hidden font-mono text-xs tracking-[0.1em] text-bone-dim underline-offset-4 hover:text-bone hover:underline md:inline"
+				>
+					{en ? "中文" : "EN"}
+				</Link>
+				{en ? (
+					<ButtonLink
+						href={site.social.x}
+						external
+						size="sm"
+						className="max-md:ml-auto max-md:px-3 max-md:py-2 max-md:text-[13px]"
+					>
+						Follow on X <Arrow>↗</Arrow>
+					</ButtonLink>
+				) : cta ? (
 					<ButtonLink
 						href="/join"
 						size="sm"
@@ -66,13 +94,21 @@ export function Masthead() {
 				) : (
 					<span className="ml-auto md:hidden" />
 				)}
-				<MobileMenu pathname={pathname} cta={cta} />
+				<MobileMenu pathname={pathname} cta={cta} en={en} />
 			</div>
 		</header>
 	);
 }
 
-function MobileMenu({ pathname, cta }: { pathname: string; cta: boolean }) {
+function MobileMenu({
+	pathname,
+	cta,
+	en,
+}: {
+	pathname: string;
+	cta: boolean;
+	en: boolean;
+}) {
 	const ref = useRef<HTMLDialogElement>(null);
 	const close = () => ref.current?.close();
 
@@ -120,7 +156,7 @@ function MobileMenu({ pathname, cta }: { pathname: string; cta: boolean }) {
 					className="flex flex-1 flex-col gap-8 overflow-y-auto px-5 py-8"
 				>
 					<ul className="space-y-4 font-serif-zh text-3xl font-bold tracking-[0.06em]">
-						{primaryNav
+						{(en ? enNav : primaryNav)
 							.filter((i) => !i.external)
 							.map((item) => (
 								<li key={item.href}>
@@ -135,8 +171,8 @@ function MobileMenu({ pathname, cta }: { pathname: string; cta: boolean }) {
 								</li>
 							))}
 					</ul>
-					<ul className="space-y-3 border-t border-line pt-6 text-base text-bone-dim">
-						{secondaryNav.map((item) => (
+					<ul className="space-y-3 border-t border-line pt-6 text-base text-bone-dim empty:hidden">
+						{(en ? [] : secondaryNav).map((item) => (
 							<li key={item.href}>
 								<Link
 									href={item.href}

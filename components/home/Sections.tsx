@@ -368,10 +368,10 @@ const FIT = [
 	["看重信息的时效与来源", "只想免费体验，再决定是否付费"],
 ] as const;
 
-export function FitCheck() {
+export function FitCheck({ n = 10 }: { n?: number } = {}) {
 	return (
 		<section aria-labelledby="fit-h" className={`${wrap} ${section}`}>
-			<SectionDivider n={10} title="这间情报室适合谁" id="fit-h" />
+			<SectionDivider n={n} title="这间情报室适合谁" id="fit-h" />
 			<div className="grid gap-px border border-line bg-line md:grid-cols-2">
 				{(["适合", "不太适合"] as const).map((title, col) => (
 					<div key={title} className="bg-ink-0 p-6 md:p-8">

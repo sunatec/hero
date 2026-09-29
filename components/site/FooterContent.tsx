@@ -1,0 +1,148 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { isEn } from "@/lib/nav";
+import { site, TBD } from "@/site.config";
+import { Arrow } from "./Button";
+import { RISK_TEXT } from "./RiskNote";
+import { Wordmark } from "./Wordmark";
+
+type Col = {
+	title: string;
+	links: { href: string; label: string; external?: boolean }[];
+};
+
+const EN_RISK =
+	"Nothing on this site is investment advice. Crypto assets are highly volatile and you can lose everything. Ledger results are calculated under fixed closing rules and do not represent any member's actual P&L. Past performance does not predict future results.";
+const EN_IMPERSONATION =
+	"We only use the accounts listed on our verification page. Apart from replying to an application, admins will never DM you first.";
+
+export function FooterContent({ updated }: { updated: string | null }) {
+	const en = isEn(usePathname());
+	const telegram = site.social.telegram === TBD ? null : site.social.telegram;
+	const follow = [
+		{ href: site.social.x, label: "X", external: true },
+		...(telegram
+			? [{ href: telegram, label: "Telegram", external: true }]
+			: []),
+	];
+	const cols: Col[] = en
+		? [
+				{
+					title: "Bureau",
+					links: [
+						{ href: "/en", label: "Home" },
+						{ href: "/en/about", label: "About" },
+					],
+				},
+				{
+					title: "In Chinese",
+					links: [
+						{ href: "/ledger", label: "Signal ledger" },
+						{ href: "/methodology", label: "Methodology" },
+						{ href: "/tools", label: "Toolbox" },
+						{ href: "/verify", label: "Official accounts" },
+					],
+				},
+				{ title: "Follow", links: [...follow, { href: "/", label: "中文" }] },
+			]
+		: [
+				{
+					title: "情报",
+					links: [
+						{ href: "/ledger", label: "信号台账" },
+						{ href: "/cases", label: "精选案例" },
+						{ href: "/methodology", label: "方法论" },
+						{ href: "/tools", label: "链上工具箱" },
+					],
+				},
+				{
+					title: "社群",
+					links: [
+						{ href: "/community", label: "社群介绍" },
+						{ href: "/about", label: "主理人档案" },
+						{ href: "/join", label: "申请加入" },
+						{ href: "/research", label: "Research" },
+					],
+				},
+				{
+					title: "信任",
+					links: [
+						{ href: "/verify", label: "官方渠道验证" },
+						{ href: "/legal/risk", label: "风险披露" },
+						{ href: "/legal/privacy", label: "隐私说明" },
+						{ href: "/legal/terms", label: "服务条款" },
+					],
+				},
+				{
+					title: "关注",
+					links: [...follow, { href: "/en", label: "English" }],
+				},
+			];
+
+	return (
+		<footer className="mt-24 border-t border-line pb-24 md:pb-0">
+			<div className="mx-auto max-w-[1280px] px-5 py-14 md:px-8 xl:px-12">
+				<div
+					className={`grid gap-10 ${en ? "md:grid-cols-[1.4fr_repeat(3,1fr)]" : "md:grid-cols-[1.4fr_repeat(4,1fr)]"}`}
+				>
+					<div>
+						<Wordmark className="h-5 w-auto" />
+						<p className="mt-3 font-serif-zh text-sm font-bold tracking-[0.12em]">
+							{site.nameZh}{" "}
+							<span className="font-latin font-normal tracking-normal text-bone-dim italic">
+								· {site.nameEn}
+							</span>
+						</p>
+					</div>
+					{cols.map((col) => (
+						<nav key={col.title} aria-label={col.title}>
+							<p className="mb-3 font-mono text-[11px] tracking-[0.14em] text-dossier">
+								{col.title}
+							</p>
+							<ul className="space-y-2 text-sm text-bone-dim">
+								{col.links.map((l) => (
+									<li key={l.href}>
+										{l.external ? (
+											<a
+												href={l.href}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="hover:text-bone"
+											>
+												{l.label} <Arrow>↗</Arrow>
+											</a>
+										) : (
+											<Link
+												href={l.href}
+												className="hover:text-bone"
+												lang={l.label === "中文" ? "zh-CN" : undefined}
+											>
+												{l.label}
+											</Link>
+										)}
+									</li>
+								))}
+							</ul>
+						</nav>
+					))}
+				</div>
+				<div className="mt-12 space-y-2 border-t border-line pt-6 text-[13px] leading-relaxed text-bone-dim">
+					<p>{en ? `Risk: ${EN_RISK}` : `风险披露：${RISK_TEXT.short}`}</p>
+					<p className="text-bone">
+						{en ? EN_IMPERSONATION : RISK_TEXT.impersonation}
+					</p>
+					<p className="font-mono">
+						{updated
+							? en
+								? `Ledger updated ${updated} (UTC+8) · `
+								: `台账最后更新：${updated} (UTC+8) · `
+							: ""}
+						© 2026 {site.name}
+					</p>
+				</div>
+			</div>
+		</footer>
+	);
+}
