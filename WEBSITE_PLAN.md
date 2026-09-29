@@ -915,7 +915,7 @@ export const site = {
 
 - 所有文字对比度 ≥ 4.5:1（大字 ≥ 3:1），M4 用工具逐个 token 实测
 - **印章不能只靠颜色区分**：每个印章都有文字；台账表格的状态列同时有文字
-- 涂黑：用 `aria-label="成员可见内容，已隐藏"` 并配合 `role="img"`；提示内容可以通过键盘聚焦触发
+- 涂黑：用 `aria-label="成员可见内容，已隐藏"` 并配合 `role="img"`；**不可聚焦**（M4 调整：避免给键盘用户制造没有动作的 Tab 停留点），悬停提示只是鼠标用户的补充，申请入口由旁边的 CTA 承担
 - 图表：提供 `<figcaption>` 文字摘要和数据表格作为替代
 - `prefers-reduced-motion`：关闭所有位移和缩放动效，只保留透明度变化或直接显示
 - 键盘：全站可以用 Tab 走完；焦点可见（`--stamp` 2px outline）；移动抽屉有焦点陷阱，Esc 可以关闭
@@ -1022,7 +1022,7 @@ export const site = {
 - **Verification**：CI 日志；访问预览 URL；负向测试（open 档案泄露字段）的截图
 - **Dependencies**：M2（schemas）
 
-### M4 Design System
+### M4 Design System ✅（2026-09-29；与原计划的差异：不引入 shadcn/ui，移动菜单用原生 `<dialog>`；展示页路由为 `/design-system`，因为 Next 会忽略下划线开头的 `/_design`；涂黑条不可聚焦，见第 18 节）
 - **Goal**：把 tokens 和核心组件实现出来，后续页面只做组装
 - **Tasks**：
   1. tokens → Tailwind theme / CSS 变量

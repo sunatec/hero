@@ -12,7 +12,7 @@ export default function LedgerPage() {
 			{signals.map((s) => (
 				<p key={s.id}>
 					<Link
-						className="text-dossier hover:text-stamp"
+						className="text-dossier underline underline-offset-4 hover:text-stamp"
 						href={`/ledger/${s.id}`}
 					>
 						{s.id}

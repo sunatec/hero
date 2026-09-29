@@ -1,0 +1,4 @@
+/* Fixed overlays get stamped into full-page screenshots; hide them for stable baselines. */
+[data-sticky-apply] {
+	display: none !important;
+}

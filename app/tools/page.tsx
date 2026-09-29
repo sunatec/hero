@@ -12,7 +12,7 @@ export default function ToolsPage() {
 			{modules.map((m) => (
 				<p key={m.slug} className="font-data">
 					<Link
-						className="text-dossier hover:text-stamp"
+						className="text-dossier underline underline-offset-4 hover:text-stamp"
 						href={`/tools/${m.slug}`}
 					>
 						{m.code}

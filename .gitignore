@@ -18,3 +18,7 @@ next-env.d.ts
 
 # reference-only screenshots (see WEBSITE_PLAN 11.6: not for production)
 images/
+
+# playwright
+test-results/
+playwright-report/

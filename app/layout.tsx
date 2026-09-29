@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { Footer } from "@/components/site/Footer";
+import { Masthead } from "@/components/site/Masthead";
+import { StickyApply } from "@/components/site/StickyApply";
 import { latin, plexMono, sansZh, serifZh } from "@/lib/fonts";
 import { site } from "@/site.config";
 import "./globals.css";
@@ -20,7 +23,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 			lang="zh-CN"
 			className={`${serifZh.variable} ${sansZh.variable} ${latin.variable} ${plexMono.variable}`}
 		>
-			<body>{children}</body>
+			<body>
+				<a
+					href="#main"
+					className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:bg-ink-2 focus:px-4 focus:py-2"
+				>
+					跳到主要内容
+				</a>
+				<Masthead />
+				{children}
+				<Footer />
+				<StickyApply />
+			</body>
 		</html>
 	);
 }

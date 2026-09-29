@@ -12,7 +12,7 @@ export default function CasesPage() {
 			{allCases.map((c) => (
 				<p key={c.slug}>
 					<Link
-						className="text-dossier hover:text-stamp"
+						className="text-dossier underline underline-offset-4 hover:text-stamp"
 						href={`/cases/${c.slug}`}
 					>
 						{c.date} {c.assets.join(" ")}

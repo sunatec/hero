@@ -24,6 +24,8 @@ pnpm dev           # http://localhost:3000
 | `pnpm content:validate` | 内容门禁：schema + 跨字段规则 + 编号连续性 |
 | `pnpm copy:lint` | 违禁词扫描（`docs/brand.md` §3.1） |
 | `pnpm test` | Vitest |
+| `pnpm e2e` | Playwright：axe 无障碍审计、视觉基线、移动菜单行为（本地调用已安装的 Google Chrome）|
+| `pnpm e2e:update` | 有意改动视觉后更新截图基线 |
 
 pre-commit 钩子（husky）会运行 `content:validate`、`copy:lint`、`lint`。
 
@@ -49,16 +51,11 @@ site.config.ts       参考价、名额、官方账号 —— 唯一数据源，
 
 ## 部署（Vercel）
 
-仓库还没有远程地址。需要你本人完成：
+仓库地址：`git@github.com:sunatec/hero.git`（`main` 分支）。
 
-1. 在 GitHub 新建一个私有仓库，并推送：
-   ```bash
-   git remote add origin git@github.com:<you>/0xinchain-web.git
-   git push -u origin main
-   ```
-2. 在 Vercel 中 **Import** 这个仓库。框架会被识别为 Next.js；构建命令保持默认（`pnpm build`）即可。
-3. 环境变量按 [`.env.example`](.env.example) 填写（M9 之前可以先留空）。
-4. **预览部署**（Preview）可以正常通过。**生产部署**（Production）在 M14 之前会被严格模式拦下，因为示例内容和 `TBD` 配置都还在——这是预期行为。
+1. 在 Vercel 中 **Import** 这个仓库。框架会被识别为 Next.js；构建命令保持默认（`pnpm build`）即可。
+2. 环境变量按 [`.env.example`](.env.example) 填写（M9 之前可以先留空）。
+3. **预览部署**（Preview）可以正常通过。**生产部署**（Production）在 M14 之前会被严格模式拦下，因为示例内容和 `TBD` 配置都还在——这是预期行为。
 
 ## 技术决定（M3）
 
@@ -68,4 +65,7 @@ site.config.ts       参考价、名额、官方账号 —— 唯一数据源，
 | Biome 默认配置 + 在脚本中指定检查目录 | ecc 插件的 config-protection 钩子禁止新建 `biome.json`；默认规则已经够用。Tailwind 指令通过 `--css-parse-tailwind-directives` 参数开启 |
 | 单一根布局，`/en` 用 `<div lang="en">` | 多根布局需要实验性的 `global-not-found`；元素级 `lang` 加 hreflang 已经足够 |
 | 中文字体不预加载 | Google Fonts 按 unicode-range 切片按需加载，只预加载 Latin 展示字体 |
+| 暂不引入 shadcn/ui（M4） | 目前唯一的交互组件是移动菜单，原生 `<dialog>` 自带焦点限制和 Esc 关闭；表单控件到 M9 再评估 |
+| Martian Mono 本地自托管（M4） | Turbopack 16.3 解析 Google 托管的 Martian Mono 文件时报错，改用 `@fontsource/martian-mono`（OFL）配合 `next/font/local` |
+| 设计系统展示页 `/design-system` | 列出所有组件的所有状态；Vercel 生产环境返回 404，不被收录 |
 | 自写 `content:validate` 作为构建门禁 | Content Collections 本身也会拒绝非法内容（已实测），但它跑不了跨字段规则和编号连续性检查 |

@@ -14,7 +14,7 @@ export function Placeholder({
 	children?: ReactNode;
 }) {
 	return (
-		<main className="mx-auto max-w-[1280px] px-5 py-16 md:px-12">
+		<main id="main" className="mx-auto max-w-[1280px] px-5 py-16 md:px-12">
 			<p className="font-mono text-[11px] tracking-[0.14em] text-dossier uppercase">
 				{route} · 占位页 · 由 {milestone} 实现
 			</p>

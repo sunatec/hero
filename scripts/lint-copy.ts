@@ -34,10 +34,12 @@ const BANNED = [
 	"韭菜",
 	"白嫖",
 ];
-/** Context-dependent words: banned unless the line matches the allow pattern. */
-const CONDITIONAL: { word: string; allowIf: RegExp }[] = [
-	{ word: "内幕", allowIf: /(不|没有|并非)[^。]{0,6}内幕/ },
-	{ word: "100%", allowIf: /(width|height|size|%\s*[;,)]|inset|\d+%\s+\d)/ },
+/** Context-dependent words: banned only when `bannedIf` matches the line. */
+const CONDITIONAL: { word: string; bannedIf: RegExp }[] = [
+	// allowed in denials such as 「我们不提供内幕消息」
+	{ word: "内幕", bannedIf: /^(?!.*(不|没有|并非)[^。]{0,6}内幕)/ },
+	// a claim like 「100% 胜率」, not CSS such as calc(100% + 9px)
+	{ word: "100%", bannedIf: /100%\s*[\u4e00-\u9fff]|[\u4e00-\u9fff]\s*100%/ },
 ];
 
 function walk(dir: string): string[] {
@@ -60,7 +62,7 @@ for (const file of TARGETS.flatMap(walk)) {
 		const found = [
 			...BANNED.filter((w) => line.includes(w)),
 			...CONDITIONAL.filter(
-				(c) => line.includes(c.word) && !c.allowIf.test(line),
+				(c) => line.includes(c.word) && c.bannedIf.test(line),
 			).map((c) => c.word),
 		];
 		for (const word of found) {
