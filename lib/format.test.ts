@@ -67,3 +67,19 @@ describe("parseRedacted", () => {
 			{ kind: "text", text: "OI +14.2%" },
 		]));
 });
+
+describe("formatPrice / daysSince", async () => {
+	const { formatPrice, daysSince } = await import("./format");
+	it("two decimals above 1", () => expect(formatPrice(38.2)).toBe("38.20"));
+	it("four significant digits below 1", () =>
+		expect(formatPrice(0.412)).toBe("0.4120"));
+	it("tiny prices", () => expect(formatPrice(0.000012346)).toBe("0.00001235"));
+	it("counts the start day as day 1", () =>
+		expect(
+			daysSince("2026-10-01", Date.parse("2026-10-01T15:00:00+08:00")),
+		).toBe(1));
+	it("counts later days", () =>
+		expect(
+			daysSince("2026-10-01", Date.parse("2026-10-14T09:00:00+08:00")),
+		).toBe(14));
+});

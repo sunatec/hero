@@ -1,10 +1,34 @@
-import { allSignals } from "content-collections";
-import { Placeholder } from "@/components/site/Placeholder";
+import { Hero } from "@/components/home/Hero";
+import { Proof } from "@/components/home/Proof";
+import {
+	AgentFile,
+	FeaturedCases,
+	FitCheck,
+	HowItWorks,
+	IntelSample,
+	JoinSection,
+	LatestLedger,
+	LatestResearch,
+	Monitor,
+	ToolboxPreview,
+} from "@/components/home/Sections";
 
+/** Section order and rationale: WEBSITE_PLAN §6.1 · copy: docs/copy/home.zh.md */
 export default function HomePage() {
 	return (
-		<Placeholder route="/" title="链上情报局" milestone="M5">
-			<p>内容层已连接：台账共 {allSignals.length} 份档案。</p>
-		</Placeholder>
+		<main id="main">
+			<Hero />
+			<Proof />
+			<Monitor />
+			<LatestLedger />
+			<HowItWorks />
+			<IntelSample />
+			<ToolboxPreview />
+			<FeaturedCases />
+			<AgentFile />
+			<FitCheck />
+			<JoinSection />
+			<LatestResearch />
+		</main>
 	);
 }

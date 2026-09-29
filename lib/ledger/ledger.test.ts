@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { parseSignalFrontmatter } from "@/lib/schema/signal";
 import { closedReturnPct } from "./returns";
-import { checkSequence, checkSignal } from "./rules";
+import { checkChronology, checkSequence, checkSignal } from "./rules";
 
 const base = {
 	id: "IC-2026-0001",
@@ -144,4 +144,22 @@ describe("checkSequence", () => {
 		expect(checkSequence(["IC-2026-0001", "IC-2026-0001"])).not.toEqual([]));
 	it("numbers each year independently", () =>
 		expect(checkSequence(["IC-2026-0001", "IC-2027-0001"])).toEqual([]));
+});
+
+describe("checkChronology", () => {
+	const at = (id: string, registeredAt: string) => ({ id, registeredAt });
+	it("accepts ids in registration order", () =>
+		expect(
+			checkChronology([
+				at("IC-2026-0001", "2026-10-10T09:50:00+08:00"),
+				at("IC-2026-0002", "2026-10-11T21:40:00+08:00"),
+			]),
+		).toEqual([]));
+	it("flags a later id registered earlier", () =>
+		expect(
+			checkChronology([
+				at("IC-2026-0001", "2026-10-11T21:40:00+08:00"),
+				at("IC-2026-0002", "2026-10-10T09:50:00+08:00"),
+			]),
+		).toHaveLength(1));
 });

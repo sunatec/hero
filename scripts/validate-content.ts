@@ -8,7 +8,12 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import matter from "gray-matter";
 import type { z } from "zod";
-import { checkSequence, checkSignal, type Issue } from "../lib/ledger/rules";
+import {
+	checkChronology,
+	checkSequence,
+	checkSignal,
+	type Issue,
+} from "../lib/ledger/rules";
 import {
 	AgentFrontmatter,
 	CaseStudyFrontmatter,
@@ -61,6 +66,7 @@ function checkDemo(file: string, data: Record<string, unknown>) {
 
 // --- signals -----------------------------------------------------------------
 const signalIds: string[] = [];
+const registrations: { id: string; registeredAt: string }[] = [];
 for (const file of listMdx("content/ledger")) {
 	const rel = relative(ROOT, file);
 	const { data, body } = load(file);
@@ -71,6 +77,10 @@ for (const file of listMdx("content/ledger")) {
 		continue;
 	}
 	signalIds.push(parsed.data.id);
+	registrations.push({
+		id: parsed.data.id,
+		registeredAt: parsed.data.registeredAt,
+	});
 	const fileId =
 		rel
 			.split("/")
@@ -79,7 +89,10 @@ for (const file of listMdx("content/ledger")) {
 	for (const issue of checkSignal(parsed.data, { fileId, body }))
 		add(rel, issue.level, issue.message);
 }
-for (const issue of checkSequence(signalIds))
+for (const issue of [
+	...checkSequence(signalIds),
+	...checkChronology(registrations),
+])
 	add("content/ledger", issue.level, issue.message);
 
 // --- other collections -----------------------------------------------------------

@@ -1,0 +1,22 @@
+---
+slug: hype-whale-watcher
+code: M-05
+nameZh: 智能 HYPE 巨鲸监控
+nameEn: HYPE Whale Watcher
+tagline: 在链上衍生品战场，看清巨鲸的每一次重仓。
+category: smart-money
+status: beta
+chains: [hyperliquid]
+sources: ["Hyperliquid 公开数据", "自研地址评分模型"]
+frequency: 实时
+delivery: TG 成员频道（测试期）
+limitations:
+  - 测试期内评分模型仍在调整，可能出现误判
+  - 新钱包无法评分，只能提示风险
+  - 高杠杆仓位持有时间很短，推送到你看到之间可能已经变化
+samples:
+  - lines: ["巨鲸开多 ▇{6} BTC · 杠杆 ▇{3} · 地址评分 ▇{4}"]
+order: 5
+---
+
+推送 Hyperliquid 上的大额开多、开空，显示均价、仓位、杠杆倍数，并给每个地址计算胜率、评分和总盈亏，标出「新钱包」这类风险提示。

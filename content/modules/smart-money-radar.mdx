@@ -1,0 +1,22 @@
+---
+slug: smart-money-radar
+code: M-03
+nameZh: 全链聪明钱雷达
+nameEn: Multi-Chain Alpha Radar
+tagline: 原始数据只是杂讯，解析后的流向才是信号。
+category: smart-money
+status: member
+chains: [bsc, base, eth, sol]
+sources: ["四链自有数据解析", "自建地址标签库"]
+frequency: 全天扫描
+delivery: TG 成员频道
+limitations:
+  - 地址标签和集群归类是基于历史行为的推断，可能出错
+  - 主力发现地址被追踪后会更换地址，标签会失效
+  - 这也是我们限制成员规模、禁止转发的原因
+samples:
+  - lines: ["10:02 BASE · 集群 ▇{8} 共 6 地址 · 过去 3h 累计买入 ▇{7} · 均价 ▇{6}"]
+order: 3
+---
+
+扫描四条公链上的大额交互（DEX 流动性变化、合约部署、大户地址交互），剔除刷量和对敲，把关联钱包归为同一实体，追踪被标注为聪明钱的地址在链间的资金流转，并计算核心地址的建仓成本。

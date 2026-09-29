@@ -46,3 +46,21 @@ export const categoryLabel: Record<
 
 export const REDACT_TIP = "成员可见 · 申请加入 →";
 export const REDACT_ARIA = "成员可见内容，已隐藏";
+
+export const methodLabel: Record<string, string> = {
+	"address-cluster": "地址集群",
+	"onchain-anomaly": "链上异动",
+	"smart-money": "聪明钱",
+	"hype-monitor": "HYPE 监控",
+	oi: "OI 异动",
+	"coinbase-premium": "Coinbase 溢价",
+	dca: "DCA",
+	other: "其他",
+};
+
+export const caseResultLabel: Record<string, string> = {
+	profit: "盈利",
+	loss: "亏损",
+	avoided: "规避下跌",
+	unknown: "未结束",
+};

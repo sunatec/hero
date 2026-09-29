@@ -1,0 +1,22 @@
+---
+slug: coinbase-premium
+code: M-02
+nameZh: Coinbase 溢价监测
+nameEn: Institutional Heatmap
+tagline: 散户看涨跌，机构看溢价。
+category: institutional
+status: member
+chains: [cex]
+sources: ["Coinbase 与 Binance 的 BTC 现货价格"]
+frequency: 每小时
+delivery: TG 成员频道
+limitations:
+  - 溢价是结果而不是原因，单独使用滞后性明显
+  - 在两家交易所出现流动性事件时，溢价可能失真
+  - 目前只覆盖 BTC
+samples:
+  - lines: ["14:00 BTC 溢价率 0.062% · 过去 6h ▇{8}"]
+order: 2
+---
+
+实时计算 Coinbase BTC 与 Binance BTC 之间的价差。Coinbase 价格更高，通常意味着美国时段的机构和大户在买入。

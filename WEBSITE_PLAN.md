@@ -1038,7 +1038,7 @@ export const site = {
 - **Verification**：Playwright 对 `/_design` 截图作为视觉回归基线；运行 axe 报告
 - **Dependencies**：M1、M3；**柴犬透明高清原图**（没有的话先用占位图，不阻塞）
 
-### M5 Homepage
+### M5 Homepage ✅（2026-09-29；8 个模块的内容文件已提前在 M5 生成，M8 直接复用；Hero「最新结案」按结案时间而非编号选取）
 - **Goal**：完成第 06 节的全部区块
 - **Tasks**：按 ②–⑭ 的顺序实现；证据条和最新台账从内容层读取（使用 M3 的示例档案）；Hero 档案卡自动选择最新一份已结案档案；Research 区块在没有内容时隐藏
 - **Deliverables**：`app/(site)/page.tsx` 及各区块组件

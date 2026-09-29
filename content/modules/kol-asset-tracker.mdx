@@ -1,0 +1,22 @@
+---
+slug: kol-asset-tracker
+code: M-06
+nameZh: EVM 资产统计
+nameEn: KOL Asset Tracker
+tagline: 别只看他们说了什么，看他们在链上做了什么。
+category: smart-money
+status: beta
+chains: []
+sources: ["EVM 链上数据", "公开的 KOL 钱包地址"]
+frequency: 实时
+delivery: TG 成员频道（测试期）
+limitations:
+  - 只覆盖公开或已被识别的地址，KOL 可能使用其他钱包
+  - 转账不等于买卖（可能是内部调拨）
+  - 用于监控，不建议跟单
+samples:
+  - lines: ["KOL ▇{6} 增持 ▇{6} · 当前持仓价值 ▇{6}"]
+order: 6
+---
+
+统计知名 KOL 和深度玩家公开钱包的大额资产变动，包括增持、清仓，以及当前持仓数量和价值。

@@ -57,3 +57,17 @@ export function holdingDays(openedAt: string, closedAt: string): number {
 		Math.round((Date.parse(closedAt) - Date.parse(openedAt)) / 86_400_000),
 	);
 }
+
+/** 38.20 / 0.4120 / 0.00001234 — two decimals from 1 up, four significant digits below. */
+export function formatPrice(n: number): string {
+	return n >= 1 ? n.toFixed(2) : n.toPrecision(4);
+}
+
+export function daysSince(isoDate: string, now = Date.now()): number {
+	return Math.max(
+		1,
+		Math.floor(
+			(now - Date.parse(`${isoDate.slice(0, 10)}T00:00:00+08:00`)) / 86_400_000,
+		) + 1,
+	);
+}

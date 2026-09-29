@@ -84,3 +84,22 @@ export function checkSequence(ids: string[]): Issue[] {
 	}
 	return issues;
 }
+
+/** Numbers are handed out at registration, so a higher id can never be registered earlier. */
+export function checkChronology(
+	items: { id: string; registeredAt: string }[],
+): Issue[] {
+	const sorted = [...items].sort((a, b) => a.id.localeCompare(b.id));
+	const issues: Issue[] = [];
+	for (let i = 1; i < sorted.length; i++) {
+		const prev = sorted[i - 1] as (typeof sorted)[number];
+		const cur = sorted[i] as (typeof sorted)[number];
+		if (Date.parse(cur.registeredAt) < Date.parse(prev.registeredAt)) {
+			issues.push({
+				level: "error",
+				message: `${cur.id} was registered before ${prev.id} — ids must follow registration order`,
+			});
+		}
+	}
+	return issues;
+}

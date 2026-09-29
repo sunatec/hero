@@ -88,6 +88,7 @@ export const Signal = z.discriminatedUnion('status', [
 | `maePct ≤ 0 ≤ mfePct` | 构建失败 |
 | `status = void` 时必须有 `voidReason` | 构建失败 |
 | 编号在同一年内连续，没有缺号 | 构建失败（被作废的编号仍然占位） |
+| 编号顺序与登记时间一致（编号大的不能登记得更早） | 构建失败（M5 新增） |
 | `status = open` 时正文为空 | 构建失败 |
 | `id` 与文件名一致 | 构建失败 |
 
