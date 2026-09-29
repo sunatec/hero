@@ -1,0 +1,1 @@
+pnpm content:validate && pnpm copy:lint && pnpm lint

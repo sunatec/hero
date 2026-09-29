@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工具箱视觉稿 · 0xInChain</title>
+<link rel="icon" href="../wordmark/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Martian+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<style>
+  /* Toolbox = A pane system on the B palette ("档案室隔壁的监控室") */
+  body { background-image: radial-gradient(rgba(233,228,216,.035) 1px, transparent 1px); background-size: 8px 8px; }
+
+  .tool-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: end; padding: 64px 0 36px; }
+  .tool-head h1 { margin: 12px 0 0; font: 900 clamp(40px, 5.4vw, 64px)/1.05 var(--f-zh); letter-spacing: .04em; }
+  .tool-head .intro { margin: 16px 0 0; color: var(--bone-dim); max-width: 36em; }
+  .ticker { display: flex; gap: 0; font: 400 12px/1 var(--f-data); color: var(--bone-dim); border: 1px solid var(--line); }
+  .ticker span { padding: 12px 16px; border-left: 1px solid var(--line); white-space: nowrap; }
+  .ticker span:first-child { border-left: 0; }
+  .ticker b { color: var(--bone); font-weight: 500; }
+
+  .bar { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; border: 1px solid var(--line); border-bottom: 0; }
+  .tabs { display: flex; flex-wrap: wrap; }
+  .tab { font: 400 12px/1 var(--f-data); color: var(--bone-dim); padding: 14px 16px; border: 0; border-right: 1px solid var(--line); background: none; cursor: pointer; }
+  .tab[aria-pressed="true"] { color: var(--ink-0); background: var(--bone); }
+  .legend { display: flex; gap: 18px; align-items: center; padding: 0 16px; font: 400 11px/1 var(--f-data); color: var(--bone-dim); }
+
+  .panes { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-bottom: 1px; }
+  .pane { grid-column: span 3; background: var(--ink-0); display: flex; flex-direction: column; min-height: 100%; transition: background .15s; }
+  .pane:hover { background: var(--ink-1); }
+  .pane .tb { display: flex; justify-content: space-between; align-items: center; height: 34px; padding: 0 14px; background: var(--ink-1); border-bottom: 1px solid var(--line); font: 400 10.5px/1 var(--f-data); letter-spacing: .06em; }
+  .pane .tb .code { color: var(--dossier); }
+  .dot { display: inline-flex; align-items: center; gap: 7px; color: var(--bone-dim); }
+  .dot::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--gain); box-shadow: 0 0 0 3px rgba(111,191,142,.15); }
+  .dot.beta::before { background: var(--dossier); box-shadow: 0 0 0 3px rgba(201,169,106,.15); }
+  .dot.planned::before { background: transparent; border: 1px solid var(--bone-dim); box-shadow: none; }
+  .pane .bd { padding: 18px 16px 16px; flex: 1; display: flex; flex-direction: column; }
+  .pane .en { margin: 0; font: 400 12.5px/1.3 var(--f-data); color: var(--bone-dim); }
+  .pane h3 { margin: 6px 0 16px; font: 700 20px/1.3 var(--f-zh); letter-spacing: .04em; }
+  .pane dl { display: grid; grid-template-columns: auto 1fr; gap: 7px 12px; margin: 0 0 16px; font: 400 11.5px/1.45 var(--f-data); }
+  .pane dt { color: var(--bone-dim); }
+  .pane dd { margin: 0; text-align: right; }
+  .feed { margin-top: auto; padding: 10px 12px; background: var(--redact); font: 400 11px/1.9 var(--f-data); color: var(--bone-dim); border-left: 2px solid var(--line); }
+  .feed .up { color: var(--gain); } .feed .dn { color: var(--loss); }
+  .feed .redact { background: #2A2E35; height: 1em; }
+  .pane .ft { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); font: 400 11px/1 var(--f-data); }
+  .pane .ft a { padding: 13px 14px; color: var(--bone-dim); }
+  .pane .ft a:hover { color: var(--bone); }
+  .bracket { color: var(--bone) !important; border-left: 1px solid var(--line); }
+  .bracket::before { content: "[ "; transition: margin .15s; margin-right: 2px; color: var(--dossier); }
+  .bracket::after { content: " ]"; transition: margin .15s; margin-left: 2px; color: var(--dossier); }
+  .pane:hover .bracket::before { margin-right: -2px; } .pane:hover .bracket::after { margin-left: -2px; }
+
+  .pane.planned { background: repeating-linear-gradient(135deg, var(--ink-0) 0 10px, #16181c 10px 20px); }
+  .pane.planned .bd { opacity: .75; }
+  .roadmap-h { margin: 56px 0 14px; }
+  .foot-note { padding: 28px 0 120px; font-size: 13px; color: var(--bone-dim); max-width: 60em; }
+
+  @media (max-width: 1100px) { .pane { grid-column: span 6; } .ticker { display: none; } }
+  @media (max-width: 760px) {
+    .tool-head { grid-template-columns: 1fr; padding: 40px 0 28px; }
+    .pane { grid-column: span 12; }
+    .legend { display: none; }
+    .tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+    .tab { flex: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="hero.html" aria-label="0xInChain 链上情报局 首页">
+      <img src="../wordmark/wordmark-horizontal.svg" alt="0xInChain">
+      <span class="zh">链上情报局</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="ledger.html">社群战绩</a>
+      <a href="tools.html" aria-current="page">链上工具箱</a>
+      <a href="#">社群介绍</a>
+      <a class="ext" href="#">X <span class="arrow">↗</span></a>
+    </nav>
+    <a class="btn btn-primary sm" href="#">申请加入</a>
+    <button class="menu-btn" aria-label="打开菜单">菜单</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="tool-head">
+    <div>
+      <p class="label">链上工具箱 · Monitoring Room</p>
+      <h1>链上工具箱</h1>
+      <p class="intro">档案室隔壁的监控室。8 个自研监控模块全天运行，异动实时推送到成员频道；其中有明确方向的交易信号，会登记进台账。</p>
+    </div>
+    <div class="ticker" aria-label="运行概况">
+      <span>模块 <b>8</b></span><span>运行 <b>6</b></span><span>测试 <b>2</b></span><span>本月推送 <b>312</b></span>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="tabs" role="group" aria-label="按类别筛选">
+      <button class="tab" aria-pressed="true">全部 08</button><button class="tab" aria-pressed="false">衍生品</button><button class="tab" aria-pressed="false">机构资金</button><button class="tab" aria-pressed="false">聪明钱</button><button class="tab" aria-pressed="false">链上行为</button><button class="tab" aria-pressed="false">定制</button>
+    </div>
+    <div class="legend"><span class="dot">运行中 · 成员</span><span class="dot beta">测试中</span><span class="dot planned">规划中</span></div>
+  </div>
+
+  <div class="panes">
+    <article class="pane">
+      <div class="tb"><span class="code">M-01 / DERIVATIVES</span><span class="dot">运行中</span></div>
+      <div class="bd">
+        <p class="en">Elite OI Tracker</p><h3>OI 异动预警</h3>
+        <dl><dt>数据源</dt><dd>CoinGlass Pro API</dd><dt>调用</dt><dd>1200 req/min</dd><dt>频率</dt><dd>分钟级</dd><dt>交付</dt><dd>TG 成员频道</dd></dl>
+        <div class="feed">09:12 <span class="up">▲ OI +14.2%/1h</span> <span class="redact" style="--w:5" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span><br>09:40 <span class="dn">▼ OI −9.1%/1h</span> <span class="redact" style="--w:4" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span></div>
+      </div>
+      <div class="ft"><a href="ledger.html">关联台账 34 份 →</a><a class="bracket" href="#">详情</a></div>
+    </article>
+
+    <article class="pane">
+      <div class="tb"><span class="code">M-02 / INSTITUTIONAL</span><span class="dot">运行中</span></div>
+      <div class="bd">
+        <p class="en">Institutional Heatmap</p><h3>Coinbase 溢价监测</h3>
+        <dl><dt>指标</dt><dd>Coinbase − Binance 价差</dd><dt>覆盖</dt><dd>BTC</dd><dt>频率</dt><dd>每小时</dd><dt>交付</dt><dd>TG 成员频道</dd></dl>
+        <div class="feed">14:30 BTC 溢价 <span class="up">+0.084%</span><br>14:30 ETH 溢价 <span class="dn">−0.031%</span> <span class="redact" style="--w:4" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span></div>
+      </div>
+      <div class="ft"><a href="ledger.html">关联台账 12 份 →</a><a class="bracket" href="#">详情</a></div>
+    </article>
+
+    <article class="pane">
+      <div class="tb"><span class="code">M-03 / SMART MONEY</span><span class="dot">运行中</span></div>
+      <div class="bd">
+        <p class="en">Smart Money Radar</p><h3>全链聪明钱雷达</h3>
+        <dl><dt>覆盖</dt><dd>ETH · BSC · BASE · SOL</dd><dt>方法</dt><dd>地址集群 + 标签库</dd><dt>频率</dt><dd>区块级</dd><dt>交付</dt><dd>TG 成员频道</dd></dl>
+        <div class="feed">10:02 集群 <span class="redact" style="--w:6" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span> 6 地址<br>累计买入 <span class="redact" style="--w:7" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span></div>
+      </div>
+      <div class="ft"><a href="ledger.html">关联台账 41 份 →</a><a class="bracket" href="#">详情</a></div>
+    </article>
+
+    <article class="pane">
+      <div class="tb"><span class="code">M-04 / SMART MONEY</span><span class="dot">运行中</span></div>
+      <div class="bd">
+        <p class="en">Early Alpha Radar</p><h3>Hyperliquid 聪明钱雷达</h3>
+        <dl><dt>覆盖</dt><dd>Hyperliquid 永续</dd><dt>对象</dt><dd>高胜率地址 · 大单</dd><dt>频率</dt><dd>实时</dd><dt>交付</dt><dd>TG 成员频道</dd></dl>
+        <div class="feed">21:05 <span class="up">LONG</span> <span class="redact" style="--w:5" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span> size <span class="redact" style="--w:6" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span></div>
+      </div>
+      <div class="ft"><a href="ledger.html">关联台账 19 份 →</a><a class="bracket" href="#">详情</a></div>
+    </article>
+
+    <article class="pane">
+      <div class="tb"><span class="code">M-05 / SMART MONEY</span><span class="dot beta">测试中</span></div>
+      <div class="bd">
+        <p class="en">HYPE Whale Watcher</p><h3>智能 HYPE 巨鲸监控</h3>
+        <dl><dt>覆盖</dt><dd>HYPE 现货 · 永续</dd><dt>对象</dt><dd>巨鲸地址</dd><dt>状态</dt><dd>测试期</dd><dt>交付</dt><dd>TG 成员频道</dd></dl>
+        <div class="feed">巨鲸 <span class="redact" style="--w:6" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span> 转入 CEX <span class="redact" style="--w:5" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span></div>
+      </div>
+      <div class="ft"><a href="ledger.html">关联台账 3 份 →</a><a class="bracket" href="#">详情</a></div>
+    </article>
+
+    <article class="pane">
+      <div class="tb"><span class="code">M-06 / SMART MONEY</span><span class="dot beta">测试中</span></div>
+      <div class="bd">
+        <p class="en">KOL Asset Tracker</p><h3>EVM 资产统计</h3>
+        <dl><dt>覆盖</dt><dd>EVM 链</dd><dt>对象</dt><dd>KOL 公开钱包</dd><dt>状态</dt><dd>测试期</dd><dt>交付</dt><dd>TG 成员频道</dd></dl>
+        <div class="feed">KOL <span class="redact" style="--w:5" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span> 新增持仓 <span class="redact" style="--w:5" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span></div>
+      </div>
+      <div class="ft"><a href="ledger.html">关联台账 2 份 →</a><a class="bracket" href="#">详情</a></div>
+    </article>
+
+    <article class="pane">
+      <div class="tb"><span class="code">M-07 / ON-CHAIN</span><span class="dot">运行中</span></div>
+      <div class="bd">
+        <p class="en">JUP DCA Decoder</p><h3>SOL 链 JUP DCA 深度解析</h3>
+        <dl><dt>覆盖</dt><dd>Solana · Jupiter</dd><dt>对象</dt><dd>大额 DCA 订单</dd><dt>频率</dt><dd>分钟级</dd><dt>交付</dt><dd>TG 成员频道</dd></dl>
+        <div class="feed">DCA 买入 <span class="redact" style="--w:5" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span> 剩余 <span class="redact" style="--w:4" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span> 期</div>
+      </div>
+      <div class="ft"><a href="ledger.html">关联台账 8 份 →</a><a class="bracket" href="#">详情</a></div>
+    </article>
+
+    <article class="pane">
+      <div class="tb"><span class="code">M-08 / CUSTOM</span><span class="dot">运行中</span></div>
+      <div class="bd">
+        <p class="en">Custom Intel</p><h3>币种链上情报申请</h3>
+        <dl><dt>形式</dt><dd>一人一币种</dd><dt>内容</dt><dd>持仓 · 集群 · 流向</dd><dt>周期</dt><dd>按需</dd><dt>交付</dt><dd>成员私信报告</dd></dl>
+        <div class="feed">申请标的 <span class="redact" style="--w:5" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span><br>报告状态 已交付</div>
+      </div>
+      <div class="ft"><a href="ledger.html">关联台账 —</a><a class="bracket" href="#">详情</a></div>
+    </article>
+  </div>
+
+  <div class="divider roadmap-h"><span class="tag">ROADMAP<b>规划中</b></span></div>
+  <div class="panes">
+    <article class="pane planned"><div class="tb"><span class="code">P-01 / DERIVATIVES</span><span class="dot planned">规划中</span></div><div class="bd"><p class="en">Funding Rate Board</p><h3>资金费率看板</h3></div></article>
+    <article class="pane planned"><div class="tb"><span class="code">P-02 / DERIVATIVES</span><span class="dot planned">规划中</span></div><div class="bd"><p class="en">Liquidation Map</p><h3>清算热图</h3></div></article>
+    <article class="pane planned"><div class="tb"><span class="code">P-03 / MARKET</span><span class="dot planned">规划中</span></div><div class="bd"><p class="en">Token Search</p><h3>代币链上检索</h3></div></article>
+    <article class="pane planned"><div class="tb"><span class="code">P-04 / MARKET</span><span class="dot planned">规划中</span></div><div class="bd"><p class="en">Market Dashboard</p><h3>市场总览</h3></div></article>
+  </div>
+
+  <p class="foot-note">模块数据仅供研究参考，存在延迟与误报可能；推送内容不构成投资建议。卡片预留「打开工具」入口，模块公开后在此直接使用。</p>
+</main>
+
+<div class="sticky-apply"><span class="meta">成员实时接收全部推送</span><a class="btn btn-primary" href="#">申请加入 →</a></div>
+<div class="mock-badge">M1 视觉稿 · 示例数据</div>
+<script src="mock.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero 视觉稿 · 0xInChain</title>
+<link rel="icon" href="../wordmark/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<style>
+  .hero { display: grid; grid-template-columns: 112px minmax(0, 1fr) 380px; gap: 48px; padding-top: 88px; padding-bottom: 104px; align-items: start; }
+  .margin { display: flex; flex-direction: column; gap: 22px; padding-top: 10px; }
+  .margin p { margin: 0; font: 400 12px/1.55 var(--f-mono); color: var(--dossier); letter-spacing: .06em; }
+  .margin p span { display: block; color: var(--bone-dim); }
+
+  .kicker { margin: 0 0 28px; }
+  .hero h1 { margin: 0; font: 900 clamp(56px, 8.2vw, 110px)/1 var(--f-zh); letter-spacing: .04em; margin-left: -.04em; white-space: nowrap; }
+  .hero .rule { margin: 30px 0 20px; max-width: 640px; animation-delay: .1s; }
+  .latin { margin: 0 0 30px; font: italic 400 26px/1.2 var(--f-latin); color: var(--bone-dim); letter-spacing: .01em; }
+  .lead { margin: 0 0 22px; font: 400 clamp(18px, 1.6vw, 22px)/1.7 var(--f-body); max-width: 24em; }
+  .lead em { font-style: normal; color: var(--stamp); }
+  .facts { margin: 0 0 40px; }
+  .facts b { color: var(--bone); font-weight: 500; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 28px; align-items: center; }
+
+  .hero-file { position: relative; transform: rotate(-2deg); transform-origin: 40% 0; margin-top: 64px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.7); }
+  .hero-file .file { margin-top: 25px; }
+  .hero-file .stamp { font-size: 25px; top: 20px; right: 20px; }
+  .hero-file .file h3 { padding-right: 130px; }
+  .note { margin: 22px 0 0 6px; font: 400 12px/1.5 var(--f-mono); color: var(--dossier); transform: rotate(2deg); }
+  .clip { position: absolute; top: 4px; right: 148px; width: 16px; height: 50px; border: 2px solid #8C8C86; border-radius: 9px; z-index: 3; }
+  .clip::after { content: ""; position: absolute; left: 3px; right: 3px; top: 8px; bottom: -2px; border: 2px solid #8C8C86; border-top: 0; border-radius: 0 0 6px 6px; }
+
+  /* proof strip */
+  .proof { padding-bottom: 112px; }
+  .cells { display: grid; grid-template-columns: repeat(6, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .cell { padding: 26px 22px 22px; border-left: 1px solid var(--line); display: flex; flex-direction: column; gap: 12px; transition: background .15s; }
+  .cell:first-child { border-left: 0; padding-left: 0; }
+  .cell:hover { background: var(--ink-1); }
+  .cell .v { font: 500 40px/1 var(--f-mono); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+  .cell .k { font: 500 14px/1 var(--f-zh); letter-spacing: .1em; color: var(--bone-dim); }
+  .cell.total .v { color: var(--bone); }
+  .proof .sub { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; margin-top: 16px; }
+  .proof .sub a { color: var(--bone); }
+  .proof .sub a:hover { color: var(--stamp); }
+
+  /* monitor */
+  .monitor { padding-bottom: 140px; }
+  .monitor p { margin: 0; max-width: 21em; font: 700 clamp(28px, 3.4vw, 44px)/1.6 var(--f-zh); letter-spacing: .04em; }
+  .monitor a { background: linear-gradient(var(--line), var(--line)) left 88% / 100% 2px no-repeat; transition: background .2s; }
+  .monitor a:hover { background: linear-gradient(var(--stamp), var(--stamp)) left 88% / 100% 2px no-repeat; }
+  .monitor .it { white-space: nowrap; }
+  .monitor .sep { color: var(--bone-dim); font-weight: 400; margin-left: .2em; }
+  .monitor .end { color: var(--stamp); }
+  .monitor p.src { margin-top: 28px; max-width: none; font: 400 13px/1.6 var(--f-mono); letter-spacing: .02em; color: var(--bone-dim); }
+
+  @media (max-width: 1180px) {
+    .hero { grid-template-columns: minmax(0, 1fr) 340px; }
+    .margin { display: none; }
+  }
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 0; padding-top: 48px; padding-bottom: 72px; }
+    .hero-file { transform: none; margin-top: 56px; max-width: 460px; }
+    .note { transform: none; }
+    .cells { grid-template-columns: repeat(3, 1fr); }
+    .cell:nth-child(4) { border-left: 0; padding-left: 0; }
+    .cell:nth-child(n+4) { border-top: 1px solid var(--line); }
+  }
+  @media (max-width: 760px) {
+    .kicker { margin-bottom: 20px; line-height: 1.6; }
+    .hero h1 { font-size: clamp(52px, 16vw, 64px); }
+    .hero .rule { margin: 22px 0 16px; }
+    .latin { font-size: 21px; margin-bottom: 22px; }
+    .facts { margin-bottom: 30px; }
+    .ctas { gap: 12px 22px; }
+    .ctas .btn-primary { flex: 1 1 100%; justify-content: center; }
+    .cells { grid-template-columns: repeat(2, 1fr); }
+    .cell { padding: 20px 16px 18px; }
+    .cell:nth-child(odd) { border-left: 0; padding-left: 0; }
+    .cell:nth-child(4) { border-left: 1px solid var(--line); padding-left: 16px; }
+    .cell:nth-child(n+3) { border-top: 1px solid var(--line); }
+    .cell .v { font-size: 32px; }
+    .proof { padding-bottom: 80px; }
+    .monitor { padding-bottom: 120px; }
+    .monitor p { font-size: 23px; letter-spacing: .02em; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="0xInChain 链上情报局 首页">
+      <img src="../wordmark/wordmark-horizontal.svg" alt="0xInChain">
+      <span class="zh">链上情报局</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="ledger.html">社群战绩</a>
+      <a href="tools.html">链上工具箱</a>
+      <a href="#">社群介绍</a>
+      <a class="ext" href="#">X <span class="arrow">↗</span></a>
+    </nav>
+    <a class="btn btn-primary sm" href="#">申请加入</a>
+    <button class="menu-btn" aria-label="打开菜单">菜单</button>
+  </div>
+</header>
+
+<main>
+  <section class="wrap hero">
+    <aside class="margin" aria-hidden="true">
+      <p>FILE №<span>IC-2026</span></p>
+      <p>§ 01<span>档案封面</span></p>
+      <p>UTC+8<span>2026.10.14</span></p>
+    </aside>
+
+    <div>
+      <p class="label kicker">FILE № IC-2026 — 链上情报局 · On-chain Intelligence Bureau</p>
+      <h1>链上情报局</h1>
+      <div class="rule bone"></div>
+      <p class="latin">On-chain Intelligence Bureau</p>
+      <p class="lead">把链上资金的每一次异动，整理成<em>可复盘</em>的情报档案。</p>
+      <p class="meta facts">台账始于 <b>2026.10.01</b> · 已登记 <b>128</b> 份 · 覆盖 ETH / BSC / BASE / SOL / Hyperliquid</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#">申请加入 <span class="arrow">→</span></a>
+        <a class="btn btn-link" href="ledger.html">查看信号台账 <span class="arrow">→</span></a>
+      </div>
+    </div>
+
+    <div class="hero-file">
+      <span class="clip" aria-hidden="true"></span>
+      <article class="file" data-tab="最新结案 · IC-2026-0126">
+        <span class="stamp" style="--d:.55s">止损<small>2026.10.13</small></span>
+        <p class="label" style="margin:0">M-01 · OI 异动预警</p>
+        <h3>$ARB 做多</h3>
+        <dl>
+          <dt>立案</dt><dd>2026.10.10 09:12</dd>
+          <dt>入场</dt><dd>0.4120</dd>
+          <dt>结案</dt><dd>0.3790</dd>
+          <dt>最大涨幅</dt><dd class="gain">+6.3%</dd>
+          <dt>结案收益</dt><dd class="loss">−8.0%</dd>
+          <dt>持有</dt><dd>3 天</dd>
+        </dl>
+        <div class="foot meta"><span>证据 · TG 截图 · 链上 tx</span><a href="ledger.html">档案 →</a></div>
+      </article>
+      <p class="note">↳ 如实显示最新一份已结案档案，不做挑选</p>
+    </div>
+  </section>
+
+  <section class="wrap proof" aria-labelledby="proof-h">
+    <div class="divider"><span class="tag" id="proof-h">§ 02<b>证据</b></span></div>
+    <div class="cells">
+      <a class="cell total" href="ledger.html"><span class="v">128</span><span class="k">已登记</span></a>
+      <a class="cell" href="ledger.html"><span class="v">61</span><span class="k">命中</span></a>
+      <a class="cell" href="ledger.html"><span class="v">22</span><span class="k">失效</span></a>
+      <a class="cell" href="ledger.html"><span class="v">29</span><span class="k">止损</span></a>
+      <a class="cell" href="ledger.html"><span class="v">9</span><span class="k">超时</span></a>
+      <a class="cell" href="ledger.html"><span class="v">7</span><span class="k">进行中</span></a>
+    </div>
+    <div class="sub meta">
+      <span>结案收益中位数 <span class="gain">+4.6%</span> · 平均持有 4.2 天 · 统计区间 2026.10.01 – 今日</span>
+      <a href="#">收益口径与结案规则 →</a>
+    </div>
+  </section>
+
+  <section class="wrap monitor" aria-labelledby="mon-h">
+    <div class="divider"><span class="tag" id="mon-h">§ 03<b>我们盯什么</b></span></div>
+    <p>
+      <span class="it"><a href="tools.html">聪明钱地址集群</a><span class="sep">·</span></span> <span class="it"><a href="tools.html">交易所巨鲸</a><span class="sep">·</span></span> <span class="it"><a href="tools.html">衍生品 OI 异动</a><span class="sep">·</span></span> <span class="it"><a href="tools.html">Coinbase 溢价</a><span class="sep">·</span></span> <span class="it"><a href="tools.html">Hyperliquid 大单</a><span class="sep">·</span></span> <span class="it"><a href="tools.html">KOL 钱包</a><span class="sep">·</span></span> <span class="it"><a href="tools.html">DCA 流向</a>——</span><span class="end">以及链上任何反常的动静。</span>
+    </p>
+    <p class="meta src">数据源：CoinGlass Pro API · 自建四链地址标签库 · Hyperliquid 公开订单流</p>
+  </section>
+</main>
+
+<div class="sticky-apply"><span class="meta">第二批 · 每日审核 1 位</span><a class="btn btn-primary" href="#">申请加入 →</a></div>
+<div class="mock-badge">M1 视觉稿 · 示例数据</div>
+<script src="mock.js" defer></script>
+</body>
+</html>

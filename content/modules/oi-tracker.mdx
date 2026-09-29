@@ -1,0 +1,22 @@
+---
+slug: oi-tracker
+code: M-01
+nameZh: OI 异动预警
+nameEn: Elite OI Tracker
+tagline: 价格会骗人，持仓量的变化更难伪装。
+category: derivatives
+status: member
+chains: [cex]
+sources: ["CoinGlass Pro API（每分钟 1200 次调用）"]
+frequency: 5 分钟 / 15 分钟级别
+delivery: TG 成员频道
+limitations:
+  - OI 增加不区分多空，需要结合资金费率和价格方向判断
+  - 小市值合约的 OI 容易被单一大户扭曲
+  - 行情剧烈时 API 数据可能有秒级延迟
+samples:
+  - lines: ["09:12 ▲ OI +14.2% / 1h · ▇{5} · 资金费率 ▇{6}"]
+order: 1
+---
+
+监控主流交易所永续合约的持仓量（OI）变化，在 5 分钟、15 分钟级别发现异常放量，并区分真实的增量资金和洗盘噪音。

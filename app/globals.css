@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+/* Tokens mirror design/tokens.json (M1). M4 adds components; values must stay in sync with the JSON. */
+@theme {
+	--color-ink-0: #14161a;
+	--color-ink-1: #1b1e23;
+	--color-ink-2: #252930;
+	--color-line: #343841;
+	--color-bone: #e9e4d8;
+	--color-bone-dim: #a8a398;
+	--color-stamp: #e8604a;
+	--color-stamp-fill: #a93322;
+	--color-stamp-fill-hover: #b83a26;
+	--color-dossier: #c9a96a;
+	--color-gain: #6fbf8e;
+	--color-loss: #e07a68;
+	--color-redact: #0b0c0e;
+
+	--radius-file: 2px;
+
+	--ease-out-dossier: cubic-bezier(0.2, 0.7, 0.2, 1);
+	--ease-stamp: cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+
+/* next/font exposes variables on <html>; map them to Tailwind font utilities. */
+@theme inline {
+	--font-serif-zh: var(--font-noto-serif-sc), "Songti SC", serif;
+	--font-latin: var(--font-newsreader), Georgia, serif;
+	--font-sans: var(--font-noto-sans-sc), "PingFang SC", system-ui, sans-serif;
+	--font-mono: var(--font-plex-mono), ui-monospace, monospace;
+	--font-data:
+		var(--font-martian-mono), var(--font-plex-mono), ui-monospace, monospace;
+}
+
+@layer base {
+	html {
+		color-scheme: dark;
+		-webkit-text-size-adjust: 100%;
+	}
+	body {
+		background: var(--color-ink-0);
+		color: var(--color-bone);
+		font-family: var(--font-sans);
+		font-size: 17px;
+		line-height: 1.75;
+		-webkit-font-smoothing: antialiased;
+	}
+	:focus-visible {
+		outline: 2px solid var(--color-stamp);
+		outline-offset: 3px;
+	}
+	@media (max-width: 760px) {
+		body {
+			font-size: 16px;
+		}
+	}
+	/* biome-ignore-start lint/complexity/noImportantStyles: the reduced-motion reset must beat every component animation */
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		*::before,
+		*::after {
+			animation-duration: 1ms !important;
+			animation-delay: 0ms !important;
+			transition-duration: 1ms !important;
+		}
+	}
+	/* biome-ignore-end lint/complexity/noImportantStyles: see above */
+}

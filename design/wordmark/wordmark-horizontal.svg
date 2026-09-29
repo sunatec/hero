@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 12 412 76" width="412" height="76" role="img" aria-labelledby="t">
+  <title id="t">0xInChain</title>
+  <g fill="none" stroke="#E9E4D8" stroke-width="7" stroke-linecap="butt" stroke-linejoin="miter">
+    <!-- 0 (slashed zero, brand signature) -->
+    <ellipse cx="18" cy="50" rx="14.5" ry="26.5"/>
+    <!-- x -->
+    <path transform="translate(46 0)" d="M3 36 L33 80 M33 36 L3 80"/>
+    <!-- I -->
+    <path transform="translate(92 0)" d="M18 20 V80 M7 23.5 H29 M7 76.5 H29"/>
+    <!-- n -->
+    <path transform="translate(138 0)" d="M3.5 36 V80 M3.5 52 C3.5 43 9 39.5 17.5 39.5 C27 39.5 32.5 44 32.5 53 V80"/>
+    <!-- C -->
+    <path transform="translate(184 0)" d="M33 31 C29.5 25.5 24.5 23.5 18.5 23.5 C9 23.5 3.5 34 3.5 50 C3.5 66 9 76.5 18.5 76.5 C24.5 76.5 29.5 74.5 33 69"/>
+    <!-- h -->
+    <path transform="translate(230 0)" d="M3.5 20 V80 M3.5 52 C3.5 43 9 39.5 17.5 39.5 C27 39.5 32.5 44 32.5 53 V80"/>
+    <!-- a -->
+    <g transform="translate(276 0)"><path d="M32.5 36 V80"/><ellipse cx="18" cy="58" rx="14.5" ry="18.5"/></g>
+    <!-- i -->
+    <path transform="translate(322 0)" d="M8 39.5 H18 M18 36 V80 M7 76.5 H29"/>
+    <!-- n -->
+    <path transform="translate(368 0)" d="M3.5 36 V80 M3.5 52 C3.5 43 9 39.5 17.5 39.5 C27 39.5 32.5 44 32.5 53 V80"/>
+  </g>
+  <rect x="336.5" y="17" width="7" height="7" fill="#E9E4D8"/>
+  <path d="M10 64 L26 36" fill="none" stroke="#E8604A" stroke-width="7"/>
+</svg>

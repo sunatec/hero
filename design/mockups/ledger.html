@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>台账视觉稿 · 0xInChain</title>
+<link rel="icon" href="../wordmark/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<style>
+  .page-head { padding: 72px 0 56px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: end; }
+  .page-head h1 { margin: 12px 0 0; font: 900 clamp(44px, 6vw, 72px)/1.05 var(--f-zh); letter-spacing: .04em; }
+  .page-head .intro { margin: 18px 0 0; max-width: 34em; color: var(--bone-dim); }
+  .start { text-align: right; }
+  .start b { display: block; font: 500 28px/1.2 var(--f-mono); color: var(--bone); }
+
+  section.block { padding-bottom: 104px; }
+
+  /* stats */
+  .stats { display: flex; flex-wrap: wrap; gap: 8px 28px; padding: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 8px; }
+  .stats span b { color: var(--bone); font-weight: 500; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 8px; }
+  .chip { font: 500 12px/1 var(--f-mono); letter-spacing: .06em; color: var(--bone-dim); border: 1px solid var(--line); padding: 8px 12px; border-radius: 2px; background: none; cursor: pointer; }
+  .chip[aria-pressed="true"] { color: var(--bone); border-color: var(--bone-dim); background: var(--ink-1); }
+
+  /* ledger table */
+  table.ledger { width: 100%; border-collapse: collapse; font-size: 15px; }
+  .ledger th { text-align: left; font: 500 11px/1 var(--f-mono); letter-spacing: .14em; color: var(--dossier); padding: 18px 12px 14px; border-bottom: 1px solid var(--line); font-weight: 500; }
+  .ledger td { padding: 20px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  .ledger tbody tr { animation: print .35s var(--ease-out) both; }
+  .ledger tbody tr:nth-child(1) { animation-delay: .05s } .ledger tbody tr:nth-child(2) { animation-delay: .11s }
+  .ledger tbody tr:nth-child(3) { animation-delay: .17s } .ledger tbody tr:nth-child(4) { animation-delay: .23s }
+  .ledger tbody tr:nth-child(5) { animation-delay: .29s } .ledger tbody tr:nth-child(6) { animation-delay: .35s }
+  @keyframes print { from { opacity: 0; transform: translateY(-4px); clip-path: inset(0 100% 0 0); } to { opacity: 1; transform: none; clip-path: inset(0 0 0 0); } }
+  .ledger tbody tr:hover { background: var(--ink-1); }
+  .ledger .id { font-family: var(--f-mono); color: var(--dossier); white-space: nowrap; }
+  .ledger .t { font-family: var(--f-mono); font-size: 13px; color: var(--bone-dim); white-space: nowrap; }
+  .ledger .asset { font: 700 16px/1.3 var(--f-zh); letter-spacing: .02em; }
+  .ledger .r { text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ledger .go { text-align: right; color: var(--bone-dim); font-family: var(--f-mono); }
+  .ledger .st { width: 104px; }
+  .ledger .stamp { --d: .5s; }
+  .ledger .dir { color: var(--bone-dim); font-size: 14px; }
+  .more { display: flex; justify-content: space-between; margin-top: 18px; }
+  .more a { color: var(--bone); } .more a:hover { color: var(--stamp); }
+
+  /* files */
+  .files { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px 32px; }
+  .chart { margin: 20px 0 4px; }
+  .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .thesis { margin: 16px 0 0; font-size: 14px; line-height: 1.7; color: var(--bone-dim); }
+  .thesis b { color: var(--bone); font-weight: 500; }
+  .file.is-open { border-style: dashed; }
+
+  /* stamp sheet */
+  .sheet { display: grid; grid-template-columns: repeat(6, 1fr); border: 1px solid var(--line); }
+  .sheet div { display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 40px 12px 24px; border-left: 1px solid var(--line); }
+  .sheet div:first-child { border-left: 0; }
+  .sheet .meta { font-size: 12px; text-align: center; }
+
+  /* intel sample */
+  .sample { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+  .tg { background: var(--ink-1); border: 1px solid var(--line); border-radius: 2px; padding: 22px 24px; font: 400 15px/1.95 var(--f-mono); }
+  .tg .hd { display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed var(--line); }
+  .tg p { margin: 0; }
+  .annot { border-left: 1px solid var(--dossier); padding: 4px 0 4px 22px; }
+  .annot p { margin: 0 0 16px; font-size: 15px; color: var(--bone-dim); }
+  .annot p b { color: var(--bone); font-weight: 500; }
+  .annot .n { font: 700 15px/1 var(--f-zh); color: var(--dossier); margin-right: 8px; }
+
+  .risk { border-top: 1px solid var(--line); padding: 28px 0 120px; font-size: 13px; color: var(--bone-dim); max-width: 60em; }
+
+  @media (max-width: 1100px) {
+    .files { grid-template-columns: 1fr 1fr; }
+    .sheet { grid-template-columns: repeat(3, 1fr); }
+    .sheet div:nth-child(4) { border-left: 0; }
+    .sheet div:nth-child(n+4) { border-top: 1px solid var(--line); }
+  }
+  @media (max-width: 760px) {
+    .page-head { grid-template-columns: 1fr; padding: 44px 0 40px; gap: 20px; }
+    .start { text-align: left; }
+    section.block { padding-bottom: 80px; }
+    .ledger thead { display: none; }
+    .ledger, .ledger tbody { display: block; }
+    .ledger tr { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "id st" "asset st" "meta r"; gap: 4px 12px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+    .ledger td { padding: 0; border: 0; }
+    .ledger td.id { grid-area: id; } .ledger td.asset { grid-area: asset; }
+    .ledger td.st { grid-area: st; width: auto; align-self: center; }
+    .ledger td.r { grid-area: r; align-self: end; }
+    .ledger td.t { grid-area: meta; }
+    .ledger td.mod, .ledger td.dir, .ledger td.go { display: none; }
+    .files { grid-template-columns: 1fr; gap: 48px; }
+    .sheet { grid-template-columns: repeat(2, 1fr); }
+    .sheet div:nth-child(odd) { border-left: 0; }
+    .sheet div:nth-child(4) { border-left: 1px solid var(--line); }
+    .sheet div:nth-child(n+3) { border-top: 1px solid var(--line); }
+    .sample { grid-template-columns: 1fr; gap: 28px; }
+    .tg { font-size: 13.5px; padding: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="hero.html" aria-label="0xInChain 链上情报局 首页">
+      <img src="../wordmark/wordmark-horizontal.svg" alt="0xInChain">
+      <span class="zh">链上情报局</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="ledger.html" aria-current="page">社群战绩</a>
+      <a href="tools.html">链上工具箱</a>
+      <a href="#">社群介绍</a>
+      <a class="ext" href="#">X <span class="arrow">↗</span></a>
+    </nav>
+    <a class="btn btn-primary sm" href="#">申请加入</a>
+    <button class="menu-btn" aria-label="打开菜单">菜单</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <div>
+      <p class="label">社群战绩 · Signal Ledger</p>
+      <h1>信号台账</h1>
+      <p class="intro">上线日起的每一条信号都在这里：立案即登记，结案即公开。命中、失效、止损，用同样的格式记录。</p>
+    </div>
+    <p class="meta start">台账起始日<b>2026.10.01</b>最后更新 2026.10.14 11:40 (UTC+8)</p>
+  </div>
+
+  <!-- 1. ledger list -->
+  <section class="block" aria-labelledby="l-h">
+    <div class="divider"><span class="tag" id="l-h">§ 05<b>最新台账</b></span></div>
+    <div class="stats meta">
+      <span>已登记 <b>128</b></span><span>命中 <b>61</b></span><span>失效 <b>22</b></span><span>止损 <b>29</b></span><span>超时 <b>9</b></span><span>进行中 <b>7</b></span><span>结案收益中位数 <b class="gain">+4.6%</b></span>
+    </div>
+    <div class="filters" role="group" aria-label="筛选">
+      <button class="chip" aria-pressed="true">全部</button><button class="chip" aria-pressed="false">进行中</button><button class="chip" aria-pressed="false">已结案</button><button class="chip" aria-pressed="false">M-01 OI</button><button class="chip" aria-pressed="false">聪明钱</button><button class="chip" aria-pressed="false">做空 / 预警</button>
+    </div>
+    <table class="ledger">
+      <caption class="sr-only">最新 6 份台账档案</caption>
+      <thead><tr><th>编号</th><th>立案</th><th>模块</th><th>方向</th><th>标的</th><th>状态</th><th style="text-align:right">结案收益</th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="id">IC-2026-0128</td><td class="t">10.14 10:02</td><td class="mod">M-03 聪明钱</td><td class="dir">做多</td><td class="asset"><span class="redact" style="--w:7" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span></td><td class="st"><span class="stamp mini" data-s="open">进行中</span></td><td class="r" style="color:var(--bone-dim)">—</td><td class="go">→</td></tr>
+        <tr><td class="id">IC-2026-0127</td><td class="t">10.11 21:05</td><td class="mod">M-04 Hyperliquid</td><td class="dir">做多</td><td class="asset">$HYPE</td><td class="st"><span class="stamp mini">命中</span></td><td class="r gain">+18.4%</td><td class="go">→</td></tr>
+        <tr><td class="id">IC-2026-0126</td><td class="t">10.10 09:12</td><td class="mod">M-01 OI</td><td class="dir">做多</td><td class="asset">$ARB</td><td class="st"><span class="stamp mini">止损</span></td><td class="r loss">−8.0%</td><td class="go">→</td></tr>
+        <tr><td class="id">IC-2026-0125</td><td class="t">10.09 14:30</td><td class="mod">M-02 Coinbase</td><td class="dir">做空</td><td class="asset">$ETH</td><td class="st"><span class="stamp mini">失效</span></td><td class="r loss">−2.1%</td><td class="go">→</td></tr>
+        <tr><td class="id">IC-2026-0124</td><td class="t">10.07 08:45</td><td class="mod">M-03 聪明钱</td><td class="dir">风险预警</td><td class="asset">$GUA</td><td class="st"><span class="stamp mini">命中</span></td><td class="r gain">+23.7%</td><td class="go">→</td></tr>
+        <tr><td class="id">IC-2026-0123</td><td class="t">09.08 19:20</td><td class="mod">M-07 JUP DCA</td><td class="dir">做多</td><td class="asset">$JUP</td><td class="st"><span class="stamp mini">超时</span></td><td class="r gain">+1.3%</td><td class="go">→</td></tr>
+      </tbody>
+    </table>
+    <div class="more meta"><span>风险预警类信号的收益按预警后跌幅计算，见方法论</span><a href="#">完整台账（128 份）→</a></div>
+  </section>
+
+  <!-- 2. case files in three states -->
+  <section class="block" aria-labelledby="f-h">
+    <div class="divider"><span class="tag" id="f-h">§ 06<b>档案卡 · 三种状态</b></span></div>
+    <div class="files">
+      <article class="file is-open" data-tab="立案 · IC-2026-0128">
+        <span class="stamp" data-s="open" style="--d:.4s">进行中<small>10.14 10:02</small></span>
+        <p class="label" style="margin:0">M-03 · 全链聪明钱雷达</p>
+        <h3>做多 · <span class="redact" style="--w:6;--d:.5s" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span></h3>
+        <dl>
+          <dt>立案</dt><dd>2026.10.14 10:02</dd>
+          <dt>登记</dt><dd>2026.10.14 10:31</dd>
+          <dt>链</dt><dd>BASE</dd>
+          <dt>入场</dt><dd><span class="redact" style="--w:7;--d:.6s" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span></dd>
+          <dt>依据</dt><dd><span class="redact" style="--w:14;--d:.7s" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span></dd>
+          <dt>止损 / 目标</dt><dd><span class="redact" style="--w:11;--d:.8s" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span></dd>
+        </dl>
+        <p class="thesis">立案即登记，结案后 24 小时内公开全部字段。成员在 TG 已于 10:02 收到完整信号。</p>
+        <div class="foot meta"><span>证据 · TG 时间戳</span><a href="#">档案 →</a></div>
+      </article>
+
+      <article class="file" data-tab="结案 · IC-2026-0127">
+        <span class="stamp" style="--d:.5s">命中<small>10.13 16:40</small></span>
+        <p class="label" style="margin:0">M-04 · Hyperliquid 聪明钱雷达</p>
+        <h3>$HYPE 做多</h3>
+        <figure class="chart">
+          <svg viewBox="0 0 320 130" role="img" aria-labelledby="c1t">
+            <title id="c1t">$HYPE：10.11 入场 38.20，10.12 峰值 46.45（+21.6%），10.13 按目标价 45.23 止盈（+18.4%）</title>
+            <line x1="0" y1="96" x2="320" y2="96" stroke="#343841" stroke-dasharray="3 4"/>
+            <polyline fill="none" stroke="#E9E4D8" stroke-width="1.4" points="0,104 18,100 34,98 50,96 64,99 78,92 94,86 108,88 122,74 138,70 152,58 168,62 182,44 198,40 212,28 226,34 240,30 256,22 270,26 286,24 300,27 320,30"/>
+            <circle cx="50" cy="96" r="3.5" fill="#E8604A"/><circle cx="256" cy="22" r="3.5" fill="#E8604A"/><circle cx="300" cy="27" r="3.5" fill="none" stroke="#E8604A" stroke-width="1.5"/>
+            <text x="44" y="118" fill="#C9A96A" font-family="Noto Serif SC, serif" font-size="11" font-weight="700">① 入场 38.20</text>
+            <text x="190" y="12" fill="#C9A96A" font-family="Noto Serif SC, serif" font-size="11" font-weight="700">② 峰值 +21.6%</text>
+            <text x="232" y="52" fill="#A8A398" font-family="IBM Plex Mono, monospace" font-size="10">③ 目标止盈</text>
+          </svg>
+        </figure>
+        <dl>
+          <dt>最大涨幅</dt><dd class="gain">+21.6%</dd>
+          <dt>最大回撤</dt><dd class="loss">−3.4%</dd>
+          <dt>结案收益</dt><dd class="gain">+18.4%</dd>
+          <dt>持有</dt><dd>2 天</dd>
+        </dl>
+        <div class="foot meta"><span>证据 · TG · 链上 tx ↗ · X ↗</span><a href="#">档案 →</a></div>
+      </article>
+
+      <article class="file" data-tab="结案 · IC-2026-0126">
+        <span class="stamp" style="--d:.6s">止损<small>10.13 03:18</small></span>
+        <p class="label" style="margin:0">M-01 · OI 异动预警</p>
+        <h3>$ARB 做多</h3>
+        <figure class="chart">
+          <svg viewBox="0 0 320 130" role="img" aria-labelledby="c2t">
+            <title id="c2t">$ARB：10.10 入场 0.4120，最高 0.4380，10.13 触发止损 0.3790</title>
+            <line x1="0" y1="52" x2="320" y2="52" stroke="#343841" stroke-dasharray="3 4"/>
+            <line x1="0" y1="100" x2="320" y2="100" stroke="#E07A68" stroke-opacity=".5" stroke-dasharray="2 3"/>
+            <polyline fill="none" stroke="#E9E4D8" stroke-width="1.4" points="0,58 20,55 40,52 58,44 74,36 90,30 104,34 120,42 136,40 152,50 168,58 184,62 200,72 216,70 232,80 248,88 262,94 276,100 290,106 306,110 320,112"/>
+            <circle cx="40" cy="52" r="3.5" fill="#E8604A"/><circle cx="90" cy="30" r="3.5" fill="#E8604A"/><circle cx="276" cy="100" r="3.5" fill="none" stroke="#E8604A" stroke-width="1.5"/>
+            <text x="4" y="72" fill="#C9A96A" font-family="Noto Serif SC, serif" font-size="11" font-weight="700">① 入场</text>
+            <text x="72" y="18" fill="#C9A96A" font-family="Noto Serif SC, serif" font-size="11" font-weight="700">② 峰值 +6.3%</text>
+            <text x="186" y="124" fill="#A8A398" font-family="IBM Plex Mono, monospace" font-size="10">③ 止损 0.3790</text>
+          </svg>
+        </figure>
+        <dl>
+          <dt>最大涨幅</dt><dd class="gain">+6.3%</dd>
+          <dt>最大回撤</dt><dd class="loss">−8.0%</dd>
+          <dt>结案收益</dt><dd class="loss">−8.0%</dd>
+          <dt>持有</dt><dd>3 天</dd>
+        </dl>
+        <p class="thesis"><b>复盘：</b>OI 抬升但现货未跟，聪明钱在 10.12 分批撤出，信号失去依据。</p>
+        <div class="foot meta"><span>证据 · TG · 链上 tx ↗</span><a href="#">档案 →</a></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 3. stamp sheet -->
+  <section class="block" aria-labelledby="s-h">
+    <div class="divider"><span class="tag" id="s-h">§ 07<b>六种印章</b></span></div>
+    <div class="sheet">
+      <div><span class="stamp lg" data-s="open" style="--d:.1s">进行中</span><span class="meta">open · 虚线边<br>标的与价格涂黑</span></div>
+      <div><span class="stamp lg" style="--d:.16s">命中</span><span class="meta">hit<br>达到预设目标</span></div>
+      <div><span class="stamp lg" style="--d:.22s">失效</span><span class="meta">invalidated<br>触发失效条件</span></div>
+      <div><span class="stamp lg" style="--d:.28s">止损</span><span class="meta">stopped<br>触发止损</span></div>
+      <div><span class="stamp lg" style="--d:.34s">超时</span><span class="meta">expired<br>超过最长持有期</span></div>
+      <div><span class="stamp lg" data-s="void" style="--d:.4s">作废</span><span class="meta">void<br>保留条目并写明原因</span></div>
+    </div>
+  </section>
+
+  <!-- 4. redacted intel sample -->
+  <section class="block" aria-labelledby="x-h">
+    <div class="divider"><span class="tag" id="x-h">§ 08<b>情报样本</b></span></div>
+    <div class="sample">
+      <div class="tg" aria-label="TG 推送样本（部分内容已涂黑）">
+        <div class="hd meta"><span>0xInChain · 成员频道</span><span>10.14 10:02</span></div>
+        <p>[M-03 聪明钱雷达 · BASE]</p>
+        <p>▲ 集群 <span class="redact" style="--w:10;--d:.2s" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span> 共 6 个地址</p>
+        <p>过去 3h 累计买入 <span class="redact" style="--w:8;--d:.3s" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span></p>
+        <p>标的 <span class="redact" style="--w:6;--d:.4s" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span> · 均价 <span class="redact" style="--w:7;--d:.5s" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span></p>
+        <p>同期 OI +11.8% / 资金费率 0.006%</p>
+        <p>操作参考：<span class="redact" style="--w:16;--d:.6s" tabindex="0" role="img" aria-label="成员可见内容，已隐藏"></span></p>
+      </div>
+      <div class="annot">
+        <p><span class="n">①</span>这是<b>全链聪明钱雷达</b>的一条真实推送格式，成员会在异动发生后第一时间收到完整版本。</p>
+        <p><span class="n">②</span>涂黑部分——地址、标的、价格、操作参考——只对成员可见；结案后在台账完整公开。</p>
+        <p><span class="n">③</span>每一条交易信号都会在 2 小时内登记为一份台账档案，编号连续，不可删除。</p>
+        <a class="btn btn-link" href="#">申请加入 <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <p class="risk">风险披露：台账记录的是信号与结案规则下的计算结果，不代表任何成员的实际收益。加密资产波动剧烈，过往表现不代表未来结果，所有内容均不构成投资建议。</p>
+</main>
+
+<div class="sticky-apply"><span class="meta">第二批 · 每日审核 1 位</span><a class="btn btn-primary" href="#">申请加入 →</a></div>
+<div class="mock-badge">M1 视觉稿 · 示例数据</div>
+<script src="mock.js" defer></script>
+</body>
+</html>
