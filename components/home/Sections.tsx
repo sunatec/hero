@@ -1,12 +1,7 @@
 import Link from "next/link";
 import { Fragment } from "react";
+import { CasesGrid } from "@/components/cases/CasesExplorer";
 import { AgentPhoto } from "@/components/dossier/AgentPhoto";
-import {
-	CaseFile,
-	CaseFileFooter,
-	CaseFileHeader,
-} from "@/components/dossier/CaseFile";
-import { Fields } from "@/components/dossier/Fields";
 import { RedactedLine } from "@/components/dossier/Redaction";
 import { SectionDivider } from "@/components/dossier/SectionDivider";
 import { LedgerList } from "@/components/ledger/LedgerList";
@@ -23,15 +18,11 @@ import {
 	runningModules,
 	signals,
 	stats,
+	toCaseRow,
 } from "@/lib/content";
 import { martianMono } from "@/lib/fonts";
 import { formatDate } from "@/lib/format";
-import {
-	caseResultLabel,
-	categoryLabel,
-	directionLabel,
-	methodLabel,
-} from "@/lib/i18n/labels";
+import { categoryLabel } from "@/lib/i18n/labels";
 import type { ModuleSlug } from "@/lib/schema/common";
 import { section, wrap } from "@/lib/ui";
 import { site, TBD } from "@/site.config";
@@ -303,37 +294,7 @@ export function FeaturedCases() {
 					上公开过的部分复盘。收益是原帖写的最大涨幅口径，不计入台账统计。
 				</p>
 			</div>
-			<div className="grid gap-x-8 gap-y-12 md:grid-cols-2 xl:grid-cols-3">
-				{featuredCases.map((c) => (
-					<CaseFile key={c.slug} tab={`精选 · ${formatDate(c.date)}`}>
-						<CaseFileHeader
-							kicker={methodLabel[c.method] ?? c.method}
-							title={`${c.assets.join(" ")} ${directionLabel[c.direction]}`}
-						/>
-						<p className="mb-4 text-sm text-bone-dim">「{c.titleOriginal}」</p>
-						<Fields
-							items={[
-								{ label: "原帖写法", value: c.claim?.value ?? "—" },
-								{ label: "结果", value: caseResultLabel[c.result] },
-								{ label: "核验", value: c.verified ? "已核验" : "未核验" },
-							]}
-						/>
-						<CaseFileFooter>
-							<a
-								href={c.xUrl}
-								target="_blank"
-								rel="noopener noreferrer"
-								className={inlineLink}
-							>
-								X 原帖 <Arrow>↗</Arrow>
-							</a>
-							<Link href={`/cases/${c.slug}`} className={inlineLink}>
-								案例 <Arrow />
-							</Link>
-						</CaseFileFooter>
-					</CaseFile>
-				))}
-			</div>
+			<CasesGrid items={featuredCases.map(toCaseRow)} />
 			<p className="mt-8 flex flex-wrap gap-x-8 gap-y-2 font-mono text-[13px]">
 				<Link href="/cases" className={inlineLink}>
 					全部精选案例 <Arrow />

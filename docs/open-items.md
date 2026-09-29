@@ -12,7 +12,7 @@
 | A4 | 是否接受 BNB 以外的币种付款？ | — | FAQ 第 8 条、参考价卡片 | M7 |
 | A5 | 规划中的 4 个模块（资金费率、清算热图、代币检索、市场总览）是否都有真实计划？ | 只展示真正会做的 | `/tools` 的 ROADMAP 区块 | M8 |
 | A7 | ~~档案详情页的复盘图需要价格序列，数据从哪来？~~ ✅ 已确认并在 M6a 实现 | `pnpm close:signal` 结案时从交易所公开 K 线接口拉取持有期的 1 小时收盘价，写入档案的 `series` 字段（约 50 个点）；拉不到时只显示三个关键点，不画折线 | 内容模型新增字段、M6a 的结案脚本 | M6a |
-| A6 | 精选案例里的「美股 $BNC」是否迁移？ | 不迁移（不是加密资产，容易引起合规疑问） | `cases.csv` 第 4 行 | M6b |
+| A6 | ~~精选案例里的「美股 $BNC」是否迁移？~~ ✅ 不迁移（M6b） | 不迁移（不是加密资产，容易引起合规疑问） | `cases.csv` 第 4 行 | M6b |
 
 ## B. 信息类（只需要提供事实）
 
@@ -35,8 +35,8 @@
 
 | # | 事项 | 位置 |
 |---|---|---|
-| C1 | 「$UMBRA 65%」和「工具展示」在 Notion 里用的是同一个推文链接，其中一条贴错了 | `docs/migration/cases.csv` 第 56、58 行 |
-| C2 | 55 条案例的原帖逐条核对（标的、收益写法、日期），核对后把 `verified` 改为 true | `docs/migration/cases.csv` |
+| C1 | 「$UMBRA 65%」和「工具展示」在 Notion 里用的是同一个推文链接，其中一条贴错了（M6b：$UMBRA 已导入，标注「未核验」，链接待核对） | `docs/migration/cases.csv` 第 56、58 行 |
+| C2 | 54 条案例的原帖逐条核对（文件在 `content/cases/`，核对后把 `verified` 改为 `true`）（标的、收益写法、日期），核对后把 `verified` 改为 true | `docs/migration/cases.csv` |
 | C3 | 约 20 条案例原帖没写收益数字，迁移时 `claim` 留空，还是从原推补充 | `docs/migration/cases.csv` |
 | C4 | 「$ASTER」原帖写着"持续跟踪 还没结束"，现在是否有结果 | `docs/migration/cases.csv` 第 19 行 |
 

@@ -59,6 +59,7 @@ const cases = defineCollection({
 		return {
 			...parsed.data,
 			slug: slugOf(doc),
+			hasBody: doc.content.trim().length > 0,
 			mdx: await compileMDX(ctx, doc),
 		};
 	},

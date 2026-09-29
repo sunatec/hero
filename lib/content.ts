@@ -5,6 +5,7 @@ import {
 	allResearch,
 	allSignals,
 } from "content-collections";
+import type { CaseRow } from "@/lib/cases";
 import type { LedgerRow } from "@/lib/ledger/rows";
 import { byNewest, isClosed, ledgerStats } from "@/lib/ledger/stats";
 import type { ModuleSlug } from "@/lib/schema/common";
@@ -80,3 +81,22 @@ export function toRow(s: SignalDoc): LedgerRow {
 	};
 }
 export const rows: LedgerRow[] = signals.map(toRow);
+
+export function toCaseRow(c: CaseDoc): CaseRow {
+	return {
+		slug: c.slug,
+		date: c.date,
+		assets: c.assets,
+		direction: c.direction,
+		method: c.method,
+		result: c.result,
+		...(c.claim?.value ? { claim: c.claim.value } : {}),
+		titleOriginal: c.titleOriginal,
+		xUrl: c.xUrl,
+		verified: c.verified,
+	};
+}
+/** Newest first. Cases are curated and never feed ledger stats (WEBSITE_PLAN §8.5). */
+export const caseRows: CaseRow[] = [...allCases]
+	.sort((a, b) => b.date.localeCompare(a.date))
+	.map(toCaseRow);

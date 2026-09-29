@@ -1059,7 +1059,7 @@ export const site = {
 - **Verification**：Vitest 通过；按运营手册完整跑一遍立案 → 结案；X 卡片验证工具预览 OG 图
 - **Dependencies**：M4、M5
 
-### M6b Community Performance · Cases & Methodology
+### M6b Community Performance · Cases & Methodology ✅（2026-09-29；导入 54 条案例：$BNC 按 A6 不迁移，全部标注「未核验」；方法论页用 TSX 编写而非 MDX）
 - **Goal**：历史案例迁移完成，方法论公开
 - **Tasks**：`/cases`、`/cases/[slug]`（带「精选」标识，标注最大涨幅口径）；按 M2 的 CSV 迁移 50+ 条案例；`/methodology`（登记规则、结案规则、收益口径、证据类型、局限性）；案例的 OG 图模板
 - **Deliverables**：路由和全部案例的 MDX
