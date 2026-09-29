@@ -68,6 +68,15 @@ const closedShape = {
 	closedReturnPct: z.number(),
 	evidence: z.array(Evidence).min(1),
 	xUrl: z.url().optional(),
+	/** A7: hourly closes from openedAt to closedAt, fetched by `pnpm close:signal`. Optional. */
+	series: z
+		.strictObject({
+			source: z.string(),
+			interval: z.enum(["15m", "1h", "4h", "1d"]),
+			start: DateTime,
+			prices: z.array(z.number().positive()).min(2).max(400),
+		})
+		.optional(),
 };
 
 export const OpenSignal = z.strictObject({

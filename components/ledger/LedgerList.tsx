@@ -2,35 +2,32 @@ import Link from "next/link";
 import { Pct } from "@/components/dossier/Fields";
 import { Redaction } from "@/components/dossier/Redaction";
 import { Stamp } from "@/components/dossier/Stamp";
-import { moduleBySlug, type SignalDoc } from "@/lib/content";
 import { formatShort } from "@/lib/format";
 import { directionLabel } from "@/lib/i18n/labels";
-import { isClosed } from "@/lib/ledger/stats";
+import type { LedgerRow } from "@/lib/ledger/rows";
 
-function Asset({ s }: { s: SignalDoc }) {
-	if (s.status === "open") return <Redaction width={6} />;
-	return <>{s.asset ?? "—"}</>;
+function Asset({ r }: { r: LedgerRow }) {
+	if (r.status === "open") return <Redaction width={6} />;
+	return <>{r.asset ?? "—"}</>;
 }
 
-function Result({ s }: { s: SignalDoc }) {
-	return isClosed(s) ? (
-		<Pct value={s.closedReturnPct} />
-	) : (
+function Result({ r }: { r: LedgerRow }) {
+	return r.closedReturnPct === undefined ? (
 		<span className="font-mono text-bone-dim">—</span>
+	) : (
+		<Pct value={r.closedReturnPct} />
 	);
 }
 
-function moduleName(s: SignalDoc) {
-	const m = moduleBySlug(s.module);
-	return m ? `${m.code} ${m.nameZh}` : s.module;
-}
-
-/** Ledger rows: a real table from md up, two-line cards below (same data, one visible at a time). */
+/**
+ * Ledger rows: a real table from md up, two-line cards below (same data, one visible at a time).
+ * Client-safe: takes plain LedgerRow objects, never the content collections.
+ */
 export function LedgerList({
 	items,
 	caption,
 }: {
-	items: SignalDoc[];
+	items: LedgerRow[];
 	caption: string;
 }) {
 	return (
@@ -51,36 +48,36 @@ export function LedgerList({
 					</tr>
 				</thead>
 				<tbody>
-					{items.map((s) => (
+					{items.map((r) => (
 						<tr
-							key={s.id}
+							key={r.id}
 							className="border-b border-line transition-colors hover:bg-ink-1"
 						>
 							<td className="px-3 py-5 font-mono whitespace-nowrap">
 								<Link
-									href={`/ledger/${s.id}`}
+									href={`/ledger/${r.id}`}
 									className="text-dossier underline underline-offset-4 hover:text-stamp"
 								>
-									{s.id}
+									{r.id}
 								</Link>
 							</td>
 							<td className="px-3 py-5 font-mono text-[13px] whitespace-nowrap text-bone-dim">
-								{formatShort(s.openedAt)}
+								{formatShort(r.openedAt)}
 							</td>
 							<td className="px-3 py-5 text-sm text-bone-dim">
-								{moduleName(s)}
+								{r.moduleLabel}
 							</td>
 							<td className="px-3 py-5 text-sm text-bone-dim">
-								{directionLabel[s.direction]}
+								{directionLabel[r.direction]}
 							</td>
 							<td className="px-3 py-5 font-serif-zh text-base font-bold">
-								<Asset s={s} />
+								<Asset r={r} />
 							</td>
 							<td className="px-3 py-5">
-								<Stamp status={s.status} size="sm" />
+								<Stamp status={r.status} size="sm" />
 							</td>
 							<td className="px-3 py-5 text-right whitespace-nowrap">
-								<Result s={s} />
+								<Result r={r} />
 							</td>
 						</tr>
 					))}
@@ -88,31 +85,31 @@ export function LedgerList({
 			</table>
 
 			<ul className="md:hidden" aria-label={caption}>
-				{items.map((s) => (
+				{items.map((r) => (
 					<li
-						key={s.id}
+						key={r.id}
 						className="grid grid-cols-[1fr_auto] gap-x-3 gap-y-1 border-b border-line py-[18px]"
 					>
 						<Link
-							href={`/ledger/${s.id}`}
+							href={`/ledger/${r.id}`}
 							className="font-mono text-dossier underline underline-offset-4"
 						>
-							{s.id}
+							{r.id}
 						</Link>
 						<span className="row-span-2 self-center">
-							<Stamp status={s.status} size="sm" />
+							<Stamp status={r.status} size="sm" />
 						</span>
 						<span className="font-serif-zh text-base font-bold">
-							<Asset s={s} />{" "}
+							<Asset r={r} />{" "}
 							<span className="text-sm font-normal text-bone-dim">
-								{directionLabel[s.direction]}
+								{directionLabel[r.direction]}
 							</span>
 						</span>
 						<span className="font-mono text-[13px] text-bone-dim">
-							{formatShort(s.openedAt)}
+							{formatShort(r.openedAt)}
 						</span>
 						<span className="text-right">
-							<Result s={s} />
+							<Result r={r} />
 						</span>
 					</li>
 				))}

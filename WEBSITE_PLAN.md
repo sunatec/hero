@@ -1046,7 +1046,7 @@ export const site = {
 - **Verification**：1440 和 390 两个宽度的截图；链接检查；5 人快速 5 秒测试（可以放到 M13 做）
 - **Dependencies**：M4
 
-### M6a Community Performance · Ledger
+### M6a Community Performance · Ledger ✅（2026-09-29；A7 已实现：结案脚本从币安公开行情拉取 K 线；筛选用原生下拉框而非芯片按钮加底部抽屉）
 - **Goal**：信号台账可以使用，并且能自证可信
 - **Tasks**：
   1. `/ledger`：统计头部、筛选（模块、链、方向、状态、月份）、表格/卡片的响应式切换、分页

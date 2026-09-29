@@ -66,6 +66,12 @@ const SignalClosed = SignalPublic.extend({
   closedReturnPct: z.number(),                        // 按方向计算的结案收益
   evidence: z.array(Evidence).min(1),
   xUrl: z.string().url().optional(),                  // 对应的 X 复盘推文
+  series: z.object({                                   // A7（M6a）：结案脚本拉取的行情
+    source: z.string(),                                // 例如 binance:ARBUSDT
+    interval: z.enum(['15m', '1h', '4h', '1d']),
+    start: DateTime,                                   // = openedAt
+    prices: z.array(z.number().positive()).min(2).max(400), // 收盘价
+  }).optional(),
   voidReason: z.string().optional(),
 }).strict();
 
@@ -90,6 +96,8 @@ export const Signal = z.discriminatedUnion('status', [
 | 编号在同一年内连续，没有缺号 | 构建失败（被作废的编号仍然占位） |
 | 编号顺序与登记时间一致（编号大的不能登记得更早） | 构建失败（M5 新增） |
 | `status = open` 时正文为空 | 构建失败 |
+| 已结案档案的正文包含 `【待填写】` | 开发环境警告，严格模式（生产）构建失败（M6a 新增） |
+| 已结案档案没有正文 | 警告 |
 | `id` 与文件名一致 | 构建失败 |
 
 **收益计算**（`lib/ledger/returns.ts`，必须有单元测试）：

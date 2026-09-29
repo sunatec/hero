@@ -5,6 +5,7 @@ import {
 	allResearch,
 	allSignals,
 } from "content-collections";
+import type { LedgerRow } from "@/lib/ledger/rows";
 import { byNewest, isClosed, ledgerStats } from "@/lib/ledger/stats";
 import type { ModuleSlug } from "@/lib/schema/common";
 import { site, TBD } from "@/site.config";
@@ -59,3 +60,23 @@ const CHAIN_LABEL: Record<string, string> = {
 export const coveredChains = CHAIN_ORDER.filter((c) =>
 	runningModules.some((m) => m.chains.includes(c)),
 ).map((c) => CHAIN_LABEL[c] as string);
+
+/** Server → client boundary for ledger lists: public fields only (see lib/ledger/rows.ts). */
+export function toRow(s: SignalDoc): LedgerRow {
+	const m = moduleBySlug(s.module);
+	return {
+		id: s.id,
+		openedAt: s.openedAt,
+		registeredAt: s.registeredAt,
+		status: s.status,
+		direction: s.direction,
+		chains: s.chains,
+		module: s.module,
+		moduleLabel: m ? `${m.code} ${m.nameZh}` : s.module,
+		...(s.status !== "open" && s.asset ? { asset: s.asset } : {}),
+		...(isClosed(s)
+			? { closedAt: s.closedAt, closedReturnPct: s.closedReturnPct }
+			: {}),
+	};
+}
+export const rows: LedgerRow[] = signals.map(toRow);

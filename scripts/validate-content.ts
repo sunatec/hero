@@ -86,6 +86,16 @@ for (const file of listMdx("content/ledger")) {
 			.split("/")
 			.pop()
 			?.replace(/\.mdx$/, "") ?? "";
+	if (parsed.data.status !== "open" && parsed.data.status !== "void") {
+		if (body.includes("【待填写】"))
+			add(
+				rel,
+				STRICT ? "error" : "warning",
+				"thesis/review still contains 【待填写】",
+			);
+		else if (!body.trim())
+			add(rel, "warning", "closed signal has no thesis/review body");
+	}
 	for (const issue of checkSignal(parsed.data, { fileId, body }))
 		add(rel, issue.level, issue.message);
 }

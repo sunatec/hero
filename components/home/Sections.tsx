@@ -19,6 +19,7 @@ import {
 	latestClosed,
 	moduleBySlug,
 	research,
+	rows,
 	runningModules,
 	signals,
 	stats,
@@ -102,7 +103,7 @@ export function LatestLedger() {
 				每一条交易信号在推送后两小时内登记。进行中的档案，标的与价格暂时涂黑。
 			</p>
 			{signals.length ? (
-				<LedgerList items={signals.slice(0, 5)} caption="最新 5 份台账档案" />
+				<LedgerList items={rows.slice(0, 5)} caption="最新 5 份台账档案" />
 			) : (
 				<p className="border-y border-line py-10 text-center text-bone-dim">
 					今天还没有新的立案。

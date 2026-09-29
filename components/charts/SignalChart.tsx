@@ -12,6 +12,8 @@ type Props = {
 	summary: string;
 	/** Plot height in px; width always fills the container. */
 	height?: number;
+	/** Dashed line when only the three key prices are known (no fetched series). */
+	sketch?: boolean;
 };
 
 const W = 1000;
@@ -30,6 +32,7 @@ export function SignalChart({
 	levels = [],
 	summary,
 	height = 130,
+	sketch = false,
 }: Props) {
 	const values = [...series, ...levels.map((l) => l.value)];
 	const min = Math.min(...values);
@@ -83,6 +86,7 @@ export function SignalChart({
 					fill="none"
 					stroke="var(--color-bone)"
 					strokeWidth={1.4}
+					strokeDasharray={sketch ? "5 5" : undefined}
 					points={points}
 					vectorEffect="non-scaling-stroke"
 				/>
