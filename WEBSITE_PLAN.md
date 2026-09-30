@@ -1075,7 +1075,7 @@ export const site = {
 - **Verification**：截图；hreflang 检查
 - **Dependencies**：M4、M2（文案）
 
-### M8 Toolbox
+### M8 Toolbox ✅（2026-09-30；模块新增 `why` 字段承载「为什么重要」；分类 + 状态筛选存 URL；`toolActions` / `accessFor` 单测断言有 url 即出现「打开工具」；4 个规划中模块按 A5 标记 demo，待确认）
 - **Goal**：工具箱以 A 窗格系统上线
 - **Tasks**：`(tools)` 布局；`/tools`（分类加状态筛选，窗格网格）；`/tools/[slug]`（第 10.3 节）；8 个模块的 MDX；「关联台账 N 份」计数；`url` 字段存在时显示「打开工具」按钮
 - **Deliverables**：路由和 8 个模块内容

@@ -175,6 +175,7 @@ export const Module = z.object({
   code: z.string().regex(/^[MP]-\d{2}$/),          // M = 在运行，P = 规划中
   nameZh: z.string(), nameEn: z.string(),
   tagline: z.string().max(40),                     // 一句话，例如「散户看涨跌，机构看溢价」的改写版
+  why: z.string().optional(),                      // 「为什么重要」；非 planned 必填。MDX 正文 = 「它是什么」
   category: z.enum(['derivatives', 'institutional', 'smart-money', 'onchain-behavior', 'custom', 'market']),
   status: z.enum(['member', 'beta', 'public', 'planned']),
   chains: z.array(Chain).default([]),
@@ -195,7 +196,7 @@ export const Module = z.object({
 - `limitations` 是模块页上的「局限性」一节，status 不是 planned 时必填（诚实写明误报场景）
 - 8 个模块的内容初稿：`docs/content/modules.md`
 
-**变更**：新增 `tagline`、`limitations`、`samples`；code 区分 M（运行中）和 P（规划中）。
+**变更**：新增 `tagline`、`why`（M8）、`limitations`、`samples`；code 区分 M（运行中）和 P（规划中）。
 
 ---
 

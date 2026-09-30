@@ -49,6 +49,8 @@ export const ModuleFrontmatter = z
 		nameZh: z.string(),
 		nameEn: z.string(),
 		tagline: z.string().max(40),
+		/** 「为什么重要」 — the MDX body is 「它是什么」. */
+		why: z.string().optional(),
 		category: z.enum([
 			"derivatives",
 			"institutional",
@@ -74,6 +76,10 @@ export const ModuleFrontmatter = z
 		url: z.url().optional(),
 		order: z.number().int(),
 		demo: Demo,
+	})
+	.refine((m) => m.status === "planned" || Boolean(m.why), {
+		message: "non-planned modules must explain why they matter",
+		path: ["why"],
 	})
 	.refine((m) => m.status === "planned" || (m.limitations?.length ?? 0) > 0, {
 		message: "non-planned modules must list at least one limitation",

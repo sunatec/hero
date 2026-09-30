@@ -9,6 +9,7 @@ import type { CaseRow } from "@/lib/cases";
 import type { LedgerRow } from "@/lib/ledger/rows";
 import { byNewest, isClosed, ledgerStats } from "@/lib/ledger/stats";
 import type { ModuleSlug } from "@/lib/schema/common";
+import type { ToolRow } from "@/lib/tools";
 import { site, TBD } from "@/site.config";
 
 export type SignalDoc = (typeof allSignals)[number];
@@ -100,3 +101,27 @@ export function toCaseRow(c: CaseDoc): CaseRow {
 export const caseRows: CaseRow[] = [...allCases]
 	.sort((a, b) => b.date.localeCompare(a.date))
 	.map(toCaseRow);
+
+/** Ledger files per module (void excluded) — the 「关联台账 N 份」 count. */
+export const ledgerByModule = (slug: string) =>
+	rows.filter((r) => r.module === slug && r.status !== "void");
+
+export function toToolRow(m: ModuleDoc): ToolRow {
+	return {
+		slug: m.slug,
+		code: m.code,
+		nameZh: m.nameZh,
+		nameEn: m.nameEn,
+		tagline: m.tagline,
+		category: m.category,
+		status: m.status,
+		sources: m.sources,
+		chains: m.chains,
+		...(m.frequency ? { frequency: m.frequency } : {}),
+		...(m.delivery ? { delivery: m.delivery } : {}),
+		samples: m.samples.map((s) => ({ lines: s.lines })),
+		...(m.url ? { url: m.url } : {}),
+		ledgerCount: ledgerByModule(m.slug).length,
+	};
+}
+export const toolRows: ToolRow[] = modules.map(toToolRow);
