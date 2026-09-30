@@ -4,6 +4,7 @@ import { z } from "zod";
 import {
 	AgentFrontmatter,
 	CaseStudyFrontmatter,
+	LegalFrontmatter,
 	ModuleFrontmatter,
 	ResearchFrontmatter,
 } from "./lib/schema/content";
@@ -105,6 +106,18 @@ const agent = defineCollection({
 	},
 });
 
+const legal = defineCollection({
+	name: "legal",
+	directory: "content/legal",
+	include: "*.mdx",
+	schema: Loose,
+	transform: async (doc, ctx) => {
+		const parsed = LegalFrontmatter.safeParse(frontmatterOf(doc));
+		if (!parsed.success) fail(doc, parsed.error);
+		return { ...parsed.data, mdx: await compileMDX(ctx, doc) };
+	},
+});
+
 export default defineConfig({
-	content: [signals, cases, modules, research, agent],
+	content: [signals, cases, modules, research, agent, legal],
 });

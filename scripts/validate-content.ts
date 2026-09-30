@@ -17,6 +17,7 @@ import {
 import {
 	AgentFrontmatter,
 	CaseStudyFrontmatter,
+	LegalFrontmatter,
 	ModuleFrontmatter,
 	ResearchFrontmatter,
 } from "../lib/schema/content";
@@ -119,6 +120,19 @@ for (const [dir, schema] of simple) {
 		const parsed = schema.safeParse(data);
 		if (!parsed.success) zodIssues(rel, parsed.error);
 	}
+}
+for (const file of listMdx("content/legal")) {
+	const rel = relative(ROOT, file);
+	const { data } = load(file);
+	checkDemo(rel, data);
+	const parsed = LegalFrontmatter.safeParse(data);
+	if (!parsed.success) zodIssues(rel, parsed.error);
+	else if (!parsed.data.reviewed)
+		add(
+			rel,
+			"warning",
+			"legal draft not yet reviewed by a lawyer (open-items D)",
+		);
 }
 for (const file of listMdx("content/pages").filter((f) =>
 	f.endsWith("agent.mdx"),

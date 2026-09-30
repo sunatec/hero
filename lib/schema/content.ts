@@ -121,3 +121,13 @@ export const AgentFrontmatter = z.strictObject({
 	demo: Demo,
 });
 export type AgentFrontmatter = z.infer<typeof AgentFrontmatter>;
+
+export const LegalFrontmatter = z.strictObject({
+	slug: z.enum(["risk", "privacy", "terms"]),
+	title: z.string(),
+	updatedAt: DateOnly,
+	/** false until a lawyer has reviewed the draft (open-items D) — reported as a warning. */
+	reviewed: z.boolean().default(false),
+	demo: Demo,
+});
+export type LegalFrontmatter = z.infer<typeof LegalFrontmatter>;

@@ -42,10 +42,27 @@ export default defineConfig({
 			},
 		},
 	],
-	webServer: {
-		command: "pnpm dev",
-		url: "http://localhost:3000",
-		reuseExistingServer: true,
-		timeout: 120_000,
-	},
+	webServer: [
+		{
+			// Stand-ins for Turnstile siteverify and the Telegram Bot API (e2e/join.spec.ts).
+			command: "node e2e/mock-upstreams.mjs",
+			url: "http://127.0.0.1:4999/health",
+			reuseExistingServer: true,
+		},
+		{
+			command: "pnpm dev",
+			url: "http://localhost:3000",
+			// A dev server started by hand lacks the env below; /join tests then fail loudly.
+			reuseExistingServer: true,
+			timeout: 120_000,
+			env: {
+				NEXT_PUBLIC_TURNSTILE_SITE_KEY: "1x00000000000000000000AA",
+				TURNSTILE_SECRET_KEY: "e2e-secret",
+				TURNSTILE_VERIFY_URL: "http://127.0.0.1:4999/turnstile",
+				TG_API_BASE: "http://127.0.0.1:4999",
+				TG_BOT_TOKEN: "e2e-token",
+				TG_ADMIN_CHAT_ID: "-1000000000000",
+			},
+		},
+	],
 });

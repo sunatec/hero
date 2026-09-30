@@ -1083,7 +1083,7 @@ export const site = {
 - **Verification**：截图；单元测试
 - **Dependencies**：M4、M6a（关联台账计数）
 
-### M9 Join Flow
+### M9 Join Flow ✅（2026-09-30，代码部分；表单 schema 位于 `lib/schema/apply.ts` 前后端复用；`handleApply` 纯函数单测覆盖 400/403/413/415/502/503 与 HTML 转义；e2e 用本地 mock 替代 siteverify 与 Bot API；法律页面迁入 `content/legal`。**待办**：在预览环境配置真实 key 后人工提交一次，确认 60 秒内 TG 送达）
 - **Goal**：转化闭环可以使用，防骗机制就位
 - **Tasks**：
   1. `/join`：流程、参考价（读取 `site.config`）、名额、规则、表单
