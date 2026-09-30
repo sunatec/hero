@@ -18,7 +18,11 @@ export function SectionDivider({
 					{title}
 				</span>
 			</h2>
-			<span aria-hidden="true" className="h-px flex-1 bg-line" />
+			<span
+				aria-hidden="true"
+				data-reveal="line"
+				className="h-px flex-1 bg-line"
+			/>
 		</div>
 	);
 }

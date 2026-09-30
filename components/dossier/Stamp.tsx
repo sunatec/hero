@@ -36,7 +36,12 @@ export function Stamp({
 	const style =
 		delay === undefined ? undefined : ({ "--d": `${delay}s` } as CSSProperties);
 	return (
-		<span className={cls} style={style} data-status={status}>
+		<span
+			className={cls}
+			style={style}
+			data-status={status}
+			data-reveal={animate ? undefined : "stamp"}
+		>
 			{statusLabel[status]}
 			{date ? <small className={styles.date}>{date}</small> : null}
 		</span>

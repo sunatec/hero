@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { RedactionTips } from "@/components/dossier/RedactionTips";
 import { Footer } from "@/components/site/Footer";
 import { Masthead } from "@/components/site/Masthead";
+import { Motion } from "@/components/site/Motion";
 import { StickyApply } from "@/components/site/StickyApply";
 import { latin, plexMono, sansZh, serifZh } from "@/lib/fonts";
 import { site } from "@/site.config";
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 				<Footer />
 				<StickyApply />
 				<RedactionTips />
+				<Motion />
 			</body>
 		</html>
 	);

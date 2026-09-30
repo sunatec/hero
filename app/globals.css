@@ -49,6 +49,32 @@
 	}
 }
 
+/* M11 motion (components/site/Motion.tsx): `pending` is only ever set below the fold. */
+[data-reveal="line"] {
+	transform-origin: left center;
+}
+[data-reveal="line"][data-motion="pending"] {
+	transform: scaleX(0);
+}
+[data-reveal="line"][data-motion="shown"] {
+	transition: transform 400ms var(--ease-out-dossier);
+}
+[data-reveal="rows"][data-motion="pending"] > * {
+	opacity: 0;
+	transform: translateY(6px);
+}
+[data-reveal="rows"][data-motion="shown"] > * {
+	transition:
+		opacity 240ms var(--ease-out-dossier),
+		transform 240ms var(--ease-out-dossier);
+	transition-delay: calc(var(--i, 0) * 60ms);
+}
+@keyframes underline-draw {
+	from {
+		background-size: 0 1px;
+	}
+}
+
 @layer base {
 	html {
 		color-scheme: dark;

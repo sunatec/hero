@@ -37,6 +37,7 @@ export function Redaction({
 			className={cls}
 			style={style}
 			data-tip={REDACT_TIP}
+			data-reveal={animate ? undefined : "redact"}
 		/>
 	);
 }

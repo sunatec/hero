@@ -34,7 +34,10 @@ export function Proof() {
 							href={c.href}
 							className="flex flex-col gap-3 px-4 pt-5 pb-[18px] transition-colors hover:bg-ink-1 md:px-[22px] md:pt-[26px] md:pb-[22px]"
 						>
-							<span className="font-mono text-[32px] leading-none font-medium tracking-[-0.02em] tabular-nums md:text-[40px]">
+							<span
+								data-count={value(c.key)}
+								className="font-mono text-[32px] leading-none font-medium tracking-[-0.02em] tabular-nums md:text-[40px]"
+							>
 								{value(c.key)}
 							</span>
 							<span className="font-serif-zh text-sm font-medium tracking-[0.1em] text-bone-dim">

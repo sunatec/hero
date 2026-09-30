@@ -47,7 +47,7 @@ export function LedgerList({
 						</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody data-reveal="rows">
 					{items.map((r) => (
 						<tr
 							key={r.id}
@@ -84,7 +84,7 @@ export function LedgerList({
 				</tbody>
 			</table>
 
-			<ul className="md:hidden" aria-label={caption}>
+			<ul className="md:hidden" aria-label={caption} data-reveal="rows">
 				{items.map((r) => (
 					<li
 						key={r.id}

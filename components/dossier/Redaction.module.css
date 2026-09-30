@@ -16,6 +16,16 @@
 	animation-delay: var(--d, 0.2s);
 }
 
+/* Scroll-triggered brush (components/site/Motion.tsx). */
+.redact[data-motion="pending"] {
+	transform: scaleX(0);
+	transform-origin: left;
+}
+.redact[data-motion="shown"] {
+	transform-origin: left;
+	animation: brush 0.3s var(--ease-out-dossier) both;
+}
+
 /* Tooltip is display:none until hover/focus so it never widens the page (M1 bug #2). */
 .redact::after {
 	content: attr(data-tip);

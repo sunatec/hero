@@ -1104,7 +1104,7 @@ export const site = {
 - **Verification**：Playwright 多视口截图；真机抽测（iOS Safari、Android Chrome）
 - **Dependencies**：M5–M9
 
-### M11 Motion
+### M11 Motion ✅（2026-09-30；与原计划的差异：**不引入 Motion 库**，改为 CSS 动画 + 一个 IntersectionObserver 岛 `components/site/Motion.tsx`，首页 JS 只增加约 0.4KB。只有加载时位于首屏以下的元素才进入 pending 状态，首屏第一帧完整可读；减少动效时脚本不做任何事。`e2e/motion.spec.ts` 覆盖两种设置。**发现**：`pnpm bundle:report` 显示首页 JS 为 187KB gzip，其中约 170KB 是 Next 16 + React 19 框架运行时，与动效无关；§16 的 120KB 预算需重新定义，见 M12）
 - **Goal**：实现第 11.7 节的动效清单
 - **Tasks**：分隔线画出、印章盖下、台账逐行打印、涂黑刷上、数字滚动、hover 反馈；全部支持 `prefers-reduced-motion`；Motion 按需加载
 - **Deliverables**：动效实现

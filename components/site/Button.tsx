@@ -9,7 +9,7 @@ const VARIANTS: Record<Variant, string> = {
 	// bone on stamp-fill = 5.20:1 (AA); hover 4.51:1
 	primary:
 		"rounded-file bg-stamp-fill font-medium text-bone hover:bg-stamp-fill-hover",
-	link: "bg-[linear-gradient(currentColor,currentColor)] bg-[length:100%_1px] bg-left-bottom bg-no-repeat py-[15px] text-base text-bone hover:text-stamp",
+	link: "bg-[linear-gradient(currentColor,currentColor)] bg-[length:100%_1px] bg-left-bottom bg-no-repeat py-[15px] text-base text-bone hover:animate-[underline-draw_200ms_var(--ease-out-dossier)] hover:text-stamp",
 	bracket:
 		'font-data text-[11px] text-bone before:mr-0.5 before:text-dossier before:content-["[_"] after:ml-0.5 after:text-dossier after:content-["_]"]',
 };

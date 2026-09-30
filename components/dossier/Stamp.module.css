@@ -25,6 +25,15 @@
 	animation-delay: var(--d, 0.3s);
 }
 
+/* Scroll-triggered press (components/site/Motion.tsx). */
+.stamp[data-motion="pending"] {
+	opacity: 0;
+}
+.stamp[data-motion="shown"] {
+	animation: press 0.2s var(--ease-stamp) both;
+	animation-delay: 0.15s;
+}
+
 .date {
 	font-family: var(--font-mono);
 	font-weight: 500;
