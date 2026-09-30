@@ -38,18 +38,21 @@ export function CaseFile({
 export function CaseFileHeader({
 	kicker,
 	title,
+	as: Heading = "h3",
 }: {
 	kicker: string;
 	title: ReactNode;
+	/** Heading level; the hero cards sit before the first section h2, so they use h2. */
+	as?: "h2" | "h3";
 }) {
 	return (
 		<header className="pr-28">
 			<p className="font-mono text-[11px] font-medium tracking-[0.14em] text-dossier uppercase">
 				{kicker}
 			</p>
-			<h3 className="mt-1 mb-4 font-serif-zh text-[22px] leading-snug font-bold tracking-[0.04em]">
+			<Heading className="mt-1 mb-4 font-serif-zh text-[22px] leading-snug font-bold tracking-[0.04em]">
 				{title}
-			</h3>
+			</Heading>
 		</header>
 	);
 }

@@ -31,9 +31,10 @@ test("section order follows WEBSITE_PLAN §6.1 (Research hidden while empty)", a
 	page,
 }) => {
 	await page.goto("/");
-	const titles = (await page.locator("main h2").allTextContents()).map((h) =>
-		h.replace(/^§\s*\d+/, "").trim(),
-	);
+	// Section headings only (the hero case cards carry their own h2s).
+	const titles = (
+		await page.locator("main > section h2:has(> span)").allTextContents()
+	).map((h) => h.replace(/^§\s*\d+/, "").trim());
 	expect(titles).toEqual([
 		"证据",
 		"我们盯什么",

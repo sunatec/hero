@@ -6,13 +6,15 @@ import { LedgerHeader } from "@/components/ledger/LedgerHeader";
 import { RiskNote } from "@/components/site/RiskNote";
 import { ledgerStart } from "@/lib/content";
 import { formatDate } from "@/lib/format";
+import { pageMeta } from "@/lib/seo";
 import { wrap } from "@/lib/ui";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
 	title: "方法论",
 	description:
 		"台账如何登记、何时结案、收益怎么算，以及为什么失败的信号也要公开。",
-};
+	path: "/methodology",
+});
 
 /** Copy: docs/copy/ledger.md「/methodology」. Rules mirror lib/ledger/* — keep them in sync. */
 const SECTIONS = [

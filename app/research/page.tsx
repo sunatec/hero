@@ -3,12 +3,14 @@ import Link from "next/link";
 import { PageHeader } from "@/components/site/PageHeader";
 import { research } from "@/lib/content";
 import { formatDate } from "@/lib/format";
+import { pageMeta } from "@/lib/seo";
 import { wrap } from "@/lib/ui";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
 	title: "Research",
 	description: "对一个标的、一类资金行为或一个模块的深入拆解。每月 1–2 篇。",
-};
+	path: "/research",
+});
 
 export default function ResearchIndexPage() {
 	return (

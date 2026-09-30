@@ -2,13 +2,16 @@ import type { Metadata } from "next";
 import { AgentPhoto } from "@/components/dossier/AgentPhoto";
 import { Arrow, ButtonLink } from "@/components/site/Button";
 import { agent } from "@/lib/content";
+import { pageMeta } from "@/lib/seo";
 import { label, wrap } from "@/lib/ui";
 import { site } from "@/site.config";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
 	title: "申请已提交",
-	robots: { index: false },
-};
+	description: "申请已提交，管理员会通过官方 TG 联系你。",
+	path: "/join/submitted",
+	noindex: true,
+});
 
 const tgHandle =
 	site.officialChannels.find((c) => c.type === "telegram")?.handle ?? "";

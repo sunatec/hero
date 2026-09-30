@@ -5,11 +5,13 @@ import { Footer } from "@/components/site/Footer";
 import { Masthead } from "@/components/site/Masthead";
 import { Motion } from "@/components/site/Motion";
 import { StickyApply } from "@/components/site/StickyApply";
-import { latin, plexMono, sansZh, serifZh } from "@/lib/fonts";
+import { latin, plexMono, serifZh } from "@/lib/fonts";
 import { site } from "@/site.config";
 import "./globals.css";
+import { siteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
+	metadataBase: new URL(siteUrl),
 	title: {
 		default: `${site.name} ${site.nameZh} · 可复盘的链上情报`,
 		template: `%s · ${site.name} ${site.nameZh}`,
@@ -23,7 +25,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 	return (
 		<html
 			lang="zh-CN"
-			className={`${serifZh.variable} ${sansZh.variable} ${latin.variable} ${plexMono.variable}`}
+			className={`${serifZh.variable} ${latin.variable} ${plexMono.variable}`}
 		>
 			<body>
 				<a

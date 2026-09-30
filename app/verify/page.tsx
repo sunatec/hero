@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/site/PageHeader";
+import { pageMeta } from "@/lib/seo";
 import { label, wrap } from "@/lib/ui";
 import { site, TBD } from "@/site.config";
 
 const INTRO =
 	"冒充管理员是加密社群里最常见的骗局。0xInChain 只使用下面列出的账号。与你联系的账号只要不在这张表里，无论名字和头像多像，都不是我们。";
 
-export const metadata: Metadata = { title: "官方渠道验证", description: INTRO };
+export const metadata: Metadata = pageMeta({
+	title: "官方渠道验证",
+	description: INTRO,
+	path: "/verify",
+});
 
 const pending = <span className="text-dossier">待补充</span>;
 const x = site.officialChannels.find((c) => c.type === "x");

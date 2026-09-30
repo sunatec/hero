@@ -3,15 +3,19 @@ import Link from "next/link";
 import { AgentPhoto } from "@/components/dossier/AgentPhoto";
 import { Arrow } from "@/components/site/Button";
 import { agent } from "@/lib/content";
+import { pageMeta } from "@/lib/seo";
 import { label, section, wrap } from "@/lib/ui";
 import { site, TBD } from "@/site.config";
 
-export const metadata: Metadata = {
-	title: { absolute: "Who runs the bureau · 0xInChain" },
+export const metadata: Metadata = pageMeta({
+	title: "Who runs the bureau · 0xInChain",
+	absoluteTitle: true,
 	description:
 		"The operator behind 0xInChain, the data we pay for, and our official accounts.",
-	alternates: { languages: { "zh-CN": "/about", en: "/en/about" } },
-};
+	path: "/en/about",
+	locale: "en_US",
+	languages: { "zh-CN": "/about", en: "/en/about" },
+});
 
 const PENDING = "To be added";
 /** Agent fields are authored in Chinese; placeholders read 待补充 until the operator provides them. */

@@ -1,33 +1,33 @@
-import {
-	IBM_Plex_Mono,
-	Newsreader,
-	Noto_Sans_SC,
-	Noto_Serif_SC,
-} from "next/font/google";
+import { IBM_Plex_Mono, Newsreader } from "next/font/google";
 import localFont from "next/font/local";
 
 /*
  * CJK fonts are never preloaded: Google Fonts serves them as unicode-range slices that the
- * browser fetches on demand. Only the Latin display face is preloaded (WEBSITE_PLAN §11.3, §16).
+ * browser fetches on demand (WEBSITE_PLAN §11.3, §16). Body CJK text uses the system font
+ * (PingFang / YaHei / Noto Sans CJK, see --font-sans): the web font cost ~1 MB per page (M12).
  */
-export const serifZh = Noto_Serif_SC({
-	weight: ["700", "900"],
-	preload: false,
+/**
+ * Display serif, self-hosted as a subset of exactly the glyphs the site renders in it
+ * (scripts/fonts-subset.ts → app/fonts). ~125 KB instead of ~1.1 MB of Google unicode-range
+ * slices per page, and no render-blocking 68 KB @font-face stylesheet. e2e/fonts.spec.ts
+ * fails when copy introduces a character the subset lacks — rerun `pnpm fonts:subset`.
+ */
+export const serifZh = localFont({
+	src: [
+		{ path: "../app/fonts/noto-serif-sc-700.woff2", weight: "700" },
+		{ path: "../app/fonts/noto-serif-sc-900.woff2", weight: "900" },
+	],
 	display: "swap",
 	variable: "--font-noto-serif-sc",
+	fallback: ["Songti SC", "serif"],
 });
 
-export const sansZh = Noto_Sans_SC({
-	weight: ["400", "500"],
-	preload: false,
-	display: "swap",
-	variable: "--font-noto-sans-sc",
-});
-
+/** Static 400/500 cuts (~25 KB each) instead of the 136 KB opsz variable file (M12). */
 export const latin = Newsreader({
 	subsets: ["latin"],
+	weight: ["400", "500"],
 	style: ["normal", "italic"],
-	axes: ["opsz"],
+	preload: false,
 	display: "swap",
 	variable: "--font-newsreader",
 });

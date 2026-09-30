@@ -26,7 +26,9 @@
 @theme inline {
 	--font-serif-zh: var(--font-noto-serif-sc), "Songti SC", serif;
 	--font-latin: var(--font-newsreader), Georgia, serif;
-	--font-sans: var(--font-noto-sans-sc), "PingFang SC", system-ui, sans-serif;
+	--font-sans:
+		"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC",
+		"Source Han Sans SC", system-ui, sans-serif;
 	--font-mono: var(--font-plex-mono), ui-monospace, monospace;
 	--font-data:
 		var(--font-martian-mono), var(--font-plex-mono), ui-monospace, monospace;

@@ -3,9 +3,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Arrow } from "@/components/site/Button";
+import { JsonLd } from "@/components/site/JsonLd";
 import { RiskNote } from "@/components/site/RiskNote";
 import { moduleBySlug, research } from "@/lib/content";
 import { formatDate } from "@/lib/format";
+import { articleLd, breadcrumbLd } from "@/lib/jsonld";
+import { pageMeta } from "@/lib/seo";
 import { label, wrap } from "@/lib/ui";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -22,7 +25,17 @@ const find = (slug: string) => research.find((r) => r.slug === slug);
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const r = find((await params).slug);
-	return r ? { title: r.title, description: r.summary } : {};
+	return r
+		? pageMeta({
+				title: r.title,
+				description: r.summary,
+				path: `/research/${r.slug}`,
+				image: `/research/${r.slug}/opengraph-image`,
+				type: "article",
+				publishedTime: r.publishedAt,
+				modifiedTime: r.updatedAt,
+			})
+		: {};
 }
 
 /** Article template (docs/ia/wireframes.md). Body is MDX; related files and modules close the article. */
@@ -34,6 +47,21 @@ export default async function ResearchPage({ params }: Props) {
 		.filter((m) => m !== null);
 	return (
 		<main id="main" className={`${wrap} pt-10 md:pt-14`}>
+			<JsonLd
+				data={[
+					articleLd({
+						title: r.title,
+						description: r.summary,
+						path: `/research/${r.slug}`,
+						publishedAt: r.publishedAt,
+						updatedAt: r.updatedAt,
+					}),
+					breadcrumbLd([
+						{ name: "Research", path: "/research" },
+						{ name: r.title, path: `/research/${r.slug}` },
+					]),
+				]}
+			/>
 			<nav aria-label="文章导航" className="mb-10 font-mono text-[13px]">
 				<Link
 					href="/research"

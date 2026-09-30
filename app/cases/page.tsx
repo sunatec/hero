@@ -5,13 +5,15 @@ import { LedgerHeader } from "@/components/ledger/LedgerHeader";
 import { RiskNote } from "@/components/site/RiskNote";
 import { caseRows, ledgerStart } from "@/lib/content";
 import { formatDate } from "@/lib/format";
+import { pageMeta } from "@/lib/seo";
 import { wrap } from "@/lib/ui";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
 	title: "精选案例",
 	description:
 		"0xInChain 在 X 发布的历史复盘精选。精选、非完整记录，不计入台账统计。",
-};
+	path: "/cases",
+});
 
 export default function CasesPage() {
 	const start = ledgerStart ? formatDate(ledgerStart) : "台账上线";

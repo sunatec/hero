@@ -6,17 +6,21 @@ import {
 } from "@/components/ledger/LedgerExplorer";
 import { LedgerHeader } from "@/components/ledger/LedgerHeader";
 import { LedgerList } from "@/components/ledger/LedgerList";
+import { JsonLd } from "@/components/site/JsonLd";
 import { RiskNote } from "@/components/site/RiskNote";
 import { ledgerStart, rows } from "@/lib/content";
 import { formatDate, formatDateTime } from "@/lib/format";
+import { itemListLd } from "@/lib/jsonld";
 import { PAGE_SIZE } from "@/lib/ledger/rows";
+import { pageMeta } from "@/lib/seo";
 import { wrap } from "@/lib/ui";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
 	title: "信号台账",
 	description:
 		"每一条交易信号：立案即登记，结案即公开，命中、失效、止损同样记录。",
-};
+	path: "/ledger",
+});
 
 const lastUpdate = rows
 	.map((r) => r.closedAt ?? r.registeredAt)
@@ -25,6 +29,14 @@ const lastUpdate = rows
 export default function LedgerPage() {
 	return (
 		<main id="main">
+			<JsonLd
+				data={itemListLd(
+					"0xInChain 信号台账",
+					rows
+						.slice(0, 50)
+						.map((r) => ({ name: r.id, path: `/ledger/${r.id}` })),
+				)}
+			/>
 			<LedgerHeader
 				kicker="社群战绩 · Signal Ledger"
 				title="信号台账"

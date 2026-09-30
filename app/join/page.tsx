@@ -4,12 +4,17 @@ import type { ReactNode } from "react";
 import { JoinForm } from "@/components/join/JoinForm";
 import { PageHeader } from "@/components/site/PageHeader";
 import { runningModules } from "@/lib/content";
+import { pageMeta } from "@/lib/seo";
 import { label, wrap } from "@/lib/ui";
 import { site, TBD } from "@/site.config";
 
 const INTRO = "申请制。提交后，官方管理员会通过 TG 联系你，确认方案与价格。";
 
-export const metadata: Metadata = { title: "申请加入", description: INTRO };
+export const metadata: Metadata = pageMeta({
+	title: "申请加入",
+	description: INTRO,
+	path: "/join",
+});
 
 const tg = site.officialChannels.find((c) => c.type === "telegram");
 const tgHandle = tg?.handle ?? "";

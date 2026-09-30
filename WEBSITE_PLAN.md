@@ -885,7 +885,7 @@ export const site = {
 | LCP | < 2.0s |
 | CLS | < 0.05 |
 | INP | < 200ms |
-| 首页 JS（gzip） | < 120KB |
+| 首页 JS（gzip） | 自有代码 ≤ 30KB（框架运行时约 170KB 不计入；M12 经确认修订，原为「< 120KB」，Next 16 + React 19 下不可达）；`pnpm bundle:report` |
 | 首页字体首屏下载 | Latin 展示字体 ≤ 40KB（预加载）；中文字体按 unicode-range 切片按需加载 |
 | 图片 | AVIF / WebP，使用 `next/image`，给出明确尺寸；柴犬档案照 ≤ 40KB |
 | Lighthouse（移动） | Performance ≥ 90 · A11y ≥ 95 · Best Practices ≥ 95 · SEO 100 |
@@ -1112,7 +1112,7 @@ export const site = {
 - **Verification**：Playwright 分别在两种动效设置下截图；bundle 分析报告
 - **Dependencies**：M10
 
-### M12 SEO & Performance
+### M12 SEO & Performance ✅（2026-09-30；报告见 `docs/perf/m12-report.md`。`lib/seo.ts` 的 `pageMeta` 统一 title / canonical / OG / X 卡片；JSON-LD（Organization、WebSite、ItemList、BreadcrumbList、Article）；新增首页品牌、模块、Research 的 OG 图；非生产环境 robots 全站禁止；字体：正文改系统字体，标题衬线改为自托管子集（`pnpm fonts:subset`，`e2e/fonts.spec.ts` 守护）。**未达标**：LCP 模拟值 3.2–3.7s（预算 2.0s），首页 Performance 在 89–95 间波动、/en 88；Rich Results 与 X 卡片需上线后用公网 URL 验证）
 - **Goal**：可以被搜索引擎收录、可以被 X 传播、速度达标
 - **Tasks**：metadata、canonical、OG 图全覆盖；JSON-LD；sitemap 和 robots；hreflang；Lighthouse CI；字体和图片优化；按第 16 节的预算调优
 - **Deliverables**：SEO 配置、Lighthouse 报告

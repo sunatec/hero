@@ -7,10 +7,13 @@ import { RedactedLine } from "@/components/dossier/Redaction";
 import { LedgerList } from "@/components/ledger/LedgerList";
 import { StatusDot } from "@/components/pane/Pane";
 import { Arrow, ButtonLink } from "@/components/site/Button";
+import { JsonLd } from "@/components/site/JsonLd";
 import { RiskNote } from "@/components/site/RiskNote";
 import { chainsText } from "@/components/tools/ToolPane";
 import { ledgerByModule, modules, toToolRow } from "@/lib/content";
 import { categoryLabel } from "@/lib/i18n/labels";
+import { breadcrumbLd } from "@/lib/jsonld";
+import { pageMeta } from "@/lib/seo";
 import { accessFor } from "@/lib/tools";
 import { wrap } from "@/lib/ui";
 
@@ -26,7 +29,14 @@ const find = (slug: string) => modules.find((m) => m.slug === slug);
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const m = find((await params).slug);
-	return m ? { title: `${m.nameZh} · 链上工具箱`, description: m.tagline } : {};
+	return m
+		? pageMeta({
+				title: `${m.nameZh} · 链上工具箱`,
+				description: `${m.tagline}${m.why ? ` ${m.why}` : ""}`.slice(0, 160),
+				path: `/tools/${m.slug}`,
+				image: `/tools/${m.slug}/opengraph-image`,
+			})
+		: {};
 }
 
 /** Detail pane: title bar + body, same hairline system as the toolbox grid. */
@@ -74,6 +84,12 @@ export default async function ModulePage({ params }: Props) {
 
 	return (
 		<main id="main" className={`${wrap} pt-10 pb-20 md:pt-14 md:pb-32`}>
+			<JsonLd
+				data={breadcrumbLd([
+					{ name: "链上工具箱", path: "/tools" },
+					{ name: m.nameZh, path: `/tools/${m.slug}` },
+				])}
+			/>
 			<nav
 				aria-label="模块导航"
 				className="mb-10 flex flex-wrap items-center justify-between gap-3 font-data text-[11px] tracking-[0.06em]"

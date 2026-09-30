@@ -3,6 +3,7 @@ import { allLegals } from "content-collections";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { formatDate } from "@/lib/format";
+import { pageMeta } from "@/lib/seo";
 import { label, wrap } from "@/lib/ui";
 import { site } from "@/site.config";
 
@@ -18,7 +19,13 @@ const find = (slug: string) => allLegals.find((d) => d.slug === slug);
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const d = find((await params).doc);
-	return d ? { title: d.title } : {};
+	return d
+		? pageMeta({
+				title: d.title,
+				description: `0xInChain 链上情报局${d.title}。`,
+				path: `/legal/${d.slug}`,
+			})
+		: {};
 }
 
 const handle = (type: "telegram" | "x") =>

@@ -7,14 +7,16 @@ import { Arrow } from "@/components/site/Button";
 import { PageHeader } from "@/components/site/PageHeader";
 import { agent, ledgerStart } from "@/lib/content";
 import { formatDate } from "@/lib/format";
+import { pageMeta } from "@/lib/seo";
 import { section, wrap } from "@/lib/ui";
 import { site, TBD } from "@/site.config";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
 	title: "主理人档案",
 	description: "谁在负责链上情报局，以及为什么要公开每一条信号。",
-	alternates: { languages: { "zh-CN": "/about", en: "/en/about" } },
-};
+	path: "/about",
+	languages: { "zh-CN": "/about", en: "/en/about" },
+});
 
 const PENDING = "待补充";
 const pending = (v?: string) =>

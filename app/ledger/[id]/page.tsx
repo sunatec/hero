@@ -11,6 +11,7 @@ import { Fields, Pct } from "@/components/dossier/Fields";
 import { Redaction } from "@/components/dossier/Redaction";
 import { Stamp } from "@/components/dossier/Stamp";
 import { Arrow, ButtonLink } from "@/components/site/Button";
+import { JsonLd } from "@/components/site/JsonLd";
 import { RiskNote } from "@/components/site/RiskNote";
 import { moduleBySlug, type SignalDoc, signals } from "@/lib/content";
 import {
@@ -21,8 +22,10 @@ import {
 	holdingDays,
 } from "@/lib/format";
 import { directionLabel, statusLabel } from "@/lib/i18n/labels";
+import { breadcrumbLd } from "@/lib/jsonld";
 import { chartModel } from "@/lib/ledger/chart";
 import { isClosed } from "@/lib/ledger/stats";
+import { pageMeta } from "@/lib/seo";
 import { label, wrap } from "@/lib/ui";
 
 type Props = { params: Promise<{ id: string }> };
@@ -65,10 +68,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const result = isClosed(s)
 		? `，结案收益 ${formatPct(s.closedReturnPct)}`
 		: "";
-	return {
+	return pageMeta({
 		title: `${s.id} · ${title(s)}`,
 		description: `${m?.nameZh ?? s.module} 模块于 ${formatDateTime(s.openedAt)} 立案，状态：${statusLabel[s.status]}${result}。`,
-	};
+		path: `/ledger/${s.id}`,
+		image: `/ledger/${s.id}/opengraph-image`,
+		type: "article",
+		publishedTime: s.registeredAt,
+	});
 }
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
@@ -100,6 +107,12 @@ export default async function SignalPage({ params }: Props) {
 
 	return (
 		<main id="main" className={`${wrap} pt-10 md:pt-14`}>
+			<JsonLd
+				data={breadcrumbLd([
+					{ name: "信号台账", path: "/ledger" },
+					{ name: s.id, path: `/ledger/${s.id}` },
+				])}
+			/>
 			<nav
 				aria-label="档案导航"
 				className="mb-10 flex flex-wrap justify-between gap-3 font-mono text-[13px]"

@@ -5,15 +5,17 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { ToolPane } from "@/components/tools/ToolPane";
 import { ToolsExplorer, ToolsGrid } from "@/components/tools/ToolsExplorer";
 import { toolRows } from "@/lib/content";
+import { pageMeta } from "@/lib/seo";
 import { label, wrap } from "@/lib/ui";
 
 const INTRO =
 	"档案室隔壁的监控室。8 个自研监控模块全天运行，异动实时推送到成员频道；其中有明确方向的交易信号，会登记进台账。";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
 	title: "链上工具箱",
 	description: INTRO,
-};
+	path: "/tools",
+});
 
 /** Copy: docs/copy/tools-research.md · layout: docs/ia/wireframes.md. */
 export default function ToolsPage() {
@@ -37,7 +39,10 @@ export default function ToolsPage() {
 					</p>
 				}
 			/>
-			<section aria-label="监控模块" className={`${wrap} pb-16 md:pb-20`}>
+			<section aria-labelledby="modules-h" className={`${wrap} pb-16 md:pb-20`}>
+				<h2 id="modules-h" className="sr-only">
+					监控模块
+				</h2>
 				<Suspense fallback={<ToolsGrid items={running} />}>
 					<ToolsExplorer rows={running} />
 				</Suspense>

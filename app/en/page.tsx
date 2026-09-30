@@ -2,17 +2,23 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Pct } from "@/components/dossier/Fields";
 import { Arrow, ButtonLink } from "@/components/site/Button";
+import { JsonLd } from "@/components/site/JsonLd";
 import { coveredChains, ledgerStart, stats } from "@/lib/content";
 import { formatDate } from "@/lib/format";
+import { organizationLd, websiteLd } from "@/lib/jsonld";
+import { pageMeta } from "@/lib/seo";
 import { label, section, wrap } from "@/lib/ui";
 import { site } from "@/site.config";
 
-export const metadata: Metadata = {
-	title: { absolute: "0xInChain · On-chain Intelligence Bureau" },
+export const metadata: Metadata = pageMeta({
+	title: "0xInChain · On-chain Intelligence Bureau",
+	absoluteTitle: true,
 	description:
 		"An on-chain intelligence bureau for traders — we track where capital moves, and keep a public ledger of every call.",
-	alternates: { languages: { "zh-CN": "/", en: "/en" } },
-};
+	path: "/en",
+	locale: "en_US",
+	languages: { "zh-CN": "/", en: "/en" },
+});
 
 /** Copy: docs/copy/home.en.md. Brand front door only — the room itself is Chinese-speaking. */
 const WATCH = [
@@ -73,6 +79,7 @@ export default function EnHomePage() {
 	];
 	return (
 		<main id="main">
+			<JsonLd data={[organizationLd(), websiteLd()]} />
 			<section
 				aria-labelledby="en-hero"
 				className={`${wrap} pt-12 pb-20 md:pt-20 md:pb-28`}

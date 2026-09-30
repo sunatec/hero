@@ -42,7 +42,7 @@ test.describe("english front door", () => {
 		await page.goto("/en");
 		await expect(
 			page.locator('link[rel="alternate"][hreflang="zh-CN"]'),
-		).toHaveAttribute("href", /\/$/);
+		).toHaveAttribute("href", /^https?:\/\/[^/]+\/?$/);
 	});
 
 	test("english content is marked lang=en and offers no apply CTA", async ({

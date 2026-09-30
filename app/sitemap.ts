@@ -5,7 +5,7 @@ import {
 	allSignals,
 } from "content-collections";
 import type { MetadataRoute } from "next";
-import { site } from "@/site.config";
+import { siteUrl } from "@/lib/seo";
 
 const STATIC = [
 	"/",
@@ -25,13 +25,36 @@ const STATIC = [
 	"/en/about",
 ];
 
+const EN: Record<string, string> = { "/": "/en", "/about": "/en/about" };
+
 export default function sitemap(): MetadataRoute.Sitemap {
-	const paths = [
-		...STATIC,
-		...allSignals.map((s) => `/ledger/${s.id}`),
-		...allCases.map((c) => `/cases/${c.slug}`),
-		...allModules.map((m) => `/tools/${m.slug}`),
-		...allResearch.filter((r) => !r.draft).map((r) => `/research/${r.slug}`),
+	const entries: { path: string; lastModified?: string }[] = [
+		...STATIC.map((path) => ({ path })),
+		...allSignals.map((s) => ({
+			path: `/ledger/${s.id}`,
+			lastModified: "closedAt" in s && s.closedAt ? s.closedAt : s.registeredAt,
+		})),
+		...allCases.map((c) => ({ path: `/cases/${c.slug}` })),
+		...allModules.map((m) => ({ path: `/tools/${m.slug}` })),
+		...allResearch
+			.filter((r) => !r.draft)
+			.map((r) => ({
+				path: `/research/${r.slug}`,
+				lastModified: r.updatedAt ?? r.publishedAt,
+			})),
 	];
-	return paths.map((p) => ({ url: `${site.url}${p}` }));
+	return entries.map(({ path, lastModified }) => ({
+		url: `${siteUrl}${path}`,
+		...(lastModified ? { lastModified } : {}),
+		...(EN[path]
+			? {
+					alternates: {
+						languages: {
+							"zh-CN": `${siteUrl}${path}`,
+							en: `${siteUrl}${EN[path]}`,
+						},
+					},
+				}
+			: {}),
+	}));
 }

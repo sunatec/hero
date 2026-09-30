@@ -13,10 +13,8 @@ import {
 	useState,
 } from "react";
 import {
-	ApplicationInput,
 	CAPITAL,
 	capitalLabel,
-	fieldErrors,
 	MARKETS,
 	MESSAGE_MAX,
 	marketLabel,
@@ -24,7 +22,7 @@ import {
 	sourceLabel,
 	YEARS,
 	yearsLabel,
-} from "@/lib/schema/apply";
+} from "@/lib/schema/apply-options";
 
 type TurnstileApi = {
 	render: (el: HTMLElement, opts: Record<string, unknown>) => string;
@@ -149,6 +147,10 @@ export function JoinForm({ modules, waitlist, siteKey, tgHandle }: Props) {
 			turnstileToken: token,
 			waitlist,
 		};
+		// The schema (zod/mini) loads on first submit, keeping it out of the page's initial JS.
+		const { ApplicationInput, fieldErrors } = await import(
+			"@/lib/schema/apply"
+		);
 		const parsed = ApplicationInput.safeParse(input);
 		if (!parsed.success) {
 			setErrors(fieldErrors(parsed.error));

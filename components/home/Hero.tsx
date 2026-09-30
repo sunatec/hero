@@ -50,6 +50,7 @@ function LatestFile() {
 					stamp={<Stamp status={s.status} date={formatDate(s.closedAt)} />}
 				>
 					<CaseFileHeader
+						as="h2"
 						kicker={kicker(s)}
 						title={`${s.asset} ${directionLabel[s.direction]}`}
 					/>
@@ -97,6 +98,7 @@ function LatestFile() {
 					stamp={<Stamp status="open" date={formatDate(s.openedAt)} />}
 				>
 					<CaseFileHeader
+						as="h2"
 						kicker={kicker(s)}
 						title={
 							<>

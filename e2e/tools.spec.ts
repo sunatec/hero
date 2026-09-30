@@ -2,7 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
 const panes = (page: import("@playwright/test").Page) =>
-	page.locator('section[aria-label="监控模块"] article');
+	page.locator('section[aria-labelledby="modules-h"] article');
 
 test("toolbox lists 8 running modules with a separate roadmap", async ({
 	page,

@@ -6,14 +6,16 @@ import { FitCheck } from "@/components/home/Sections";
 import { Arrow, ButtonLink } from "@/components/site/Button";
 import { PageHeader } from "@/components/site/PageHeader";
 import { RiskNote } from "@/components/site/RiskNote";
+import { pageMeta } from "@/lib/seo";
 import { section, wrap } from "@/lib/ui";
 import { site } from "@/site.config";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
 	title: "社群介绍",
 	description:
 		"一个只服务中文实战交易者的付费链上情报室：你会得到什么、如何交付、适合谁、有哪些规则。",
-};
+	path: "/community",
+});
 
 /** Copy: docs/copy/community.md. 待补充 marks facts still missing (docs/open-items.md). */
 const PENDING = "待补充";

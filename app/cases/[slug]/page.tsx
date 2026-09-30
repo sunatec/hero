@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { CaseFile } from "@/components/dossier/CaseFile";
 import { Fields } from "@/components/dossier/Fields";
 import { Arrow, ButtonLink } from "@/components/site/Button";
+import { JsonLd } from "@/components/site/JsonLd";
 import { RiskNote } from "@/components/site/RiskNote";
 import { moduleBySlug } from "@/lib/content";
 import { formatDate } from "@/lib/format";
@@ -14,6 +15,8 @@ import {
 	directionLabel,
 	methodLabel,
 } from "@/lib/i18n/labels";
+import { breadcrumbLd } from "@/lib/jsonld";
+import { pageMeta } from "@/lib/seo";
 import { label, wrap } from "@/lib/ui";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -29,10 +32,13 @@ const find = (slug: string) => allCases.find((c) => c.slug === slug);
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const c = find((await params).slug);
 	if (!c) return {};
-	return {
+	return pageMeta({
 		title: `${c.assets.join(" ")} ${directionLabel[c.direction]} · 精选案例`,
 		description: `精选案例：「${c.titleOriginal}」— X，${formatDate(c.date)}。精选、非完整记录，收益为原帖最大涨幅口径。`,
-	};
+		path: `/cases/${c.slug}`,
+		image: `/cases/${c.slug}/opengraph-image`,
+		type: "article",
+	});
 }
 
 export default async function CasePage({ params }: Props) {
@@ -42,6 +48,12 @@ export default async function CasePage({ params }: Props) {
 
 	return (
 		<main id="main" className={`${wrap} pt-10 md:pt-14`}>
+			<JsonLd
+				data={breadcrumbLd([
+					{ name: "精选案例", path: "/cases" },
+					{ name: c.assets.join(" "), path: `/cases/${c.slug}` },
+				])}
+			/>
 			<nav aria-label="案例导航" className="mb-10 font-mono text-[13px]">
 				<Link
 					href="/cases"

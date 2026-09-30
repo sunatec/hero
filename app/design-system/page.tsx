@@ -27,9 +27,14 @@ import { RiskNote } from "@/components/site/RiskNote";
 import { Wordmark } from "@/components/site/Wordmark";
 import { martianMono } from "@/lib/fonts";
 import type { SignalStatus } from "@/lib/schema/signal";
+import { pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = {
-	title: "Design System",
+	...pageMeta({
+		title: "Design System",
+		description: "0xInChain design system.",
+		path: "/design-system",
+	}),
 	robots: { index: false, follow: false },
 };
 
