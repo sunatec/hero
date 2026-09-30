@@ -34,9 +34,16 @@
 	z-index: 5;
 }
 
-.redact:hover::after {
+.redact:hover::after,
+.redact[data-open]::after {
 	display: block;
 	animation: tip 0.15s var(--ease-out-dossier) both;
+}
+
+/* Tapped near the right edge (RedactionTips): anchor the tip to the bar's right side. */
+.redact[data-end]::after {
+	left: auto;
+	right: 0;
 }
 
 .subtle {

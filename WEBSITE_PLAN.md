@@ -1096,7 +1096,7 @@ export const site = {
 - **Verification**：Playwright E2E（用 Turnstile 测试 key 加模拟的 TG 端点）；在预览环境人工提交一次，确认真实送达
 - **Dependencies**：M4；TG Bot 的 token 和管理员 chat ID；Turnstile 的 key
 
-### M10 Responsive
+### M10 Responsive ✅（2026-09-30；`e2e/responsive.spec.ts` 覆盖 19 个页面 × 5 个宽度，断言无页面级横向滚动、手机宽度触控目标 ≥ 44px；`SHOTS=1` 生成截图集到 `screenshots/responsive/`（不入库）。**修复记录**：零溢出；触控目标——新增 `tap` 工具类（透明 ::after 扩大点击区域，视觉不变），页脚 / 方法论目录 / 台账二级 Tab / 页头 Logo 与 CTA / `sm` 按钮在移动端改为 44px；台账筛选在 `md` 以下收进底部抽屉（原生 dialog）；涂黑条触屏点按显示提示（`RedactionTips`，靠右时自动右对齐，仍不可聚焦）。**待办**：iOS Safari、Android Chrome 真机抽测）
 - **Goal**：所有页面在 5 个宽度下都达标
 - **Tasks**：在 360 / 390 / 768 / 1024 / 1440 宽度逐页检查；修复问题；吸底 CTA 和安全区；台账和窗格的响应式细节；触控目标检查
 - **Deliverables**：修复记录、各宽度截图集

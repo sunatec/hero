@@ -73,12 +73,12 @@ export default function MethodologyPage() {
 				className={`${wrap} grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16`}
 			>
 				<nav aria-label="目录" className="lg:sticky lg:top-24 lg:self-start">
-					<ol className="m-0 list-none space-y-2 p-0 font-mono text-[13px]">
+					<ol className="m-0 list-none p-0 font-mono text-[13px] lg:space-y-2">
 						{SECTIONS.map((s, i) => (
 							<li key={s.id}>
 								<a
 									href={`#${s.id}`}
-									className="text-bone-dim underline-offset-4 hover:text-bone hover:underline"
+									className="inline-flex min-h-11 items-center text-bone-dim underline-offset-4 hover:text-bone hover:underline lg:min-h-0"
 								>
 									{String(i + 1).padStart(2, "0")} {s.title}
 								</a>
@@ -203,7 +203,7 @@ export default function MethodologyPage() {
 						<p>
 							<Link
 								href="/cases"
-								className="text-bone underline underline-offset-4 hover:text-stamp"
+								className="text-bone tap underline underline-offset-4 hover:text-stamp"
 							>
 								精选案例
 							</Link>

@@ -43,7 +43,7 @@ export default function CasesPage() {
 						<b className="font-medium">不计入台账统计</b>。想看完整记录，请看{" "}
 						<a
 							href="/ledger"
-							className="text-bone underline underline-offset-4 hover:text-stamp"
+							className="text-bone tap underline underline-offset-4 hover:text-stamp"
 						>
 							信号台账
 						</a>

@@ -14,7 +14,8 @@ import {
 	methodLabel,
 } from "@/lib/i18n/labels";
 
-const inlineLink = "text-bone underline underline-offset-4 hover:text-stamp";
+const inlineLink =
+	"text-bone tap underline underline-offset-4 hover:text-stamp";
 
 /** Curated case card. Always tagged 精选 and, until checked, 未核验 (WEBSITE_PLAN §8.1). */
 export function CaseCard({ c }: { c: CaseRow }) {

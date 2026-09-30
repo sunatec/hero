@@ -88,7 +88,7 @@ export function CasesExplorer({ rows }: { rows: CaseRow[] }) {
 					<button
 						type="button"
 						onClick={() => router.replace(pathname, { scroll: false })}
-						className="min-h-11 px-2 font-mono text-[13px] text-bone underline underline-offset-4 hover:text-stamp"
+						className="min-h-11 px-2 font-mono text-[13px] text-bone tap underline underline-offset-4 hover:text-stamp"
 					>
 						清除筛选
 					</button>

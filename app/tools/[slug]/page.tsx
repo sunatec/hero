@@ -80,7 +80,7 @@ export default async function ModulePage({ params }: Props) {
 			>
 				<Link
 					href="/tools"
-					className="text-bone underline underline-offset-4 hover:text-stamp"
+					className="text-bone tap underline underline-offset-4 hover:text-stamp"
 				>
 					← 链上工具箱
 				</Link>
@@ -182,7 +182,7 @@ export default async function ModulePage({ params }: Props) {
 									<p className="mt-5 mb-0 font-mono text-[13px]">
 										<Link
 											href={`/ledger?module=${m.slug}`}
-											className="text-bone underline underline-offset-4 hover:text-stamp"
+											className="text-bone tap underline underline-offset-4 hover:text-stamp"
 										>
 											查看该模块的全部档案（{t.ledgerCount}）<Arrow />
 										</Link>

@@ -28,7 +28,7 @@ export function Masthead() {
 			<div className="mx-auto flex h-[58px] max-w-[1280px] items-center gap-3 px-5 md:h-[68px] md:gap-10 md:px-8 xl:px-12">
 				<Link
 					href={en ? "/en" : "/"}
-					className="flex shrink-0 items-center gap-3.5"
+					className="flex min-h-11 shrink-0 items-center gap-3.5"
 					aria-label={en ? "0xInChain home" : "0xInChain 链上情报局 首页"}
 				>
 					<Wordmark className="h-[17px] w-auto md:h-5" title="0xInChain" />
@@ -79,7 +79,7 @@ export function Masthead() {
 						href={site.social.x}
 						external
 						size="sm"
-						className="max-md:ml-auto max-md:px-3 max-md:py-2 max-md:text-[13px]"
+						className="max-md:ml-auto max-md:min-h-11 max-md:px-3 max-md:py-0 max-md:text-[13px]"
 					>
 						Follow on X <Arrow>↗</Arrow>
 					</ButtonLink>
@@ -87,7 +87,7 @@ export function Masthead() {
 					<ButtonLink
 						href="/join"
 						size="sm"
-						className="max-md:ml-auto max-md:px-3 max-md:py-2 max-md:text-[13px]"
+						className="max-md:ml-auto max-md:min-h-11 max-md:px-3 max-md:py-0 max-md:text-[13px]"
 					>
 						申请加入
 					</ButtonLink>

@@ -28,7 +28,7 @@ export function LedgerHeader({
 							<Link
 								href={t.href}
 								aria-current={t.href === current ? "page" : undefined}
-								className="inline-block border-b-2 border-transparent py-3 font-serif-zh text-base font-bold tracking-[0.06em] text-bone-dim hover:text-bone aria-[current=page]:border-stamp aria-[current=page]:text-bone"
+								className="inline-block min-w-11 border-b-2 border-transparent py-3 text-center font-serif-zh text-base font-bold tracking-[0.06em] text-bone-dim hover:text-bone aria-[current=page]:border-stamp aria-[current=page]:text-bone"
 							>
 								{t.label}
 							</Link>

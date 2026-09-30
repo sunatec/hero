@@ -1,7 +1,9 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRef } from "react";
 import { Pct } from "@/components/dossier/Fields";
+import { useMediaQuery } from "@/lib/hooks/useMediaQuery";
 import { directionLabel, statusLabel } from "@/lib/i18n/labels";
 import {
 	applyFilter,
@@ -77,11 +79,14 @@ export function LedgerExplorer({ rows }: { rows: LedgerRow[] }) {
 	const params = useSearchParams();
 	const router = useRouter();
 	const pathname = usePathname();
+	const mobile = useMediaQuery("(max-width: 767px)");
+	const sheet = useRef<HTMLDialogElement>(null);
 
 	const filter: LedgerFilter = Object.fromEntries(
 		KEYS.map((k) => [k, params.get(k) ?? undefined]).filter(([, v]) => v),
 	);
-	const active = Object.keys(filter).length > 0;
+	const activeCount = Object.keys(filter).length;
+	const active = activeCount > 0;
 	const filtered = applyFilter(rows, filter);
 	const { items, page, pages } = paginate(
 		filtered,
@@ -126,41 +131,96 @@ export function LedgerExplorer({ rows }: { rows: LedgerRow[] }) {
 		{ key: "month", label: "月份", options: monthOptions },
 	];
 
+	const clear = active ? (
+		<button
+			type="button"
+			onClick={() => router.replace(pathname, { scroll: false })}
+			className="min-h-11 px-2 font-mono text-[13px] text-bone tap underline underline-offset-4 hover:text-stamp"
+		>
+			清除筛选
+		</button>
+	) : null;
+
+	const fields = (
+		<fieldset
+			className={`m-0 border-0 p-0 ${mobile ? "flex flex-col gap-4" : "mt-5 mb-3 flex flex-wrap items-end gap-3"}`}
+		>
+			<legend className="sr-only">筛选台账</legend>
+			{selects.map((s) => (
+				<label
+					key={s.key}
+					className="flex flex-col gap-1 font-mono text-[11px] tracking-[0.1em] text-dossier"
+				>
+					{s.label}
+					<select
+						value={filter[s.key] ?? ""}
+						onChange={(e) => set(s.key, e.target.value || null)}
+						className="min-h-11 rounded-file border border-line bg-ink-1 px-3 font-sans text-sm tracking-normal text-bone"
+					>
+						<option value="">全部</option>
+						{s.options.map((o) => (
+							<option key={o.value} value={o.value}>
+								{o.label}
+							</option>
+						))}
+					</select>
+				</label>
+			))}
+			{mobile ? null : clear}
+		</fieldset>
+	);
+
 	return (
 		<>
 			<LedgerStats rows={filtered} />
-			<fieldset className="m-0 mt-5 mb-3 flex flex-wrap items-end gap-3 border-0 p-0">
-				<legend className="sr-only">筛选台账</legend>
-				{selects.map((s) => (
-					<label
-						key={s.key}
-						className="flex flex-col gap-1 font-mono text-[11px] tracking-[0.1em] text-dossier"
-					>
-						{s.label}
-						<select
-							value={filter[s.key] ?? ""}
-							onChange={(e) => set(s.key, e.target.value || null)}
-							className="min-h-11 rounded-file border border-line bg-ink-1 px-3 font-sans text-sm tracking-normal text-bone"
+			{mobile ? (
+				<>
+					<div className="mt-5 mb-3 flex items-center gap-3">
+						<button
+							type="button"
+							aria-haspopup="dialog"
+							onClick={() => sheet.current?.showModal()}
+							className="min-h-11 rounded-file border border-line bg-ink-1 px-4 font-mono text-[13px] text-bone"
 						>
-							<option value="">全部</option>
-							{s.options.map((o) => (
-								<option key={o.value} value={o.value}>
-									{o.label}
-								</option>
-							))}
-						</select>
-					</label>
-				))}
-				{active ? (
-					<button
-						type="button"
-						onClick={() => router.replace(pathname, { scroll: false })}
-						className="min-h-11 px-2 font-mono text-[13px] text-bone underline underline-offset-4 hover:text-stamp"
+							筛选{activeCount ? ` · ${activeCount}` : ""}
+						</button>
+						{clear}
+					</div>
+					{/* biome-ignore lint/a11y/useKeyWithClickEvents: native <dialog> closes on Esc; this only adds backdrop taps */}
+					<dialog
+						ref={sheet}
+						aria-labelledby="ledger-sheet-title"
+						onClick={(e) => {
+							if (e.target === e.currentTarget) sheet.current?.close();
+						}}
+						className="m-0 mt-auto max-h-[85dvh] w-full max-w-none rounded-t-[10px] border-t border-line bg-ink-0 p-0 text-bone backdrop:bg-black/60"
 					>
-						清除筛选
-					</button>
-				) : null}
-			</fieldset>
+						<div className="flex h-[52px] items-center justify-between border-b border-line px-5">
+							<h2
+								id="ledger-sheet-title"
+								className="m-0 font-mono text-[11px] tracking-[0.14em] text-dossier"
+							>
+								筛选台账
+							</h2>
+							<button
+								type="button"
+								onClick={() => sheet.current?.close()}
+								className="-mr-2.5 inline-flex min-h-11 min-w-11 items-center justify-center font-mono text-[13px]"
+							>
+								完成
+							</button>
+						</div>
+						<div className="overflow-y-auto px-5 pt-5 pb-[calc(24px+env(safe-area-inset-bottom))]">
+							{fields}
+							<p className="mt-5 mb-0 font-mono text-[13px] text-bone-dim">
+								{`当前 ${filtered.length} 份`}
+							</p>
+						</div>
+					</dialog>
+				</>
+			) : (
+				fields
+			)}
 			<p
 				aria-live="polite"
 				className="mb-2 font-mono text-[13px] text-bone-dim"
@@ -191,7 +251,7 @@ export function LedgerExplorer({ rows }: { rows: LedgerRow[] }) {
 						type="button"
 						disabled={page <= 1}
 						onClick={() => set("page", String(page - 1))}
-						className="min-h-11 text-bone underline underline-offset-4 disabled:text-bone-dim disabled:no-underline"
+						className="min-h-11 text-bone tap underline underline-offset-4 disabled:text-bone-dim disabled:no-underline"
 					>
 						← 上一页
 					</button>
@@ -199,7 +259,7 @@ export function LedgerExplorer({ rows }: { rows: LedgerRow[] }) {
 						type="button"
 						disabled={page >= pages}
 						onClick={() => set("page", String(page + 1))}
-						className="min-h-11 text-bone underline underline-offset-4 disabled:text-bone-dim disabled:no-underline"
+						className="min-h-11 text-bone tap underline underline-offset-4 disabled:text-bone-dim disabled:no-underline"
 					>
 						下一页 →
 					</button>

@@ -208,7 +208,7 @@ export default function EnHomePage() {
 						<Link
 							href="/"
 							lang="zh-CN"
-							className="font-mono text-[13px] text-bone underline underline-offset-4 hover:text-stamp"
+							className="font-mono text-[13px] text-bone tap underline underline-offset-4 hover:text-stamp"
 						>
 							中文站 <Arrow />
 						</Link>

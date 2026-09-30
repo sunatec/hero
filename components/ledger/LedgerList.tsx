@@ -56,7 +56,7 @@ export function LedgerList({
 							<td className="px-3 py-5 font-mono whitespace-nowrap">
 								<Link
 									href={`/ledger/${r.id}`}
-									className="text-dossier underline underline-offset-4 hover:text-stamp"
+									className="text-dossier tap underline underline-offset-4 hover:text-stamp"
 								>
 									{r.id}
 								</Link>
@@ -92,7 +92,7 @@ export function LedgerList({
 					>
 						<Link
 							href={`/ledger/${r.id}`}
-							className="font-mono text-dossier underline underline-offset-4"
+							className="font-mono text-dossier tap underline underline-offset-4"
 						>
 							{r.id}
 						</Link>

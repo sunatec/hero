@@ -102,7 +102,7 @@ export default function EnAboutPage() {
 					<Link
 						href="/verify"
 						lang="zh-CN"
-						className="text-bone underline underline-offset-4 hover:text-stamp"
+						className="text-bone tap underline underline-offset-4 hover:text-stamp"
 					>
 						官方渠道验证 <Arrow />
 					</Link>

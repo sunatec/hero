@@ -62,7 +62,7 @@ export default function AboutPage() {
 										href={site.social.x}
 										target="_blank"
 										rel="noopener noreferrer"
-										className="text-bone underline underline-offset-4 hover:text-stamp"
+										className="text-bone tap underline underline-offset-4 hover:text-stamp"
 									>
 										{a?.handle ?? "@0xInChain"} <Arrow>↗</Arrow>
 									</a>,
@@ -151,7 +151,7 @@ export default function AboutPage() {
 				<p className="mt-6">
 					<Link
 						href="/verify"
-						className="font-mono text-[13px] text-bone underline underline-offset-4 hover:text-stamp"
+						className="font-mono text-[13px] text-bone tap underline underline-offset-4 hover:text-stamp"
 					>
 						官方渠道验证 <Arrow />
 					</Link>

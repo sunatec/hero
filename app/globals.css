@@ -32,6 +32,23 @@
 		var(--font-martian-mono), var(--font-plex-mono), ui-monospace, monospace;
 }
 
+/*
+ * Invisible 44×44 minimum hit area for small standalone links (WEBSITE_PLAN §17, M10).
+ * Visual size is unchanged; do not combine with after:content-* utilities.
+ */
+@utility tap {
+	position: relative;
+	&::after {
+		content: "";
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: max(100%, 44px);
+		height: max(100%, 44px);
+		transform: translate(-50%, -50%);
+	}
+}
+
 @layer base {
 	html {
 		color-scheme: dark;

@@ -28,25 +28,25 @@ export function Placeholder({
 			) : null}
 			<nav className="mt-12 flex flex-wrap gap-x-6 gap-y-2 text-sm">
 				<Link
-					className="underline underline-offset-4 hover:text-stamp"
+					className="tap underline underline-offset-4 hover:text-stamp"
 					href="/"
 				>
 					首页
 				</Link>
 				<Link
-					className="underline underline-offset-4 hover:text-stamp"
+					className="tap underline underline-offset-4 hover:text-stamp"
 					href="/ledger"
 				>
 					信号台账
 				</Link>
 				<Link
-					className="underline underline-offset-4 hover:text-stamp"
+					className="tap underline underline-offset-4 hover:text-stamp"
 					href="/tools"
 				>
 					链上工具箱
 				</Link>
 				<Link
-					className="underline underline-offset-4 hover:text-stamp"
+					className="tap underline underline-offset-4 hover:text-stamp"
 					href="/join"
 				>
 					申请加入

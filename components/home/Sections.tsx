@@ -27,7 +27,8 @@ import type { ModuleSlug } from "@/lib/schema/common";
 import { section, wrap } from "@/lib/ui";
 import { site, TBD } from "@/site.config";
 
-const inlineLink = "text-bone underline underline-offset-4 hover:text-stamp";
+const inlineLink =
+	"text-bone tap underline underline-offset-4 hover:text-stamp";
 
 /* § 03 ------------------------------------------------------------------ */
 const WATCH: { label: string; module?: ModuleSlug }[] = [
@@ -56,7 +57,7 @@ export function Monitor() {
 							<span className="whitespace-nowrap">
 								<Link
 									href={href}
-									className="underline decoration-line decoration-2 underline-offset-[0.2em] transition-colors hover:decoration-stamp"
+									className="tap underline decoration-line decoration-2 underline-offset-[0.2em] transition-colors hover:decoration-stamp"
 								>
 									{w.label}
 								</Link>

@@ -27,7 +27,7 @@ const BENEFITS = [
 				大单等。每个模块的数据源与局限都写在{" "}
 				<Link
 					href="/tools"
-					className="text-bone underline underline-offset-4 hover:text-stamp"
+					className="text-bone tap underline underline-offset-4 hover:text-stamp"
 				>
 					链上工具箱
 				</Link>

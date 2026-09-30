@@ -23,7 +23,7 @@ function Block({ title, children }: { title: string; children: ReactNode }) {
 	);
 }
 
-const link = "text-bone underline underline-offset-4 hover:text-stamp";
+const link = "text-bone tap underline underline-offset-4 hover:text-stamp";
 
 /** Copy: docs/copy/join.md. Prices and batch come from site.config — never hard-coded. */
 export default function JoinPage() {

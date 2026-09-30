@@ -106,7 +106,7 @@ export default async function SignalPage({ params }: Props) {
 			>
 				<Link
 					href="/ledger"
-					className="text-bone underline underline-offset-4 hover:text-stamp"
+					className="text-bone tap underline underline-offset-4 hover:text-stamp"
 				>
 					← 信号台账
 				</Link>
@@ -114,7 +114,7 @@ export default async function SignalPage({ params }: Props) {
 					{prev ? (
 						<Link
 							href={`/ledger/${prev.id}`}
-							className="text-bone-dim underline underline-offset-4 hover:text-bone"
+							className="text-bone-dim tap underline underline-offset-4 hover:text-bone"
 						>
 							上一份 {prev.id}
 						</Link>
@@ -122,7 +122,7 @@ export default async function SignalPage({ params }: Props) {
 					{next ? (
 						<Link
 							href={`/ledger/${next.id}`}
-							className="text-bone-dim underline underline-offset-4 hover:text-bone"
+							className="text-bone-dim tap underline underline-offset-4 hover:text-bone"
 						>
 							下一份 {next.id} <Arrow />
 						</Link>
@@ -149,7 +149,7 @@ export default async function SignalPage({ params }: Props) {
 							<dd className="m-0">
 								<Link
 									href={`/tools/${s.module}`}
-									className="text-bone-dim underline underline-offset-4 hover:text-bone"
+									className="text-bone-dim tap underline underline-offset-4 hover:text-bone"
 								>
 									{m ? `${m.code} ${m.nameZh}` : s.module}
 								</Link>
@@ -200,7 +200,7 @@ export default async function SignalPage({ params }: Props) {
 									{formatDateTime(s.openedAt)} 在 TG 收到完整信号。{" "}
 									<Link
 										href="/join"
-										className="text-bone underline underline-offset-4 hover:text-stamp"
+										className="text-bone tap underline underline-offset-4 hover:text-stamp"
 									>
 										申请加入 <Arrow />
 									</Link>
@@ -353,7 +353,7 @@ function ClosedBody({
 										href={e.url}
 										target="_blank"
 										rel="noopener noreferrer"
-										className="text-bone underline underline-offset-4 hover:text-stamp"
+										className="text-bone tap underline underline-offset-4 hover:text-stamp"
 									>
 										{text} <Arrow>↗</Arrow>
 									</a>
@@ -362,7 +362,7 @@ function ClosedBody({
 										href={img}
 										target="_blank"
 										rel="noopener noreferrer"
-										className="text-bone underline underline-offset-4 hover:text-stamp"
+										className="text-bone tap underline underline-offset-4 hover:text-stamp"
 									>
 										{text} <Arrow>↗</Arrow>
 									</a>
@@ -378,7 +378,7 @@ function ClosedBody({
 								href={s.xUrl}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="text-bone underline underline-offset-4 hover:text-stamp"
+								className="text-bone tap underline underline-offset-4 hover:text-stamp"
 							>
 								X 复盘 <Arrow>↗</Arrow>
 							</a>

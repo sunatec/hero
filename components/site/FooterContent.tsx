@@ -101,7 +101,7 @@ export function FooterContent({ updated }: { updated: string | null }) {
 							<p className="mb-3 font-mono text-[11px] tracking-[0.14em] text-dossier">
 								{col.title}
 							</p>
-							<ul className="space-y-2 text-sm text-bone-dim">
+							<ul className="text-sm text-bone-dim md:space-y-2">
 								{col.links.map((l) => (
 									<li key={l.href}>
 										{l.external ? (
@@ -109,14 +109,14 @@ export function FooterContent({ updated }: { updated: string | null }) {
 												href={l.href}
 												target="_blank"
 												rel="noopener noreferrer"
-												className="hover:text-bone"
+												className="inline-flex min-h-11 min-w-11 items-center gap-1 hover:text-bone md:min-h-0"
 											>
 												{l.label} <Arrow>↗</Arrow>
 											</a>
 										) : (
 											<Link
 												href={l.href}
-												className="hover:text-bone"
+												className="inline-flex min-h-11 min-w-11 items-center hover:text-bone md:min-h-0"
 												lang={l.label === "中文" ? "zh-CN" : undefined}
 											>
 												{l.label}

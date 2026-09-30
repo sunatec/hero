@@ -16,7 +16,7 @@ const VARIANTS: Record<Variant, string> = {
 /** Size classes live apart from colours so two paddings never compete in one class list. */
 const SIZE = {
 	md: "px-6 py-[15px] text-base",
-	sm: "px-4 py-2.5 text-sm",
+	sm: "px-4 py-2.5 text-sm max-md:min-h-11",
 	/** mobile sticky bar: 44px+ touch target */
 	bar: "px-[18px] py-[13px] text-base",
 } as const;

@@ -22,3 +22,4 @@ images/
 # playwright
 test-results/
 playwright-report/
+screenshots/

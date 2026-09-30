@@ -75,7 +75,7 @@ function LatestFile() {
 						</span>
 						<Link
 							href={`/ledger/${s.id}`}
-							className="text-bone underline underline-offset-4 hover:text-stamp"
+							className="text-bone tap underline underline-offset-4 hover:text-stamp"
 						>
 							档案 <Arrow />
 						</Link>

@@ -15,12 +15,22 @@ test.describe("ledger index", () => {
 
 	test("changing a select updates the URL and the list; clear resets", async ({
 		page,
+		isMobile,
 	}) => {
 		await page.goto("/ledger");
 		// interact only after hydration, otherwise the change event has no listener yet
 		await page.waitForLoadState("networkidle");
+		// Phones get the filters in a bottom sheet (WEBSITE_PLAN §17).
+		if (isMobile) await page.getByRole("button", { name: "筛选" }).click();
 		await page.getByLabel("状态").selectOption("open");
 		await expect(page).toHaveURL(/status=open/);
+		if (isMobile) {
+			await expect(page.getByText("当前 1 份")).toBeVisible();
+			await page.getByRole("button", { name: "完成" }).click();
+			await expect(
+				page.getByRole("button", { name: "筛选 · 1" }),
+			).toBeVisible();
+		}
 		expect(await visibleIds(page)).toEqual(["IC-2026-0003"]);
 		await page.getByRole("button", { name: "清除筛选" }).click();
 		await expect(page).toHaveURL(/\/ledger$/, { timeout: 15_000 });

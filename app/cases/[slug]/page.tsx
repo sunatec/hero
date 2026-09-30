@@ -45,7 +45,7 @@ export default async function CasePage({ params }: Props) {
 			<nav aria-label="案例导航" className="mb-10 font-mono text-[13px]">
 				<Link
 					href="/cases"
-					className="text-bone underline underline-offset-4 hover:text-stamp"
+					className="text-bone tap underline underline-offset-4 hover:text-stamp"
 				>
 					← 精选案例
 				</Link>
@@ -101,7 +101,7 @@ export default async function CasePage({ params }: Props) {
 							href={c.xUrl}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="font-mono text-[13px] text-bone underline underline-offset-4 hover:text-stamp"
+							className="font-mono text-[13px] text-bone tap underline underline-offset-4 hover:text-stamp"
 						>
 							在 X 查看原帖 <Arrow>↗</Arrow>
 						</a>

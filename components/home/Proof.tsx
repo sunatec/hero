@@ -64,7 +64,7 @@ export function Proof() {
 				)}
 				<Link
 					href="/methodology"
-					className="text-bone underline underline-offset-4 hover:text-stamp"
+					className="text-bone tap underline underline-offset-4 hover:text-stamp"
 				>
 					收益口径与结案规则 <Arrow />
 				</Link>

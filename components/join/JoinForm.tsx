@@ -200,7 +200,7 @@ export function JoinForm({ modules, waitlist, siteKey, tgHandle }: Props) {
 				<p className="m-0">
 					在线申请暂未开放。请直接私信官方 TG：
 					<b className="font-medium">{tgHandle}</b>（先在
-					<Link href="/verify" className="underline underline-offset-4">
+					<Link href="/verify" className="tap underline underline-offset-4">
 						官方渠道验证
 					</Link>
 					页核对账号）。
@@ -373,7 +373,7 @@ export function JoinForm({ modules, waitlist, siteKey, tgHandle }: Props) {
 						<Link
 							href="/legal/risk"
 							target="_blank"
-							className="mx-0.5 underline underline-offset-4"
+							className="mx-0.5 tap underline underline-offset-4"
 						>
 							风险披露
 						</Link>
@@ -381,7 +381,7 @@ export function JoinForm({ modules, waitlist, siteKey, tgHandle }: Props) {
 						<Link
 							href="/legal/terms"
 							target="_blank"
-							className="mx-0.5 underline underline-offset-4"
+							className="mx-0.5 tap underline underline-offset-4"
 						>
 							服务条款
 						</Link>
@@ -417,7 +417,7 @@ export function JoinForm({ modules, waitlist, siteKey, tgHandle }: Props) {
 					TG，本站不存储。我们不会收集钱包地址或身份信息。
 					<Link
 						href="/legal/privacy"
-						className="ml-1 underline underline-offset-4"
+						className="ml-1 tap underline underline-offset-4"
 					>
 						隐私说明 →
 					</Link>

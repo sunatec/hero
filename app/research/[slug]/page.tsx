@@ -37,7 +37,7 @@ export default async function ResearchPage({ params }: Props) {
 			<nav aria-label="文章导航" className="mb-10 font-mono text-[13px]">
 				<Link
 					href="/research"
-					className="text-bone underline underline-offset-4 hover:text-stamp"
+					className="text-bone tap underline underline-offset-4 hover:text-stamp"
 				>
 					← Research
 				</Link>
@@ -68,7 +68,7 @@ export default async function ResearchPage({ params }: Props) {
 									<Link
 										key={id}
 										href={`/ledger/${id}`}
-										className="ml-3 text-bone underline underline-offset-4"
+										className="ml-3 text-bone tap underline underline-offset-4"
 									>
 										{id}
 									</Link>
@@ -82,7 +82,7 @@ export default async function ResearchPage({ params }: Props) {
 									<Link
 										key={m.slug}
 										href={`/tools/${m.slug}`}
-										className="ml-3 text-bone underline underline-offset-4"
+										className="ml-3 text-bone tap underline underline-offset-4"
 									>
 										{m.code} {m.nameZh} <Arrow />
 									</Link>
