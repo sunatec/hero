@@ -1128,7 +1128,7 @@ export const site = {
 - **Verification**：CI 全绿；QA 报告交给用户签字
 - **Dependencies**：M12
 
-### M14 Launch
+### M14 Launch ⏳（2026-10-09 代码侧就绪：Plausible §20 事件、全部字体自托管（构建不再联网）、严格模式拦截占位域名、`pnpm tg:ping`、上线手册 `docs/ops/launch.md`。**等待用户**：域名、Vercel 生产环境变量、TG Bot 与群、Turnstile、Plausible、`site.config` 的 TBD、删除示例内容，然后按手册上线）
 - **Goal**：正式上线，台账开始计时
 - **Tasks**：按第 23 节执行
 - **Deliverables**：生产环境站点、上线记录
