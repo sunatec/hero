@@ -84,7 +84,13 @@ jobs:
           INDEXABLE: "1"
           NEXT_PUBLIC_SITE_URL: http://localhost:3100
       - name: Lighthouse CI (§16 budgets)
-        run: npx --yes @lhci/cli@0.15.1 autorun
+        run: |
+          set -o pipefail
+          npx --yes @lhci/cli@0.15.1 autorun 2>&1 | tee lhci.log || {
+            # Surface the cause as a check annotation (visible without log access).
+            tail -n 40 lhci.log | sed 's/\x1b\[[0-9;]*m//g' | tr '\n' '|' | sed 's/^/::error title=Lighthouse CI::/'; echo
+            exit 1
+          }
         env:
           INDEXABLE: "1"
       - uses: actions/upload-artifact@v4

@@ -32,7 +32,8 @@ export default defineConfig({
 	snapshotPathTemplate:
 		"{testDir}/__screenshots__/{testFilePath}/{projectName}/{arg}{ext}",
 	fullyParallel: true,
-	reporter: [["list"]],
+	// On CI the github reporter turns failures into check annotations (readable without logs access).
+	reporter: process.env.CI ? [["github"], ["list"]] : [["list"]],
 	use: {
 		baseURL: "http://localhost:3000",
 		reducedMotion: "reduce",
