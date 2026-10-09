@@ -3,6 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useRef } from "react";
 import { Pct } from "@/components/dossier/Fields";
+import { track } from "@/lib/analytics";
 import { useMediaQuery } from "@/lib/hooks/useMediaQuery";
 import { directionLabel, statusLabel } from "@/lib/i18n/labels";
 import {
@@ -94,6 +95,7 @@ export function LedgerExplorer({ rows }: { rows: LedgerRow[] }) {
 	);
 
 	const set = (key: Key | "page", value: string | null) => {
+		if (key !== "page" && value) track("ledger_filter", { key, value });
 		const next = new URLSearchParams(params.toString());
 		if (value) next.set(key, value);
 		else next.delete(key);

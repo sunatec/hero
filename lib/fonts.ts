@@ -1,5 +1,9 @@
-import { IBM_Plex_Mono, Newsreader } from "next/font/google";
 import localFont from "next/font/local";
+
+/*
+ * Every face is self-hosted (next/font/local): builds never depend on reaching Google Fonts,
+ * which made CI builds flaky (M14). Latin faces come from @fontsource (OFL-1.1).
+ */
 
 /*
  * CJK fonts are never preloaded: Google Fonts serves them as unicode-range slices that the
@@ -23,21 +27,50 @@ export const serifZh = localFont({
 });
 
 /** Static 400/500 cuts (~25 KB each) instead of the 136 KB opsz variable file (M12). */
-export const latin = Newsreader({
-	subsets: ["latin"],
-	weight: ["400", "500"],
-	style: ["normal", "italic"],
+export const latin = localFont({
+	src: [
+		{
+			path: "../node_modules/@fontsource/newsreader/files/newsreader-latin-400-normal.woff2",
+			weight: "400",
+			style: "normal",
+		},
+		{
+			path: "../node_modules/@fontsource/newsreader/files/newsreader-latin-400-italic.woff2",
+			weight: "400",
+			style: "italic",
+		},
+		{
+			path: "../node_modules/@fontsource/newsreader/files/newsreader-latin-500-normal.woff2",
+			weight: "500",
+			style: "normal",
+		},
+		{
+			path: "../node_modules/@fontsource/newsreader/files/newsreader-latin-500-italic.woff2",
+			weight: "500",
+			style: "italic",
+		},
+	],
 	preload: false,
 	display: "swap",
 	variable: "--font-newsreader",
+	fallback: ["Georgia", "serif"],
 });
 
-export const plexMono = IBM_Plex_Mono({
-	subsets: ["latin"],
-	weight: ["400", "500"],
+export const plexMono = localFont({
+	src: [
+		{
+			path: "../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2",
+			weight: "400",
+		},
+		{
+			path: "../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2",
+			weight: "500",
+		},
+	],
 	preload: false,
 	display: "swap",
 	variable: "--font-plex-mono",
+	fallback: ["ui-monospace", "monospace"],
 });
 
 /**

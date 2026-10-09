@@ -171,6 +171,13 @@ if (tbd > 0)
 		`${tbd} value(s) still TBD`,
 	);
 
+if (/\.invalid(\/|$)/.test(site.url))
+	add(
+		"site.config.ts",
+		STRICT ? "error" : "warning",
+		`site.url is still the placeholder ${site.url} (open-items B12)`,
+	);
+
 // --- report ------------------------------------------------------------------------
 const errors = reports.filter((r) => r.level === "error");
 const warnings = reports.filter((r) => r.level === "warning");

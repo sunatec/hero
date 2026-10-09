@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { RedactionTips } from "@/components/dossier/RedactionTips";
+import { Analytics } from "@/components/site/Analytics";
 import { Footer } from "@/components/site/Footer";
 import { Masthead } from "@/components/site/Masthead";
 import { Motion } from "@/components/site/Motion";
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 				<StickyApply />
 				<RedactionTips />
 				<Motion />
+				<Analytics />
 			</body>
 		</html>
 	);

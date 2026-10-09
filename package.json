@@ -26,7 +26,8 @@
     "close:signal": "NODE_USE_ENV_PROXY=1 tsx scripts/close-signal.ts",
     "bundle:report": "tsx scripts/bundle-report.ts",
     "fonts:subset": "NODE_USE_ENV_PROXY=1 tsx scripts/fonts-subset.ts",
-    "links:check": "tsx scripts/check-links.ts"
+    "links:check": "tsx scripts/check-links.ts",
+    "tg:ping": "NODE_USE_ENV_PROXY=1 tsx scripts/tg-ping.ts"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -48,7 +49,9 @@
     "@content-collections/core": "^0.15.3",
     "@content-collections/mdx": "^0.2.2",
     "@content-collections/next": "^0.2.11",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
     "@fontsource/martian-mono": "^5.3.0",
+    "@fontsource/newsreader": "^5.3.0",
     "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "4.3.3",
     "@types/node": "^26.6.3",

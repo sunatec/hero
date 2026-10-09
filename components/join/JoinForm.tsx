@@ -12,6 +12,7 @@ import {
 	useRef,
 	useState,
 } from "react";
+import { track } from "@/lib/analytics";
 import {
 	CAPITAL,
 	capitalLabel,
@@ -134,8 +135,16 @@ export function JoinForm({ modules, waitlist, siteKey, tgHandle }: Props) {
 		};
 	}, [renderWidget]);
 
+	const started = useRef(false);
+	const onStart = () => {
+		if (started.current) return;
+		started.current = true;
+		track("apply_form_start");
+	};
+
 	async function onSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
+		track("apply_form_submit");
 		const fd = new FormData(e.currentTarget);
 		const input = {
 			handle: String(fd.get("handle") ?? ""),
@@ -155,6 +164,7 @@ export function JoinForm({ modules, waitlist, siteKey, tgHandle }: Props) {
 		);
 		const parsed = ApplicationInput.safeParse(input);
 		if (!parsed.success) {
+			track("apply_form_error", { error_type: "validation" });
 			setErrors(fieldErrors(parsed.error));
 			requestAnimationFrame(() => summaryRef.current?.focus());
 			return;
@@ -168,9 +178,11 @@ export function JoinForm({ modules, waitlist, siteKey, tgHandle }: Props) {
 				body: JSON.stringify(input),
 			});
 			if (res.ok) {
+				track("apply_form_success");
 				router.push("/join/submitted");
 				return;
 			}
+			track("apply_form_error", { error_type: String(res.status) });
 			const body = (await res.json().catch(() => ({}))) as {
 				error?: string;
 				fields?: Record<string, string>;
@@ -190,6 +202,7 @@ export function JoinForm({ modules, waitlist, siteKey, tgHandle }: Props) {
 			}
 			setState(res.status === 429 ? "limited" : "failed");
 		} catch {
+			track("apply_form_error", { error_type: "network" });
 			setState("failed");
 		}
 	}
@@ -218,6 +231,7 @@ export function JoinForm({ modules, waitlist, siteKey, tgHandle }: Props) {
 			id={formId}
 			noValidate
 			onSubmit={onSubmit}
+			onFocus={onStart}
 			className="flex flex-col gap-9"
 			aria-label="申请表"
 		>

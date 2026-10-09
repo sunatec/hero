@@ -22,7 +22,7 @@ const ALLOWED: ((u: URL) => boolean)[] = [
 		official.includes(u.pathname.split("/")[1]?.toLowerCase() ?? ""),
 ];
 /** Script / style origins that are not navigation (checked separately from hrefs). */
-const ASSET_HOSTS = new Set(["challenges.cloudflare.com"]);
+const ASSET_HOSTS = new Set(["challenges.cloudflare.com", "plausible.io"]);
 
 type Problem = { page: string; link: string; reason: string };
 const problems: Problem[] = [];

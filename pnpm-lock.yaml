@@ -39,7 +39,13 @@ importers:
       '@content-collections/next':
         specifier: ^0.2.11
         version: 0.2.11(@content-collections/core@0.15.3(typescript@5.9.3))(next@16.3.6(@playwright/test@1.63.0)(@types/node@26.6.3)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))
+      '@fontsource/ibm-plex-mono':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@fontsource/martian-mono':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource/newsreader':
         specifier: ^5.3.0
         version: 5.3.0
       '@playwright/test':
@@ -524,8 +530,14 @@ packages:
   '@fal-works/esbuild-plugin-global-externals@2.1.2':
     resolution: {integrity: sha512-cEee/Z+I12mZcFJshKcCqC8tuX5hG3s+d+9nZ3LabqKF1vKdF41B92pJVCBggjAGORAeOzyyDDKrZwIkLffeOQ==}
 
+  '@fontsource/ibm-plex-mono@5.3.0':
+    resolution: {integrity: sha512-eTgnZjZEGk1QtD3ZstF+Vclo2HLAni8YMy34/DxllwZvyz1lR/1RF/xTiAquOBO7MvqBx8D2Ig2WCPMVfdZu7Q==}
+
   '@fontsource/martian-mono@5.3.0':
     resolution: {integrity: sha512-0iTnU6SZi6j5z4ymwlZGep6akvp/xWm+r+WyZO9hMfDJWX+dsFLipQp9zO02S0lkUQ+zAahcZNy3XLiNP+gVqQ==}
+
+  '@fontsource/newsreader@5.3.0':
+    resolution: {integrity: sha512-AFR6ZKY89GNL+9qBI2P2+66NhD5bhOj/v6fsLnFYLM4E0JnMB1yKb+Ro8cA64i1hwAWoBfTq5CHJGWH1toLDkw==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -2249,7 +2261,11 @@ snapshots:
 
   '@fal-works/esbuild-plugin-global-externals@2.1.2': {}
 
+  '@fontsource/ibm-plex-mono@5.3.0': {}
+
   '@fontsource/martian-mono@5.3.0': {}
+
+  '@fontsource/newsreader@5.3.0': {}
 
   '@img/colour@1.1.0':
     optional: true

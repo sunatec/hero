@@ -35,7 +35,12 @@ jobs:
       - name: Unit tests
         run: pnpm test
       - name: Build
-        run: pnpm exec next build
+        run: |
+          set -o pipefail
+          pnpm exec next build 2>&1 | tee build.log || {
+            grep -iE "error|failed" build.log | tail -n 15 | tr '\n' '|' | sed 's/^/::error title=Build::/'; echo
+            exit 1
+          }
       - name: JS budget (own code ≤ 30 KB per page)
         run: pnpm bundle:report
       - name: Links (internal 200, anchors, official accounts only)
@@ -78,6 +83,8 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: CJK fonts (render like a real device; the runner has none)
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends fonts-noto-cjk
       - name: Build (indexable, so the SEO category is meaningful)
         run: pnpm exec next build
         env:
