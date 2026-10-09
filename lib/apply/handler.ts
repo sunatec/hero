@@ -20,13 +20,15 @@ export type ApplyDeps = {
 	) => Promise<boolean>;
 	/** slug → display name for known modules; unknown slugs are dropped. */
 	moduleName: (slug: string) => string | null;
+	/** Returns false when the key (`ip:…` or `handle:…`) is over its limit. Optional in tests. */
+	allow?: (key: string) => boolean;
 	now?: () => Date;
 };
 
 export type ApplyResult =
 	| { status: 200; body: { ok: true } }
 	| {
-			status: 400 | 403 | 413 | 415 | 502 | 503;
+			status: 400 | 403 | 413 | 415 | 429 | 502 | 503;
 			body: { ok: false; error: string; fields?: Record<string, string> };
 	  };
 
@@ -43,6 +45,13 @@ export async function handleApply(
 ): Promise<ApplyResult> {
 	if (!env.turnstileSecret || !env.tgToken || !env.tgChatId) {
 		return { status: 503, body: { ok: false, error: "not_configured" } };
+	}
+	const ip =
+		req.headers.get("cf-connecting-ip") ??
+		req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+		undefined;
+	if (ip && deps.allow && !deps.allow(`ip:${ip}`)) {
+		return { status: 429, body: { ok: false, error: "rate_limited" } };
 	}
 	if (!req.headers.get("content-type")?.includes("application/json")) {
 		return {
@@ -71,10 +80,9 @@ export async function handleApply(
 		};
 	}
 	const a = parsed.data;
-	const ip =
-		req.headers.get("cf-connecting-ip") ??
-		req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-		undefined;
+	if (deps.allow && !deps.allow(`handle:${a.handle.toLowerCase()}`)) {
+		return { status: 429, body: { ok: false, error: "rate_limited" } };
+	}
 	if (
 		!(await deps.verifyTurnstile(env.turnstileSecret, a.turnstileToken, ip))
 	) {

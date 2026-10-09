@@ -26,7 +26,7 @@ const BENEFITS = [
 		body: (
 			<>
 				8 个监控模块的实时推送：OI 异动、Coinbase 溢价、四链聪明钱、Hyperliquid
-				大单等。每个模块的数据源与局限都写在{" "}
+				大单等。每个模块的数据源与局限都写在
 				<Link
 					href="/tools"
 					className="text-bone tap underline underline-offset-4 hover:text-stamp"

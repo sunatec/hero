@@ -6,6 +6,27 @@ import { defineConfig, devices } from "@playwright/test";
  */
 const channel = process.env.CI ? undefined : "chrome";
 
+/**
+ * CROSS_BROWSER=1 adds Firefox, desktop Safari (WebKit) and iPhone Safari running the functional
+ * suites (visual baselines are Chrome-only). Needs `pnpm exec playwright install firefox webkit`.
+ */
+const SMOKE = /(ledger|cases|tools|join|keyboard|m7|seo)\.spec\.ts$/;
+const crossBrowser = process.env.CROSS_BROWSER
+	? [
+			{
+				name: "firefox",
+				testMatch: SMOKE,
+				use: { ...devices["Desktop Firefox"] },
+			},
+			{
+				name: "webkit",
+				testMatch: SMOKE,
+				use: { ...devices["Desktop Safari"] },
+			},
+			{ name: "iphone", testMatch: SMOKE, use: { ...devices["iPhone 15"] } },
+		]
+	: [];
+
 export default defineConfig({
 	testDir: "e2e",
 	snapshotPathTemplate:
@@ -14,7 +35,6 @@ export default defineConfig({
 	reporter: [["list"]],
 	use: {
 		baseURL: "http://localhost:3000",
-		channel,
 		reducedMotion: "reduce",
 	},
 	expect: {
@@ -25,6 +45,7 @@ export default defineConfig({
 		},
 	},
 	projects: [
+		...crossBrowser,
 		{
 			name: "desktop",
 			use: {
@@ -62,6 +83,7 @@ export default defineConfig({
 				TG_API_BASE: "http://127.0.0.1:4999",
 				TG_BOT_TOKEN: "e2e-token",
 				TG_ADMIN_CHAT_ID: "-1000000000000",
+				APPLY_RATE_LIMIT: "off",
 			},
 		},
 	],

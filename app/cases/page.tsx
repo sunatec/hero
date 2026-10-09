@@ -42,7 +42,7 @@ export default function CasesPage() {
 						这些是 {start} 之前在 X 发布的复盘，是
 						<b className="font-medium">挑选过的</b>
 						。收益是原帖写的最大涨幅口径，未经统一核验，
-						<b className="font-medium">不计入台账统计</b>。想看完整记录，请看{" "}
+						<b className="font-medium">不计入台账统计</b>。想看完整记录，请看
 						<a
 							href="/ledger"
 							className="text-bone tap underline underline-offset-4 hover:text-stamp"

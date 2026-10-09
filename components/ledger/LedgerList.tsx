@@ -37,7 +37,9 @@ export function LedgerList({
 				<thead>
 					<tr className="border-b border-line text-left font-mono text-[11px] tracking-[0.14em] text-dossier">
 						<th className="px-3 pt-4 pb-3.5 font-medium">编号</th>
-						<th className="px-3 pt-4 pb-3.5 font-medium">立案</th>
+						<th className="px-3 pt-4 pb-3.5 font-medium">
+							立案 <span className="text-bone-dim">UTC+8</span>
+						</th>
 						<th className="px-3 pt-4 pb-3.5 font-medium">模块</th>
 						<th className="px-3 pt-4 pb-3.5 font-medium">方向</th>
 						<th className="px-3 pt-4 pb-3.5 font-medium">标的</th>

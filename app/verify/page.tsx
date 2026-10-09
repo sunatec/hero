@@ -110,7 +110,7 @@ export default function VerifyPage() {
 							</>,
 							<>
 								我们<b className="font-medium text-stamp">没有</b>其他 X
-								账号、小号或“助理”账号。
+								账号、小号或「助理」账号。
 							</>,
 						].map((r, i) => (
 							// biome-ignore lint/suspicious/noArrayIndexKey: static list

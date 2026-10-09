@@ -150,6 +150,7 @@ export default async function SignalPage({ params }: Props) {
 							["编号", s.id],
 							["立案", formatDateTime(s.openedAt)],
 							["登记", formatDateTime(s.registeredAt)],
+							["时区", "UTC+8"],
 							["链", s.chains.map((c) => CHAIN[c] ?? c).join(" · ")],
 						].map(([k, v]) => (
 							<div key={k} className="contents lg:block">

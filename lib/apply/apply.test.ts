@@ -135,3 +135,40 @@ describe("formatApplication", () => {
 		);
 	});
 });
+
+describe("rate limiting", () => {
+	it("rejects an IP over its limit before parsing or calling Turnstile", async () => {
+		const d = deps({ allow: (key) => !key.startsWith("ip:") });
+		const r = await handleApply(
+			req(valid, { "x-forwarded-for": "9.9.9.9" }),
+			env,
+			d,
+		);
+		expect(r).toEqual({
+			status: 429,
+			body: { ok: false, error: "rate_limited" },
+		});
+		expect(d.verifyTurnstile).not.toHaveBeenCalled();
+	});
+
+	it("rejects a handle over its limit", async () => {
+		const d = deps({ allow: (key) => key !== "handle:@trader_one" });
+		const r = await handleApply(req(valid), env, d);
+		expect(r.status).toBe(429);
+		expect(d.sendTelegram).not.toHaveBeenCalled();
+	});
+});
+
+describe("createRateLimiter", () => {
+	it("allows `limit` hits per window, then recovers", async () => {
+		const { createRateLimiter } = await import("./rate-limit");
+		const allow = createRateLimiter({ limit: 2, windowMs: 1000 });
+		expect([allow("a", 0), allow("a", 10), allow("a", 20)]).toEqual([
+			true,
+			true,
+			false,
+		]);
+		expect(allow("b", 20)).toBe(true);
+		expect(allow("a", 1011)).toBe(true);
+	});
+});

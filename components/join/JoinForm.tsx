@@ -104,7 +104,9 @@ export function JoinForm({ modules, waitlist, siteKey, tgHandle }: Props) {
 	const widgetId = useRef<string | null>(null);
 	const [token, setToken] = useState("");
 	const [errors, setErrors] = useState<Record<string, string>>({});
-	const [state, setState] = useState<"idle" | "sending" | "failed">("idle");
+	const [state, setState] = useState<"idle" | "sending" | "failed" | "limited">(
+		"idle",
+	);
 	const [msgLen, setMsgLen] = useState(0);
 	const summaryRef = useRef<HTMLDivElement>(null);
 
@@ -186,7 +188,7 @@ export function JoinForm({ modules, waitlist, siteKey, tgHandle }: Props) {
 				setState("idle");
 				return;
 			}
-			setState("failed");
+			setState(res.status === 429 ? "limited" : "failed");
 		} catch {
 			setState("failed");
 		}
@@ -407,6 +409,12 @@ export function JoinForm({ modules, waitlist, siteKey, tgHandle }: Props) {
 					{sending ? "提交中…" : waitlist ? "提交候补申请" : "提交申请"}
 				</button>
 				<div aria-live="polite">
+					{state === "limited" ? (
+						<p className="m-0 rounded-file border border-stamp px-4 py-3 text-sm">
+							提交太频繁了，请稍后再试。也可以直接联系官方 TG：
+							<b className="font-medium">{tgHandle}</b>
+						</p>
+					) : null}
 					{state === "failed" ? (
 						<p className="m-0 rounded-file border border-stamp px-4 py-3 text-sm">
 							提交没有成功，请稍后再试。如果多次失败，也可以直接联系官方 TG：

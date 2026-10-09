@@ -25,7 +25,8 @@
     "new:signal": "tsx scripts/new-signal.ts",
     "close:signal": "NODE_USE_ENV_PROXY=1 tsx scripts/close-signal.ts",
     "bundle:report": "tsx scripts/bundle-report.ts",
-    "fonts:subset": "NODE_USE_ENV_PROXY=1 tsx scripts/fonts-subset.ts"
+    "fonts:subset": "NODE_USE_ENV_PROXY=1 tsx scripts/fonts-subset.ts",
+    "links:check": "tsx scripts/check-links.ts"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

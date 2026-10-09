@@ -1120,7 +1120,7 @@ export const site = {
 - **Verification**：Lighthouse CI 报告；Rich Results Test；X 卡片验证工具
 - **Dependencies**：M11
 
-### M13 QA
+### M13 QA ✅（2026-10-09，自动化部分；报告 `docs/qa/report.md`。新增：`/api/apply` 限流（P1）、`pnpm links:check`、`e2e/keyboard.spec.ts`、跨浏览器 `CROSS_BROWSER=1`（Firefox / WebKit / iPhone）、CI 增加 e2e、JS 预算、链接检查与 Lighthouse CI 三个任务。**待用户**：VoiceOver、真机、5 人 5 秒测试与签字；LCP 未达标项待决定）
 - **Goal**：上线前的全面质量关卡
 - **Tasks**：按第 22 节执行：E2E、可访问性、视觉回归、跨浏览器、内容校对、违禁词扫描、链接检查；5 人 5 秒测试
 - **Deliverables**：`docs/qa/report.md`（问题清单和修复状态）

@@ -433,7 +433,7 @@ export function JoinSection() {
 						))}
 					</ol>
 					<p className="mt-8 font-mono text-[13px] text-bone-dim">
-						不设试用 · 售出后不退款（原因见{" "}
+						不设试用 · 售出后不退款（原因见
 						<Link href="/legal/terms" className={inlineLink}>
 							服务条款
 						</Link>
