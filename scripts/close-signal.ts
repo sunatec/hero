@@ -6,6 +6,10 @@
  *     [--targets 1.18,1.30] [--stop 0.96] [--invalidation '…'] [--x-url https://x.com/…] \
  *     [--symbol AEROUSDT] [--no-series]
  *
+ * If the signal was opened with a SHA-256 commitment, --asset/--entry/--targets/--stop/--invalidation
+ * default to the committed values and the salt is revealed. Passing different values fails the
+ * build's hash check on purpose.
+ *
  * Evidence is `type:value`, repeatable. type ∈ tg|tx|address|chart|x; the value is a URL or an
  * image path under public/ (e.g. /ledger/IC-2026-0003/tg.webp).
  */
@@ -19,7 +23,13 @@ import {
 	parseBinanceKlines,
 	pickInterval,
 } from "../lib/ledger/close";
-import { fail, PLACEHOLDER, readSignal, writeSignal } from "./ledger-io";
+import {
+	fail,
+	PLACEHOLDER,
+	readSecret,
+	readSignal,
+	writeSignal,
+} from "./ledger-io";
 
 const { values, positionals } = parseArgs({
 	allowPositionals: true,
@@ -64,23 +74,38 @@ const evidence: CloseInput["evidence"] = (values.evidence ?? []).map((e) => {
 });
 if (!evidence.length) fail("at least one --evidence is required");
 
+const { data, body } = readSignal(id);
+if (data.status !== "open") fail(`${id} is already ${String(data.status)}`);
+
+const secret = data.commitHash ? readSecret(id) : undefined;
+if (data.commitHash && !secret)
+	fail(
+		`${id} has a commitHash but .ledger-secrets/${id}.json is missing — restore it from backup`,
+	);
+const committed = secret?.fields;
+
 const input: CloseInput = {
 	status,
-	asset: values.asset ?? fail("--asset is required, e.g. '$ARB'"),
-	entryPrice: num("entry", values.entry),
+	asset:
+		values.asset ??
+		committed?.asset ??
+		fail("--asset is required, e.g. '$ARB'"),
+	entryPrice: values.entry
+		? num("entry", values.entry)
+		: (committed?.entryPrice ?? num("entry", values.entry)),
 	exitPrice: num("exit", values.exit),
 	closedAt:
 		values["closed-at"] ??
 		fail("--closed-at is required (ISO 8601 with +08:00)"),
-	targets: values.targets?.split(",").map((t) => num("targets", t)),
-	stopLoss: values.stop ? num("stop", values.stop) : undefined,
-	invalidation: values.invalidation,
+	targets: values.targets
+		? values.targets.split(",").map((t) => num("targets", t))
+		: committed?.targets,
+	stopLoss: values.stop ? num("stop", values.stop) : committed?.stopLoss,
+	invalidation: values.invalidation ?? committed?.invalidation,
 	xUrl: values["x-url"],
 	evidence,
+	commitSalt: secret?.salt,
 };
-
-const { data, body } = readSignal(id);
-if (data.status !== "open") fail(`${id} is already ${String(data.status)}`);
 
 async function fetchSeries(
 	openedAt: string,

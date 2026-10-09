@@ -1183,7 +1183,7 @@ export const site = {
 - T+30：发布第一份月度台账摘要
 
 ### 23.4 上线后的待办（按优先级）
-1. SHA-256 哈希承诺（Q21-C）
+1. ~~SHA-256 哈希承诺（Q21-C）~~ ✅ 2026-10-09 已实现：`pnpm new:signal --asset '$X' --entry …` 立案时只公开哈希，盐值留在本地 `.ledger-secrets/`（已 gitignore，务必备份）；`pnpm close:signal` 结案时公开盐值，构建校验哈希一致，详情页展示核验方法（`lib/ledger/commit.ts`）
 2. 工具箱 S1：1 个公开延迟模块（Q14-C）
 3. Cloudflare Pages 大陆镜像
 4. 浅色模式

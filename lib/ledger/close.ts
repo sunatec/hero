@@ -72,6 +72,8 @@ export type CloseInput = {
 	stopLoss?: number;
 	invalidation?: string;
 	xUrl?: string;
+	/** Reveals the SHA-256 commitment made at open (Q21-C). */
+	commitSalt?: string;
 	evidence: {
 		type: "tg" | "tx" | "address" | "chart" | "x";
 		url?: string;
@@ -119,6 +121,7 @@ export function closeFrontmatter(
 		maePct: ex.maePct,
 		closedReturnPct: ret,
 		evidence: input.evidence,
+		...(input.commitSalt ? { commitSalt: input.commitSalt } : {}),
 		...(input.xUrl ? { xUrl: input.xUrl } : {}),
 	};
 	if (series) {

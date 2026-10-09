@@ -13,6 +13,8 @@ next-env.d.ts
 
 # local tooling state
 .omc/
+# SHA-256 commitment salts for open signals (revealed at close)
+.ledger-secrets/
 .claude/settings.local.json
 .DS_Store
 

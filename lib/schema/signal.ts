@@ -60,6 +60,11 @@ const closedShape = {
 	targets: z.array(z.number().positive()).optional(),
 	stopLoss: z.number().positive().optional(),
 	invalidation: z.string().optional(),
+	/** Q21-C: revealed at close so `commitHash` can be re-computed by anyone. */
+	commitSalt: z
+		.string()
+		.regex(/^[a-f0-9]{32}$/)
+		.optional(),
 	maxHoldingDays: z.number().int().positive().default(30),
 	closedAt: DateTime,
 	exitPrice: z.number().positive(),

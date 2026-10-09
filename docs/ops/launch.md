@@ -110,3 +110,7 @@ pnpm new:signal --module <模块> --direction <long|short|risk-alert> --chains <
 | 第一份档案登记（台账起始） | | |
 | 上线推文 | | |
 | Rich Results / X 卡片验证 | | |
+
+## 附：哈希承诺（Q21-C）日常用法
+
+立案时加上 `--asset` 和 `--entry`（可选 `--targets`、`--stop`、`--invalidation`），台账只公开 SHA-256 哈希，盐值写在本地 `.ledger-secrets/IC-xxxx.json`（不入库）。**这个目录要备份**，丢了就无法在结案时公开原文。结案时 `pnpm close:signal` 自动读取并公开盐值，标的、入场等默认取立案时的值；构建会重新计算哈希，对不上直接失败。

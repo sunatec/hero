@@ -7,10 +7,31 @@ import {
 } from "node:fs";
 import { join } from "node:path";
 import matter from "gray-matter";
+import type { CommitFields } from "../lib/ledger/commit";
 import { checkSignal } from "../lib/ledger/rules";
 import { parseSignalFrontmatter } from "../lib/schema/signal";
 
 export const LEDGER_DIR = join(process.cwd(), "content", "ledger");
+export const SECRETS_DIR = join(process.cwd(), ".ledger-secrets");
+
+/** Private (gitignored) record of what was committed to; the salt goes public only at close. */
+export type CommitSecret = { salt: string; fields: CommitFields };
+
+export function writeSecret(id: string, secret: CommitSecret) {
+	mkdirSync(SECRETS_DIR, { recursive: true });
+	writeFileSync(
+		join(SECRETS_DIR, `${id}.json`),
+		`${JSON.stringify(secret, null, 2)}\n`,
+	);
+}
+
+export function readSecret(id: string): CommitSecret | undefined {
+	const path = join(SECRETS_DIR, `${id}.json`);
+	return existsSync(path)
+		? (JSON.parse(readFileSync(path, "utf8")) as CommitSecret)
+		: undefined;
+}
+
 export const PLACEHOLDER = "【待填写】";
 
 /** Current time as ISO 8601 in UTC+8 without milliseconds, e.g. 2026-10-14T10:31:00+08:00. */

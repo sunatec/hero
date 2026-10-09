@@ -24,6 +24,7 @@ import {
 import { directionLabel, statusLabel } from "@/lib/i18n/labels";
 import { breadcrumbLd } from "@/lib/jsonld";
 import { chartModel } from "@/lib/ledger/chart";
+import { preimage, verifyCommit } from "@/lib/ledger/commit";
 import { isClosed } from "@/lib/ledger/stats";
 import { pageMeta } from "@/lib/seo";
 import { label, wrap } from "@/lib/ui";
@@ -219,6 +220,7 @@ export default async function SignalPage({ params }: Props) {
 										申请加入 <Arrow />
 									</Link>
 								</p>
+								{s.commitHash ? <CommitHash hash={s.commitHash} /> : null}
 							</>
 						) : null}
 
@@ -268,6 +270,55 @@ export default async function SignalPage({ params }: Props) {
 				</div>
 			</div>
 		</main>
+	);
+}
+
+function CommitHash({ hash }: { hash: string }) {
+	return (
+		<div className="mt-6 border-t border-dashed border-line pt-4">
+			<p className="m-0 font-mono text-[11px] tracking-[0.14em] text-dossier">
+				SHA-256 承诺
+			</p>
+			<p className="mt-2 mb-0 break-all font-mono text-xs text-bone">{hash}</p>
+			<p className="mt-2 mb-0 text-sm leading-relaxed text-bone-dim">
+				标的、入场、止损和目标已在立案时锁定。结案时公开原文和盐值，任何人都可以重新计算并核对。
+			</p>
+		</div>
+	);
+}
+
+function CommitVerify({
+	s,
+}: {
+	s: SignalDoc & { status: "hit" | "invalidated" | "stopped" | "expired" };
+}) {
+	if (!s.commitHash || !s.commitSalt) return null;
+	const text = preimage(s, s.commitSalt);
+	const ok = verifyCommit(s, s.commitSalt, s.commitHash);
+	return (
+		<Section title="哈希核验">
+			<p className="m-0 mb-3 text-sm leading-relaxed text-bone-dim">
+				{ok
+					? "立案时公开的哈希与下方原文一致：标的、入场、止损和目标自立案后没有被改动。"
+					: "哈希与原文不一致。"}
+			</p>
+			<dl className="m-0 space-y-3 font-mono text-xs">
+				<div>
+					<dt className="text-dossier">立案时公开的哈希</dt>
+					<dd className="m-0 mt-1 break-all text-bone">{s.commitHash}</dd>
+				</div>
+				<div>
+					<dt className="text-dossier">原文（盐值:内容）</dt>
+					<dd className="m-0 mt-1 break-all text-bone">{text}</dd>
+				</div>
+			</dl>
+			<p className="mt-3 mb-0 text-sm text-bone-dim">
+				自行核对：把原文原样放进 SHA-256，结果应与上面的哈希相同，例如在终端运行
+				<code className="ml-1 break-all font-mono text-xs text-bone">
+					printf %s '{text}' | shasum -a 256
+				</code>
+			</p>
+		</Section>
 	);
 }
 
@@ -353,6 +404,8 @@ function ClosedBody({
 					</div>
 				</Section>
 			) : null}
+
+			<CommitVerify s={s} />
 
 			<Section title="证据">
 				<ul className="m-0 list-none space-y-2 p-0 text-sm">

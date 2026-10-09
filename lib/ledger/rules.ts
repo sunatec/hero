@@ -1,4 +1,5 @@
 import type { Signal } from "@/lib/schema/signal";
+import { commitHash } from "./commit";
 import { closedReturnPct } from "./returns";
 
 export type Issue = { level: "error" | "warning"; message: string };
@@ -35,7 +36,23 @@ export function checkSignal(
 		return issues;
 	}
 
-	if (signal.status === "void") return issues;
+	if (signal.status === "void") {
+		if (signal.commitSalt && !signal.commitHash)
+			err("commitSalt without commitHash");
+		return issues;
+	}
+
+	if (signal.commitSalt && !signal.commitHash)
+		err("commitSalt without commitHash");
+	if (signal.commitHash) {
+		if (!signal.commitSalt) {
+			err("commitHash is set but commitSalt was not revealed at close");
+		} else if (commitHash(signal, signal.commitSalt) !== signal.commitHash) {
+			err(
+				"commitHash does not match the revealed fields — asset, entry, targets, stop or invalidation changed after opening",
+			);
+		}
+	}
 
 	if (Date.parse(signal.closedAt) <= opened)
 		err("closedAt must be after openedAt");
