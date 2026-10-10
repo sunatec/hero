@@ -1184,7 +1184,7 @@ export const site = {
 
 ### 23.4 上线后的待办（按优先级）
 1. ~~SHA-256 哈希承诺（Q21-C）~~ ✅ 2026-10-09 已实现：`pnpm new:signal --asset '$X' --entry …` 立案时只公开哈希，盐值留在本地 `.ledger-secrets/`（已 gitignore，务必备份）；`pnpm close:signal` 结案时公开盐值，构建校验哈希一致，详情页展示核验方法（`lib/ledger/commit.ts`）
-2. 工具箱 S1：1 个公开延迟模块（Q14-C）
+2. ~~工具箱 S1：1 个公开延迟模块（Q14-C）~~ ✅ 2026-10-10 已实现：`/tools/coinbase-premium` 新增「公开日线」板块——Coinbase BTC-USD 对 Binance BTCUSDT 的日线溢价率，只公开已满 24 小时的日线、近 30 天；服务端拉取公开接口（无需 key），页面每小时 ISR；接口不可用或断网构建时降级为提示文案（`lib/premium.ts`、`lib/premium-data.ts`、`components/tools/PublicPremium.tsx`）
 3. Cloudflare Pages 大陆镜像
 4. 浅色模式
 5. 英文版扩展

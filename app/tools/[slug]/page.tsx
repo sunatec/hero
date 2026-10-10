@@ -9,6 +9,7 @@ import { StatusDot } from "@/components/pane/Pane";
 import { Arrow, ButtonLink } from "@/components/site/Button";
 import { JsonLd } from "@/components/site/JsonLd";
 import { RiskNote } from "@/components/site/RiskNote";
+import { PublicPremium } from "@/components/tools/PublicPremium";
 import { chainsText } from "@/components/tools/ToolPane";
 import { ledgerByModule, modules, toToolRow } from "@/lib/content";
 import { categoryLabel } from "@/lib/i18n/labels";
@@ -18,6 +19,9 @@ import { accessFor } from "@/lib/tools";
 import { wrap } from "@/lib/ui";
 
 type Props = { params: Promise<{ slug: string }> };
+
+/** S1: the page is regenerated hourly so the public delayed edition stays current. */
+export const revalidate = 3600;
 
 export const dynamicParams = false;
 
@@ -166,6 +170,16 @@ export default async function ModulePage({ params }: Props) {
 								涂黑部分只对成员可见
 							</p>
 						</Panel>
+						{m.slug === "coinbase-premium" ? (
+							<Panel
+								n={++n}
+								title="公开日线（延迟 24 小时）"
+								id="p-public"
+								className="md:col-span-2"
+							>
+								<PublicPremium />
+							</Panel>
+						) : null}
 						<Panel
 							n={++n}
 							title="局限性"
